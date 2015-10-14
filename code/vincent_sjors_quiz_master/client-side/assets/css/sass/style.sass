@@ -1,0 +1,89 @@
+// compressedFilenamePattern: ../$1.min.css
+
+@font-face
+  font-family: 'nixieone'
+  font-style: normal
+  font-weight: 400
+  src: local('NixieOne'), url(../fonts/nixieone.woff) format('woff'),url(../fonts/nixieone.woff2) format('woff2')
+
+
+$black: #000000
+$white: #ffffff
+$green: #4caf50
+$red: #f44336
+$orange: #ff9800
+$blue: #2196f3
+
+
+
+body
+  background-color: $red
+
+.mobile-max-view-height
+  height: 100%
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+
+.overflow-hidden
+  overflow:hidden
+h1, h2, h3, h4, h5, h6
+  color: $black
+
+.clear-padding-margin
+  padding: 0
+  margin: 0
+
+.navbar-fixed
+  & nav
+    background-color: $white
+    & a
+      color: $white
+      & img
+        padding: 15px 15px 0px 15px
+        height: 50px
+
+.flex-wrapper
+  display: flex
+  flex-direction: wrap
+  justify-content: center
+  align-items: flex-end
+  align-content: center
+  height: calc(100vh - 64px)
+
+.flex-container
+  width: 90%
+  background-color: $white
+  & .row
+    @extend .clear-padding-margin
+
+    & form
+      @extend .clear-padding-margin
+
+      & input
+        @extend .clear-padding-margin
+        border-bottom: 0
+        padding: 15px
+        font-size: 14pt
+        font-style: italic
+
+        &:focus
+          border-bottom: 0
+          box-shadow: none
+
+  & .title-box
+    padding: 5px
+    border-bottom: 1px solid $red
+    & h1
+      padding: 0
+      text-align: center
+      font-family: nixieone
+
+
+@media only screen and (max-width : 600px)
+  .navbar-fixed
+    height: 64px
+  .flex-container
+    width: calc(100% - 10px)
