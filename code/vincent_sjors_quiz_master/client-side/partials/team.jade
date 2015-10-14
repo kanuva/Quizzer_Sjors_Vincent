@@ -11,3 +11,30 @@ div.flex-wrapper
         div.content-box
           form
             input(type='text' name='question' placeholder='Answer...')
+            
+            
+            
+            
+div.modal
+  div.modal-content
+    h4 Choose a name for your team
+    form
+      label(for="name")
+      input(type="text" name="name" placeholder="Type here...")#teamname
+    
+  div.modal-footer
+    button(type="button" onclick="closeModal()").waves-effect.btn-flat agree
+    
+script(type="text/javascript").
+  $('.modal').openModal();
+  
+  $("input#teamname").keyup(function(event){
+    if(event.keyCode == 13){
+        $("button").click();
+    }
+  });
+  
+  function closeModal() {
+    $('.modal').closeModal();
+  }
+  

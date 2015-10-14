@@ -15,7 +15,7 @@ html(ng-app="quizzerApp")
     script(src='/plugins/js/angular-route.min.js')
     script(src='assets/js/quizzer.js')
     
-  body(style="background-image: url('/assets/images/world-map-greybrown.jpg'); background-postion: center; background-size: 100% 100%" ng-controller="quizzerController").overflow-hidden.mobile-max-view-height
+  body(style="background-image: url('/assets/images/world-map-greybrown.jpg'); -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;" ng-controller="quizzerController").overflow-hidden.mobile-max-view-height
     div.navbar-fixed
       nav
         div.nav-wrapper

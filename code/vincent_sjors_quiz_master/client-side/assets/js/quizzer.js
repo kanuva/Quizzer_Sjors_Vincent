@@ -2,7 +2,7 @@ var quizzer = angular.module("quizzerApp", ['ngRoute']);
 
 quizzer.config(function($routeProvider) {
   $routeProvider
-    .when('/', {
+    .when('/team', {
       templateUrl: '/partials/team.html'
     })
 
