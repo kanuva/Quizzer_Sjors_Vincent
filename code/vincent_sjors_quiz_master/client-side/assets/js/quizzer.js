@@ -2,6 +2,11 @@ var quizzer = angular.module("quizzerApp", ['ngRoute']);
 
 quizzer.config(function($routeProvider) {
   $routeProvider
+
+  	.when('/', { 
+  		templateUrl: '/partials/index.html'
+    })
+
     .when('/team', {
       templateUrl: '/partials/team.html'
     })
@@ -9,6 +14,8 @@ quizzer.config(function($routeProvider) {
     .when('/master', {
       templateUrl: '/partials/master.html'
     })
+
+    .otherwise('/');
 })
 
 quizzer.controller("quizzerController", function($scope, $routeParams) {

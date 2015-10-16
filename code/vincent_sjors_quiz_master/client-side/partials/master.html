@@ -1,4 +1,117 @@
 
-<div> 
-  <h1>Bruv dat is sikh </h1>
+<div class="flex-wrapper-master">
+  <div class="flex-container z-depth-2">
+    <div class="row">
+      <div class="col s12">
+        <div class="title-box">
+          <h1>QuizMaster</h1>
+        </div>
+        <div class="content-box">
+          <div class="row">
+            <div class="col s3">
+              <div class="title-box">
+                <h4>Score</h4>
+              </div>
+              <div class="row">
+                <div class="col s6">
+                  <p>Group A</p>
+                </div>
+                <div class="col s6">
+                  <p>12</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col s6">
+                  <p>Group B</p>
+                </div>
+                <div class="col s6">
+                  <p>4</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col s6">
+                  <p>Group C</p>
+                </div>
+                <div class="col s6">
+                  <p>2</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col s6">
+                  <p>Group D</p>
+                </div>
+                <div class="col s6">
+                  <p>2</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col s6">
+                  <p>Group E</p>
+                </div>
+                <div class="col s6">
+                  <p>2</p>
+                </div>
+              </div>
+            </div>
+            <div class="col s5">
+              <div class="title-box">
+                <h4>Content</h4>
+              </div>
+            </div>
+            <div class="col s3">
+              <div class="title-box">
+                <h4>Questions</h4>
+              </div>
+              <div class="row">
+                <div class="col s12">
+                  <div class="card">
+                    <div class="card-content">
+                      <p>Question #1</p>
+                    </div>
+                    <div class="card-action"><a>categorie: History</a></div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col s12">
+                  <div class="card">
+                    <div class="card-content">
+                      <p>Question #2</p>
+                    </div>
+                    <div class="card-action"><a>categorie: History</a></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal">
+    <div class="modal-content">
+      <h4>Bruv dat is sikh </h4>
+      <p>U avin a giggle ther m8? </p>
+      <p>ill bash ye fookin ead in i sware on me mum</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" onclick="closeModal()" class="waves-effect btn-flat">agree</button>
+    </div>
+  </div>
 </div>
+<script type="text/javascript">
+  $('body').removeAttr('style');
+  $('body').css({ 'background-image' : "url(/assets/images/grey_wash_wall.png)" });
+  
+  $('.modal').openModal();
+  
+  $("input#teamname").keyup(function(event){
+    if(event.keyCode == 13){
+        $("button").click();
+    }
+  });
+  
+  function closeModal() {
+    $('.modal').closeModal();
+  }
+</script>
