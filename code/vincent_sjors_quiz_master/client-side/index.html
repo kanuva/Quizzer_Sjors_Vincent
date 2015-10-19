@@ -22,3 +22,11 @@
     <div ng-view="ng-view"></div>
   </body>
 </html>
+
+<script>
+
+var ws = new WebSocket('ws://localhost:3000');
+
+ws.on('open', function() {
+    console.log('ets');
+});
