@@ -5,7 +5,7 @@
     <link href="plugins/css/materialize.min.css" rel="stylesheet"/>
     <link href="assets/css/style.min.css" rel="stylesheet"/>
     <script src="plugins/js/jquery.min.js"></script>
-
+    <script src="plugins/js/socket.io.js"></script>
     <script src="plugins/js/materialize.min.js"></script>
     <script src="/plugins/js/angular.min.js"></script>
     <script src="/plugins/js/angular-route.min.js"></script>
@@ -17,19 +17,15 @@
 <div class="navbar-fixed">
     <nav>
         <div class="nav-wrapper">
-            <div class="left"><a href="/" class="brand-logo"> <img src="assets/images/logo.png"/></a></div>
+            <div class="left">
+                <a href="/" class="brand-logo"> <img src="assets/images/logo.png"/></a>
+            </div>
         </div>
     </nav>
 </div>
 <div ng-view="ng-view"></div>
 
-<script src="plugins/js/socket.io.js"></script>
-<!--<script>-->
-    <!--var socket = io.connect(document.location.protocol+'//'+document.location.host);-->
-    <!--socket.on('news', function (data) {-->
-        <!--console.log(data);-->
-        <!--socket.emit('my other event', { my: 'data' });-->
-    <!--});-->
-<!--</script>-->
+
+
 </body>
 </html>

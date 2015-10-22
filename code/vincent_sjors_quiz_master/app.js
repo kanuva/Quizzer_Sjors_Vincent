@@ -6,27 +6,45 @@ var quizzer = express();
 var http = require('http').createServer(quizzer);
 var io = socketio.listen(http);
 
-
+var rooms = [];
 var db = mongoose.connection;
 
 var quizSchema = mongoose.Schema({
-  question: String,
-  category: String,
-  Answer: String
+    question: String,
+    category: String,
+    Answer: String
 });
 
 var Quizquestions = mongoose.model('Quizquestions', quizSchema);
 
-io.sockets.on('connection', function(socket) {
-    socket.on('create', function(room) {
+io.sockets.on('connection', function (socket) {
+    socket.on('create', function (room) {
         socket.join(room);
-        console.log("ik kreeg een room binnen genaamd: "+ room)
+        console.log("ik kreeg een room binnen genaamd: " + room)
+        rooms.push(room);
     });
-    socket.on('join', function(room){
-        console.log("ik wil room joinen: "+room);
-        console.log(socket.rooms);
+    socket.on('join', function (room) {
+        console.log("ik wil room joinen: " + room);
+        if (in_array(room, rooms)) {
+            socket.join(room);
+            console.log("joined: "+room);
+        }
+        else {
+            console.log("nee jij mag niet joinen" + room);
+            io.emit('refuse')
+        }
     })
 });
+
+function in_array(needle, haystack) {
+    if (haystack.indexOf) return haystack.indexOf(needle) > -1;
+    for (var i = 0; i<haystack.length;i++){
+        if (haystack[i] == needle) {
+            return true;
+        }
+    }
+    return false;
+}
 
 //Express
 quizzer.use(express.static(path.join(__dirname, 'client-side')));
@@ -34,7 +52,6 @@ quizzer.use(express.static(path.join(__dirname, 'client-side')));
 quizzer.get('/', function (req, res) {
     //res.send('Hello World!');
 });
-
 
 
 //quizzer.get('/master', function(req,res) {
@@ -59,6 +76,6 @@ quizzer.get('/', function (req, res) {
 //});
 
 
-http.listen(3000, function() {
-  console.log('EXPRESS SERVER IS RUNNING');
+http.listen(3000, function () {
+    console.log('EXPRESS SERVER IS RUNNING');
 });

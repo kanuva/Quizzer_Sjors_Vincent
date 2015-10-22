@@ -1,31 +1,35 @@
 var quizzerApp = angular.module("quizzerApp", ['ngRoute']);
 
-quizzerApp.config(function($routeProvider) {
-  $routeProvider
 
-  	.when('/', { 
-  		templateUrl: '/partials/index.html'
-    })
+quizzerApp.config(function ($routeProvider) {
+    $routeProvider
 
-    .when('/team', {
-      templateUrl: '/partials/team.html'
-    })
+        .when('/', {
+            templateUrl: '/partials/index.html'
+        })
 
-    .when('/master', {
-      templateUrl: '/partials/master.html'
-    })
+        .when('/team', {
+            templateUrl: '/partials/team.html'
+        })
 
-    .otherwise('/');
+        .when('/master', {
+            templateUrl: '/partials/master.html'
+        })
+        .when('/#', {
+            templateUrl: 'partials/index.html'
+        }
+    )
+        .otherwise('/');
 });
 
-quizzerApp.controller("quizzerController", function($scope,$http, $routeParams) {
-  $scope.currentRoute = $routeParams;
+quizzerApp.controller("quizzerController", function ($scope, $http, $routeParams) {
+    $scope.currentRoute = $routeParams;
 
-  console.log($scope.currentRoute);
+    console.log($scope.currentRoute);
 
-  $scope.getquestions = function() {
-    console.log("Ik wil de questions getten");
-    $http.get()
-  }
+    $scope.getquestions = function () {
+        console.log("Ik wil de questions getten");
+        $http.get()
+    }
 
 });

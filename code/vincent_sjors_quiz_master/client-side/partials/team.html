@@ -1,49 +1,74 @@
-
 <div class="flex-wrapper-team">
-  <div class="flex-container z-depth-2">
-    <div class="row">
-      <div class="col s12">
-        <div class="title-box">
-          <h1>#1-Wat is de hoofdstad van Nederland?</h1>
+    <div class="flex-container z-depth-2">
+        <div class="row">
+            <div class="col s12">
+                <div class="title-box">
+                    <h1>#1-Wat is de hoofdstad van Nederland?</h1>
+                </div>
+                <div class="content-box">
+                    <form>
+                        <input type="text" name="question" placeholder="Answer..."/>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="content-box">
-          <form>
-            <input type="text" name="question" placeholder="Answer..."/>
-          </form>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
 <div class="modal">
-  <div class="modal-content">
-    <h4>Type in password to join a room</h4>
-    <form>
-      <label for="name"></label>
-      <input id="roompassword" type="text" name="name" placeholder="Type here..." id="teamname"/>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button type="button" onclick="closeModal(document.getElementById('roompassword').value)" class="waves-effect btn-flat">agree</button>
-  </div>
+    <div id="modal" class="modal-content">
+        <h4>Type in password to join a room</h4>
+
+        <form>
+            <label for="name"></label>
+            <input id="roompassword" type="text" name="name" placeholder="Type here..." id="teamname"/>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" onclick="closeModal(document.getElementById('roompassword').value)"
+                class="waves-effect btn-flat">agree
+        </button>
+    </div>
 </div>
 <script type="text/javascript">
-  $('.modal').openModal();
-  
-  $("input#teamname").keyup(function(event){
-    if(event.keyCode == 13){
-        $("button").click();
-    }
-  });
-  
-  function closeModal(roompassword) {
-    joinRoom(roompassword);
-    $('.modal').closeModal();
-  }
+    $('.modal').openModal();
 
-  function joinRoom(roompassword) {
-    var socket = io.connect(document.location.protocol+'//'+document.location.host);
-    socket.emit('join', roompassword);
-    console.log(roompassword);
-  }
+    $("input#teamname").keyup(function (event) {
+        if (event.keyCode == 13) {
+            $("button").click();
+        }
+    });
+
+    function closeModal(roompassword) {
+        joinRoom(roompassword);
+        $('.modal').closeModal();
+    }
+    var socket = io.connect(document.location.protocol + '//' + document.location.host);
+
+    function joinRoom(roompassword) {
+        socket = io.connect(document.location.protocol + '//' + document.location.host);
+        socket.emit('join', roompassword);
+        console.log(roompassword);
+
+    }
+
+
+    socket.on('refuse', function () {
+        console.log("ik ben disconnected wss omdat het wachtwoord verkeerd is");
+        $('.modal').openModal();
+        setTimeout(function () {
+            displayError();
+            document.getElementById('roompassword').value = "";
+        }, 1000);
+    });
+
+    function displayError() {
+        if (document.getElementById("modal")) {
+            var divvv = document.getElementById("modal");
+            var addd = document.createElement("h3");
+            var value = document.createTextNode("Het ingevulde wachtwoord is vekeerd");
+            divvv.appendChild(value);
+            addd.appendChild(divvv);
+        }
+    }
+
 </script>
