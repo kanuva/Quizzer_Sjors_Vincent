@@ -17,14 +17,14 @@
 </div>
 <div class="modal">
   <div class="modal-content">
-    <h4>Choose a name for your team</h4>
+    <h4>Type in password to join a room</h4>
     <form>
       <label for="name"></label>
-      <input type="text" name="name" placeholder="Type here..." id="teamname"/>
+      <input id="roompassword" type="text" name="name" placeholder="Type here..." id="teamname"/>
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" onclick="closeModal()" class="waves-effect btn-flat">agree</button>
+    <button type="button" onclick="closeModal(document.getElementById('roompassword').value)" class="waves-effect btn-flat">agree</button>
   </div>
 </div>
 <script type="text/javascript">
@@ -36,7 +36,14 @@
     }
   });
   
-  function closeModal() {
+  function closeModal(roompassword) {
+    joinRoom(roompassword);
     $('.modal').closeModal();
+  }
+
+  function joinRoom(roompassword) {
+    var socket = io.connect(document.location.protocol+'//'+document.location.host);
+    socket.emit('join', roompassword);
+    console.log(roompassword);
   }
 </script>

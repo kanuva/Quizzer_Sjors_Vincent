@@ -1,6 +1,6 @@
-var quizzer = angular.module("quizzerApp", ['ngRoute']);
+var quizzerApp = angular.module("quizzerApp", ['ngRoute']);
 
-quizzer.config(function($routeProvider) {
+quizzerApp.config(function($routeProvider) {
   $routeProvider
 
   	.when('/', { 
@@ -16,10 +16,16 @@ quizzer.config(function($routeProvider) {
     })
 
     .otherwise('/');
-})
+});
 
-quizzer.controller("quizzerController", function($scope, $routeParams) {
+quizzerApp.controller("quizzerController", function($scope,$http, $routeParams) {
   $scope.currentRoute = $routeParams;
 
   console.log($scope.currentRoute);
+
+  $scope.getquestions = function() {
+    console.log("Ik wil de questions getten");
+    $http.get()
+  }
+
 });

@@ -1,32 +1,35 @@
-
 <html ng-app="quizzerApp">
-  <head>
+<head>
     <title>Quiz</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link href="plugins/css/materialize.min.css" rel="stylesheet"/>
     <link href="assets/css/style.min.css" rel="stylesheet"/>
     <script src="plugins/js/jquery.min.js"></script>
+
     <script src="plugins/js/materialize.min.js"></script>
     <script src="/plugins/js/angular.min.js"></script>
     <script src="/plugins/js/angular-route.min.js"></script>
     <script src="assets/js/quizzer.js"></script>
-  </head>
-  <body style="background-image: url('/assets/images/history.jpg'); -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;" ng-controller="quizzerController" class="overflow-hidden mobile-max-view-height">
-    <div class="navbar-fixed">
-      <nav>
+
+</head>
+<body style="background-image: url('/assets/images/history.jpg'); -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;"
+      ng-controller="quizzerController" class="overflow-hidden mobile-max-view-height">
+<div class="navbar-fixed">
+    <nav>
         <div class="nav-wrapper">
-          <div class="left"><a href="/" class="brand-logo"> <img src="assets/images/logo.png"/></a></div>
+            <div class="left"><a href="/" class="brand-logo"> <img src="assets/images/logo.png"/></a></div>
         </div>
-      </nav>
-    </div>
-    <div ng-view="ng-view"></div>
-  </body>
+    </nav>
+</div>
+<div ng-view="ng-view"></div>
+
+<script src="plugins/js/socket.io.js"></script>
+<!--<script>-->
+    <!--var socket = io.connect(document.location.protocol+'//'+document.location.host);-->
+    <!--socket.on('news', function (data) {-->
+        <!--console.log(data);-->
+        <!--socket.emit('my other event', { my: 'data' });-->
+    <!--});-->
+<!--</script>-->
+</body>
 </html>
-
-<script>
-
-var ws = new WebSocket('ws://localhost:3000');
-
-ws.on('open', function() {
-    console.log('ets');
-});

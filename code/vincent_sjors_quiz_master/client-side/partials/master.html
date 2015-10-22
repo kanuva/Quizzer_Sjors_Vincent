@@ -62,13 +62,13 @@
               <div class="title-box">
                 <h4>Questions</h4>
               </div>
-              <div class="row">
+              <div ng-repeat="question in getquestions" class="row">
                 <div class="col s12">
                   <div class="card">
                     <div class="card-content">
-                      <p>Question #1</p>
+                      <p>{{question.question}}</p>
                     </div>
-                    <div class="card-action"><a>categorie: History</a></div>
+                    <div class="card-action"><a>{{question.category}}</a></div>
                   </div>
                 </div>
               </div>
@@ -90,12 +90,14 @@
   </div>
   <div class="modal">
     <div class="modal-content">
-      <h4>Bruv dat is sikh </h4>
-      <p>U avin a giggle ther m8? </p>
-      <p>ill bash ye fookin ead in i sware on me mum</p>
+      <h4>Create a new room</h4>
+      <form>
+        <label for="name"></label>
+        <input id="roompassword" type="text" name="name" placeholder="Type here..." id="teamname"/>
+      </form>
     </div>
     <div class="modal-footer">
-      <button type="button" onclick="closeModal()" class="waves-effect btn-flat">agree</button>
+      <button type="button" onclick="closeModal(document.getElementById('roompassword').value)" class="waves-effect btn-flat">agree</button>
     </div>
   </div>
 </div>
@@ -111,7 +113,14 @@
     }
   });
   
-  function closeModal() {
+  function closeModal(roompassword) {
+    CreateRoom(roompassword);
     $('.modal').closeModal();
+  }
+
+  function CreateRoom(roompassword) {
+    var socket = io.connect(document.location.protocol+'//'+document.location.host);
+    socket.emit('create', roompassword);
+    console.log(roompassword);
   }
 </script>
