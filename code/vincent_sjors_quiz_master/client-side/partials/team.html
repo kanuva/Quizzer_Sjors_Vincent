@@ -24,7 +24,7 @@
         </form>
     </div>
     <div class="modal-footer">
-        <button type="button" onclick="closeModal(document.getElementById('roompassword').value)"
+        <button type="button" onclick="closeModal($('#roompassword').val())"
                 class="waves-effect btn-flat">agree
         </button>
     </div>
@@ -32,43 +32,42 @@
 <script type="text/javascript">
     $('.modal').openModal();
 
-    $("input#teamname").keyup(function (event) {
-        if (event.keyCode == 13) {
-            $("button").click();
-        }
-    });
+    var socket = io.connect(document.location.protocol + '//' + document.location.host);
 
     function closeModal(roompassword) {
         joinRoom(roompassword);
         $('.modal').closeModal();
     }
-    var socket = io.connect(document.location.protocol + '//' + document.location.host);
 
     function joinRoom(roompassword) {
-        socket = io.connect(document.location.protocol + '//' + document.location.host);
         socket.emit('join', roompassword);
         console.log(roompassword);
-
     }
+
+    $("input#roompassword").keyup(function (event) {
+        if (event.keyCode == 13) {
+            $("button").click();
+        }
+    });
 
 
     socket.on('refuse', function () {
         console.log("ik ben disconnected wss omdat het wachtwoord verkeerd is");
-        $('.modal').openModal();
         setTimeout(function () {
-            displayError();
+            // displayError();
+            $('.modal').openModal();
             document.getElementById('roompassword').value = "";
-        }, 1000);
+        }, 500);
     });
 
-    function displayError() {
-        if (document.getElementById("modal")) {
-            var divvv = document.getElementById("modal");
-            var addd = document.createElement("h3");
-            var value = document.createTextNode("Het ingevulde wachtwoord is vekeerd");
-            divvv.appendChild(value);
-            addd.appendChild(divvv);
-        }
-    }
+    //    function displayError() {
+    //        if (document.getElementById("modal")) {
+    //            var divvv = document.getElementById("modal");
+    //            var addd = document.createElement("h3");
+    //            var value = document.createTextNode("Het ingevulde wachtwoord is vekeerd");
+    //            divvv.appendChild(value);
+    //            addd.appendChild(divvv);
+    //        }
+    //    }
 
 </script>
