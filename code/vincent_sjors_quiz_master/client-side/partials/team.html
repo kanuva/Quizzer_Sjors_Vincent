@@ -19,12 +19,14 @@
         <h4>Type in password to join a room</h4>
 
         <form>
-            <label for="name"></label>
-            <input id="roompassword" type="text" name="name" placeholder="Type here..." id="teamname"/>
+            <label for="password"></label>
+            <input id="roompassword" type="text" name="password" placeholder="Enter room password..." id="teamname"/>
+            <label for="teamname"></label>
+            <input id="teamname" type="text" name="teamname" placeholder="Enter team name..." id="teamname"/>
         </form>
     </div>
     <div class="modal-footer">
-        <button type="button" onclick="closeModal($('#roompassword').val())"
+        <button type="button" onclick="closeModal($('#roompassword').val(), $('#teamname').val())"
                 class="waves-effect btn-flat">agree
         </button>
     </div>
@@ -34,9 +36,16 @@
 
     var socket = io.connect(document.location.protocol + '//' + document.location.host);
 
-    function closeModal(roompassword) {
+    function closeModal(roompassword, teamname) {
+        console.log("Teamnaam die geenterd is: "+teamname);
         joinRoom(roompassword);
+        meldAanwezigheid(teamname, roompassword);
         $('.modal').closeModal();
+    }
+
+    function meldAanwezigheid (teamname, roompassword) {
+        console.log("ik wil me aanwezig melden");
+        socket.emit('meldAanwezig', {Teamname: teamname, Roomname: roompassword});
     }
 
     function joinRoom(roompassword) {
@@ -44,11 +53,21 @@
         console.log(roompassword);
     }
 
-    $("input#roompassword").keyup(function (event) {
+    function enterKey() {
         if (event.keyCode == 13) {
             $("button").click();
         }
+    }
+
+    $("input#roompassword").keyup(function (event) {
+        enterKey();
     });
+
+    $("input#teamname").keyup(function (event) {
+        enterKey();
+    });
+
+
 
 
     socket.on('refuse', function () {
@@ -59,6 +78,8 @@
             document.getElementById('roompassword').value = "";
         }, 500);
     });
+
+
 
     //    function displayError() {
     //        if (document.getElementById("modal")) {

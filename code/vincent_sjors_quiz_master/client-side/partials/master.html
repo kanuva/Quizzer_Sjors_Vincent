@@ -104,13 +104,17 @@
 <script type="text/javascript">
   $('body').removeAttr('style');
   $('body').css({ 'background-image' : "url(/assets/images/grey_wash_wall.png)" });
-  
+  var socket = io.connect(document.location.protocol+'//'+document.location.host);
   $('.modal').openModal();
   
-  $("input#teamname").keyup(function(event){
+  $("input#roompassword").keyup(function(event){
     if(event.keyCode == 13){
         $("button").click();
     }
+  });
+
+  socket.on('nieuweclient', function(data){
+    console.log("er is een nieuwe client met als teamnaam: " + data.Teamname);
   });
   
   function closeModal(roompassword) {
@@ -119,7 +123,6 @@
   }
 
   function CreateRoom(roompassword) {
-    var socket = io.connect(document.location.protocol+'//'+document.location.host);
     socket.emit('create', roompassword);
     console.log(roompassword);
   }

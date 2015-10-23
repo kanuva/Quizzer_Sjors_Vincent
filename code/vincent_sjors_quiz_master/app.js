@@ -7,15 +7,15 @@ var http = require('http').createServer(quizzer);
 var io = socketio.listen(http);
 
 var rooms = [];
-var db = mongoose.connection;
+//var db = mongoose.connection;
 
-var quizSchema = mongoose.Schema({
-    question: String,
-    category: String,
-    Answer: String
-});
+//var quizSchema = mongoose.Schema({
+//    question: String,
+//    category: String,
+//    Answer: String
+//});
 
-var Quizquestions = mongoose.model('Quizquestions', quizSchema);
+//var Quizquestions = mongoose.model('Quizquestions', quizSchema);
 
 io.sockets.on('connection', function (socket) {
     socket.on('create', function (room) {
@@ -31,8 +31,12 @@ io.sockets.on('connection', function (socket) {
         }
         else {
             console.log("nee jij mag niet joinen" + room);
-            io.emit('refuse')
+            io.to(socket.id).emit('refuse');
         }
+    });
+    socket.on('meldAanwezig', function (data){
+        console.log("iemand wil zich aanwezig melden genaamd:" + data.Teamname);
+        io.to(data.Roomname).emit('nieuweclient', data);
     })
 });
 
