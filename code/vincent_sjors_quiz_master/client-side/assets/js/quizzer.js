@@ -15,10 +15,12 @@ quizzerApp.config(function ($routeProvider) {
         .when('/master', {
             templateUrl: '/partials/master.html'
         })
-        .when('/#', {
+        .when('/#/', {
             templateUrl: 'partials/index.html'
-        }
-    )
+        })
+        .when('/popup', {
+            templateUrl: 'partials/popup.html'
+        })
         .otherwise('/');
 });
 
