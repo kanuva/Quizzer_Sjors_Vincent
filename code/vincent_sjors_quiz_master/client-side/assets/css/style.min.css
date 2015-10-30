@@ -1,4 +1,104 @@
-@font-face{font-family:'nixieone';font-style:normal;font-weight:400;src:local("NixieOne"),url(../fonts/nixieone.woff) format("woff"),url(../fonts/nixieone.woff2) format("woff2")}body{background-color:#f44336}.mobile-max-view-height{height:100%;position:absolute;top:0;left:0;right:0;bottom:0}.overflow-hidden{overflow:hidden}h1,h2,h3,h4,h5,h6{color:#000000}.clear-padding-margin,.flex-container .row,.flex-container .row form,.flex-container .row form input{padding:0;margin:0}.navbar-fixed nav{background-color:#ffffff}.navbar-fixed nav a{color:#ffffff}.navbar-fixed nav a img{padding:15px 15px 0px 15px;height:50px}.flex-wrapper-team{display:flex;flex-direction:wrap;justify-content:center;align-items:flex-end;align-content:center;height:calc(100vh - 64px)}.flex-wrapper-master{display:flex;flex-direction:wrap;justify-content:center;align-items:center;align-content:center;height:calc(100vh - 64px)}.flex-container{width:95%;background-color:rgba(255,255,255,0.75)}.flex-container .row form input{border-bottom:0;padding:15px;font-size:14pt;font-style:italic}.flex-container .row form input:focus{border-bottom:0;box-shadow:none}.flex-container .title-box{padding:5px;border-bottom:1px solid #f44336}.flex-container .title-box h1{padding:0;text-align:center;font-family:nixieone}@media only screen and (max-width: 600px){.navbar-fixed{height:64px}.flex-container{width:calc(100% - 10px)}}
+@font-face {
+    font-family: 'nixieone';
+    font-style: normal;
+    font-weight: 400;
+    src: local("NixieOne"), url(../fonts/nixieone.woff) format("woff"), url(../fonts/nixieone.woff2) format("woff2")
+}
+
+body {
+    background-color: #f44336
+}
+
+.mobile-max-view-height {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0
+}
+
+.overflow-hidden {
+    overflow: hidden
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #000000
+}
+
+.clear-padding-margin, .flex-container .row, .flex-container .row form, .flex-container .row form input {
+    padding: 0;
+    margin: 0
+}
+
+.navbar-fixed nav {
+    background-color: #ffffff
+}
+
+.navbar-fixed nav a {
+    color: #ffffff
+}
+
+.navbar-fixed nav a img {
+    padding: 15px 15px 0px 15px;
+    height: 50px
+}
+
+.flex-wrapper-team {
+    display: flex;
+    flex-direction: wrap;
+    justify-content: center;
+    align-items: flex-end;
+    align-content: center;
+    height: calc(100vh - 64px)
+}
+
+.flex-wrapper-master {
+    display: flex;
+    flex-direction: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    height: calc(100vh - 64px)
+}
+
+.flex-container {
+    width: 95%;
+    background-color: rgba(255, 255, 255, 0.75)
+}
+
+.flex-container .row form input {
+    border-bottom: 0;
+    padding: 15px;
+    font-size: 14pt;
+    font-style: italic
+}
+
+.flex-container .row form input:focus {
+    border-bottom: 0;
+    box-shadow: none
+}
+
+.flex-container .title-box {
+    padding: 5px;
+    border-bottom: 1px solid #f44336
+}
+
+.flex-container .title-box h1 {
+    padding: 0;
+    text-align: center;
+    font-family: nixieone
+}
+
+@media only screen and (max-width: 600px) {
+    .navbar-fixed {
+        height: 64px
+    }
+
+    .flex-container {
+        width: calc(100% - 10px)
+    }
+}
 
 .popup {
     position: absolute;
@@ -19,21 +119,29 @@
     background: white;
     border-radius: 3px;
     box-shadow: 0 0 5px 1px #000;
-} .popup > .popup-content > button {
+}
+
+.popup > .popup-content > button {
     position: relative;
     height: 50%;
     width: 100%;
     font-size: 22pt;
-  }
+}
 
-  .agree {
-      background-color: #f44336;
-      border: none;
-      color: white;
-      border-radius: 3px 3px 0px 0px;
-  } .decline {
-        border: none;
-        background: white;
-        color: #f44336;
-        border-radius: 0px 0px 3px 3px;
-  }
+.allowteamtojoin {
+    text-align: center;
+}
+
+.agree {
+    background-color: forestgreen;
+    border: none;
+    color: white;
+    border-radius: 3px 3px 0px 0px;
+}
+
+.decline {
+    background-color: orangered;
+    border: none;
+    color: white;
+    border-radius: 0px 0px 3px 3px;
+}

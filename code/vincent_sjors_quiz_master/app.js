@@ -53,7 +53,7 @@ function in_array(needle, haystack) {
 //Express
 quizzer.use(express.static(path.join(__dirname, 'client-side')));
 
-quizzer.get('/', function (req, res) {
+quizzer.get('/PRODUCTS', function (req, res) {
     //res.send('Hello World!');
 });
 
