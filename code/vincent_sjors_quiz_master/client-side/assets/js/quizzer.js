@@ -24,14 +24,34 @@ quizzerApp.config(function ($routeProvider) {
         .otherwise('/');
 });
 
-quizzerApp.controller("quizzerController", function ($scope, $http, $routeParams) {
-    $scope.currentRoute = $routeParams;
+quizzerApp.controller("quizzerController", function ($scope, $http) {
+    $scope.getQuestions = setQuestions();
 
-    console.log($scope.currentRoute);
-
-    $scope.getquestions = function () {
-        console.log("Ik wil de questions getten");
-        $http.get()
+    function setQuestions() {
+        $http
+            .get('http://localhost:3000/questions')
+            .success(function(response) {
+                console.log('jeej');
+                console.log(response);
+                $scope.getQuestions = response;
+        });
     }
+
+
+    //function getquestions() {
+    //
+    //    $http.get(document.location.protocol+'//'+document.location.host + '/questions'
+    //    ).success(function (response) {
+    //        return [response];
+    //    });
+    //};
+
+
+
+        //$http.get(document.location.protocol+'//'+document.location.host + '/questions', function(data) {
+        //    console.log('DB \\ data is: ' + data);
+        //
+        //});
+    //}
 
 });

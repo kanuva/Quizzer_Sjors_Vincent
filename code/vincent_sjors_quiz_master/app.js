@@ -54,7 +54,8 @@ function in_array(needle, haystack) {
 //Express
 quizzer.use(express.static(path.join(__dirname, 'client-side')));
 
-quizzer.get('/questions', function(request, send){
+//Send questions
+quizzer.get('/questions', function(request, res){
 
     mongoose.connect('mongodb://localhost/QuizDB');
 
@@ -63,12 +64,10 @@ quizzer.get('/questions', function(request, send){
     db.once('open', function(callback) {
         QuizQuestions.find(function (err,data) {
             if (err) return console.log(err);
-            send.send(JSON.stringify(data));
+            res.send(JSON.stringify(data));
             mongoose.connection.close();
         });
     });
-
-
 });
 
 

@@ -39,3 +39,22 @@
         color: #fff;
         background-color: #f44336;
   }
+
+    .card-holder {
+        position: relative;
+        height: 50%;
+        overflow: auto;
+    }
+
+.flex-wrapper-master {
+    display: block;
+    width: 100%;
+}.flex-wrapper-master > .flex-container {
+    width: 100%;
+    position: relative;
+    height: 100%;
+    background: #000;
+    color: #fff;
+ } .title-box h1, .title-box h4 {
+    color: #fff;
+    }

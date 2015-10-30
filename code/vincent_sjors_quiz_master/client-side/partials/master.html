@@ -14,28 +14,21 @@
               </div>
               <!-- TEAM WITH SCORE WILL APPEND HERE -->
             </div>
+
             <div class="col s5">
               <div class="title-box">
                 <h4>Content</h4>
               </div>
             </div>
+
             <div class="col s3">
               <div class="title-box">
                 <h4>Questions</h4>
               </div>
-              <div ng-repeat="question in getquestions" class="row">
+
+              <div class="row card-holder">
                 <div class="col s12">
-                  <div class="card">
-                    <div class="card-content">
-                      <p>{{question.question}}</p>
-                    </div>
-                    <div class="card-action"><a>{{question.category}}</a></div>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col s12">
-                  <div class="card">
+                  <div class="card" ng-repeat="q in getQuestions">
                     <div class="card-content">
                       <p>Question #2</p>
                     </div>
@@ -44,6 +37,7 @@
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>
@@ -98,15 +92,19 @@
     console.log(roompassword);
   }
 
-  getData();
+//  showData();
 
-  function getData() {
-    $.get(document.location.protocol+'//'+document.location.host + '/questions', function(data) {
-      console.log('DB \\ data is: ' + data);
-    });
-  }
-
-  function showData() {
-
-  }
+//  function getData() {
+//    $.get(document.location.protocol+'//'+document.location.host + '/questions', function(data) {
+//      console.log('DB \\ data is: ' + data);
+//    });
+//  }
+//
+//  function showData() {
+//
+//    var data = getData();
+//
+//    $(".card .card-content").append("test");
+//
+//  }
 </script>
