@@ -8,50 +8,11 @@
         </div>
         <div class="content-box">
           <div class="row">
-            <div class="col s3">
+            <div class="col s3 scores">
               <div class="title-box">
                 <h4>Score</h4>
               </div>
-              <div class="row">
-                <div class="col s6">
-                  <p>Group A</p>
-                </div>
-                <div class="col s6">
-                  <p>12</p>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col s6">
-                  <p>Group B</p>
-                </div>
-                <div class="col s6">
-                  <p>4</p>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col s6">
-                  <p>Group C</p>
-                </div>
-                <div class="col s6">
-                  <p>2</p>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col s6">
-                  <p>Group D</p>
-                </div>
-                <div class="col s6">
-                  <p>2</p>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col s6">
-                  <p>Group E</p>
-                </div>
-                <div class="col s6">
-                  <p>2</p>
-                </div>
-              </div>
+              <!-- TEAM WITH SCORE WILL APPEND HERE -->
             </div>
             <div class="col s5">
               <div class="title-box">
@@ -92,7 +53,7 @@
     <div class="modal-content">
       <h4>Create a new room</h4>
       <form>
-        <label for="name"></label>
+        <label for="roompassword"></label>
         <input id="roompassword" type="text" name="name" placeholder="Type here..." id="teamname"/>
       </form>
     </div>
@@ -117,7 +78,13 @@
 
   socket.on('nieuweclient', function(data){
     console.log("er is een nieuwe client met als teamnaam: " + data.Teamname);
+    addTeam(data.Teamname, null);
   });
+
+  function addTeam(name, score) {
+    if(score === undefined || score === null) { score = 0; }
+    $(".content-box .row .col.s3.scores").append("<div class='row'><div class='col s6'><p> " + name + "</p></div><div class='col s6'><p>" + score + "</p></div></div>");
+  }
   
   function closeModal(roompassword) {
     CreateRoom(roompassword);
