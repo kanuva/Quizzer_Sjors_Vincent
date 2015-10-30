@@ -44,6 +44,14 @@
       </div>
     </div>
   </div>
+
+  <div class="popup" style="display: none;">
+
+  </div>
+
+
+
+
   <div class="modal">
     <div class="modal-content">
       <h4>Create a new room</h4>
@@ -76,6 +84,17 @@
   socket.on('nieuweclient', function(data){
     console.log("er is een nieuwe client met als teamnaam: " + data.Teamname);
     addTeam(data.Teamname, null);
+
+
+    $('.popup').append('\
+      <div class="popup-content">\
+          <span> Mag het team '+ data.Teamname +' joinen?</span>\
+          <button onclick="acceptTeam(this)" class="agree">Agree</button>\
+          <button onclick="declineTeam(this)" class="decline">Decline</button>\
+      </div>\
+    ');
+
+    $('.popup').show();
   });
 
   socket.on('testttt', function() {

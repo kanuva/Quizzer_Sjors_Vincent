@@ -2,7 +2,7 @@
 
 .popup {
     position: absolute;
-    top: 80;
+    top: 0;
     left: 0;
     bottom: 0;
     right: 0;
@@ -17,7 +17,8 @@
     display: block;
 }
 .popup > .popup-content {
-    position: absolute;
+    width: 40%;
+    margin: 20px auto;
     height: 100px;
     background: white;
     box-shadow: 0 0 5px 1px #000;
@@ -47,14 +48,11 @@
     }
 
 .flex-wrapper-master {
-    display: block;
     width: 100%;
-}.flex-wrapper-master > .flex-container {
-    width: 100%;
-    position: relative;
-    height: 100%;
-    background: transparent;
     color: #000;
- } .title-box h1, .title-box h4 {
-    color: #fff;
-    }
+}.flex-wrapper-master > .flex-container {
+     width: calc(100% - 30px);
+     position: relative;
+     height: calc(100% - 30px);
+     color: #000;
+ }
