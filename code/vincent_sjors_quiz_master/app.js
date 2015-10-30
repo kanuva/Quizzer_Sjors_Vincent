@@ -20,13 +20,13 @@ var QuizQuestions = mongoose.model('QuizQuestions', Questions);
 io.sockets.on('connection', function (socket) {
     socket.on('create', function (room) {
         socket.join(room);
-        console.log("ik kreeg een room binnen genaamd: " + room)
-        rooms.push(room);
-
+        rooms.push(room, socket.id);
+        console.log("room: " + room + ", quizzmastersocketid: "+  socket.id);
     });
     socket.on('join', function (room) {
         console.log("ik wil room joinen: " + room);
         if (in_array(room, rooms)) {
+            //TODO: hier moeten we een bericht sturen naar de master voor goedkeuring en dan pas joinen
             socket.join(room);
             console.log("joined: "+room);
         }
@@ -38,8 +38,15 @@ io.sockets.on('connection', function (socket) {
     socket.on('meldAanwezig', function (data){
         console.log("iemand wil zich aanwezig melden genaamd:" + data.Teamname);
         io.to(data.Roomname).emit('nieuweclient', data);
-    })
+    });
+
+    socket.on('testfunctie', function (data) {
+        io.to(socket.rooms[1]).emit('testttt', data);
+        console.log(data);
+    });
 });
+//io.to(socket.rooms[1]).emit('testttt', data);
+
 
 function in_array(needle, haystack) {
     if (haystack.indexOf) return haystack.indexOf(needle) > -1;
