@@ -7,15 +7,15 @@ var http = require('http').createServer(quizzer);
 var io = socketio.listen(http);
 
 var rooms = [];
-//var db = mongoose.connection;
+var db = mongoose.connection;
 
-//var quizSchema = mongoose.Schema({
-//    question: String,
-//    category: String,
-//    Answer: String
-//});
+var Questions = mongoose.Schema({
+    question: String,
+    answer: String,
+    category: String
+}, {collection: 'questions'});
 
-//var Quizquestions = mongoose.model('Quizquestions', quizSchema);
+var QuizQuestions = mongoose.model('QuizQuestions', Questions);
 
 io.sockets.on('connection', function (socket) {
     socket.on('create', function (room) {
@@ -54,9 +54,24 @@ function in_array(needle, haystack) {
 //Express
 quizzer.use(express.static(path.join(__dirname, 'client-side')));
 
-//quizzer.get('/PRODUCTS', function (req, res) {
-//    //res.send('Hello World!');
-//});
+quizzer.get('/questions', function(request, send){
+
+    mongoose.connect('mongodb://localhost/QuizDB');
+
+    db.on('error', console.error.bind(console, 'connection error:'));
+
+    db.once('open', function(callback) {
+        QuizQuestions.find(function (err,data) {
+            if (err) return console.log(err);
+            send.send(JSON.stringify(data));
+            mongoose.connection.close();
+        });
+    });
+
+
+});
+
+
 
 
 //quizzer.get('/master', function(req,res) {
@@ -68,16 +83,6 @@ quizzer.use(express.static(path.join(__dirname, 'client-side')));
 //      res.send(JSON.stringify(Quizquestions))
 //    })
 //  })
-//});
-
-
-//WebSocket
-//ws.on('open', function connection() {
-//  ws.send('test');
-//});
-//
-//ws.on('message', function incomming(message) {
-//  console.log('message recieved');
 //});
 
 

@@ -66,6 +66,8 @@
   $('body').removeAttr('style');
   $('body').css({ 'background-image' : "url(/assets/images/grey_wash_wall.png)" });
   var socket = io.connect(document.location.protocol+'//'+document.location.host);
+
+  console.log(document.location.protocol + '//' + document.location.host);
   $('.modal').openModal({
     dismissible: false
   });
@@ -94,5 +96,17 @@
   function CreateRoom(roompassword) {
     socket.emit('create', roompassword);
     console.log(roompassword);
+  }
+
+  getData();
+
+  function getData() {
+    $.get(document.location.protocol+'//'+document.location.host + '/questions', function(data) {
+      console.log('DB \\ data is: ' + data);
+    });
+  }
+
+  function showData() {
+
   }
 </script>
