@@ -45,8 +45,6 @@ io.sockets.on('connection', function (socket) {
         console.log(data);
     });
 });
-//io.to(socket.rooms[1]).emit('testttt', data);
-
 
 function in_array(needle, haystack) {
     if (haystack.indexOf) return haystack.indexOf(needle) > -1;
