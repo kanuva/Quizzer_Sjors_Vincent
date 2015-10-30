@@ -31,27 +31,8 @@ quizzerApp.controller("quizzerController", function ($scope, $http) {
         $http
             .get('http://localhost:3000/questions')
             .success(function(response) {
-                console.log('jeej');
-                console.log(response);
                 $scope.getQuestions = response;
         });
-    }
-
-
-    //function getquestions() {
-    //
-    //    $http.get(document.location.protocol+'//'+document.location.host + '/questions'
-    //    ).success(function (response) {
-    //        return [response];
-    //    });
-    //};
-
-
-
-        //$http.get(document.location.protocol+'//'+document.location.host + '/questions', function(data) {
-        //    console.log('DB \\ data is: ' + data);
-        //
-        //});
-    //}
+    };
 
 });

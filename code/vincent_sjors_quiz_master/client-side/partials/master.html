@@ -16,7 +16,7 @@
               <!-- TEAM WITH SCORE WILL APPEND HERE -->
             </div>
 
-            <div class="col s5">
+            <div class="col s6">
               <div class="title-box">
                 <h4>Content</h4>
               </div>
@@ -31,9 +31,9 @@
                 <div class="col s12">
                   <div class="card" ng-repeat="q in getQuestions">
                     <div class="card-content">
-                      <p>Question #2</p>
+                      <p style="color: #000;">{{ q.question }}</p>
                     </div>
-                    <div class="card-action"><a>categorie: History</a></div>
+                    <div class="card-action"><a>categorie: {{ q.category }}</a></div>
                   </div>
                 </div>
               </div>
@@ -101,20 +101,4 @@
     socket.emit('create', roompassword);
     console.log(roompassword);
   }
-
-//  showData();
-
-//  function getData() {
-//    $.get(document.location.protocol+'//'+document.location.host + '/questions', function(data) {
-//      console.log('DB \\ data is: ' + data);
-//    });
-//  }
-//
-//  function showData() {
-//
-//    var data = getData();
-//
-//    $(".card .card-content").append("test");
-//
-//  }
 </script>
