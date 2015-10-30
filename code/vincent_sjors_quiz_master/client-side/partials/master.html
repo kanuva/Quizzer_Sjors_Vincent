@@ -87,8 +87,9 @@
 
 
     $('.popup').append('\
-      <div class="popup-content">\
+      <div class="popup-content" id="'+ data.Teamname +'">\
           <span> Mag het team '+ data.Teamname +' joinen?</span>\
+          <input type="hidden" id="teamname" value="'+ data.Teamname +'"/>\
           <button onclick="acceptTeam(this)" class="agree">Agree</button>\
           <button onclick="declineTeam(this)" class="decline">Decline</button>\
       </div>\
@@ -104,6 +105,15 @@
   function addTeam(name, score) {
     if(score === undefined || score === null) { score = 0; }
     $(".content-box .row .col.s3.scores").append("<div class='row'><div class='col s6'><p> " + name + "</p></div><div class='col s6'><p>" + score + "</p></div></div>");
+  }
+
+  function acceptTeam(data) {
+
+
+    console.log($(data).parent().attr('id'));
+    $(data).parent().hide();
+    $('.popup').hide();
+
   }
 
   function testfunctie() {
