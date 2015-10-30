@@ -105,7 +105,9 @@
   $('body').removeAttr('style');
   $('body').css({ 'background-image' : "url(/assets/images/grey_wash_wall.png)" });
   var socket = io.connect(document.location.protocol+'//'+document.location.host);
-  $('.modal').openModal();
+  $('.modal').openModal({
+    dismissible: false
+  });
   
   $("input#roompassword").keyup(function(event){
     if(event.keyCode == 13){

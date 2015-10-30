@@ -22,6 +22,7 @@ io.sockets.on('connection', function (socket) {
         socket.join(room);
         console.log("ik kreeg een room binnen genaamd: " + room)
         rooms.push(room);
+
     });
     socket.on('join', function (room) {
         console.log("ik wil room joinen: " + room);
@@ -53,9 +54,9 @@ function in_array(needle, haystack) {
 //Express
 quizzer.use(express.static(path.join(__dirname, 'client-side')));
 
-quizzer.get('/PRODUCTS', function (req, res) {
-    //res.send('Hello World!');
-});
+//quizzer.get('/PRODUCTS', function (req, res) {
+//    //res.send('Hello World!');
+//});
 
 
 //quizzer.get('/master', function(req,res) {
