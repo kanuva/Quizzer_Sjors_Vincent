@@ -2,38 +2,40 @@
 
 .popup {
     position: absolute;
-    top: 0;
+    top: 80;
     left: 0;
     bottom: 0;
     right: 0;
     background-color: rgba(0, 0, 0, 0.8);
     z-index: 9999;
 }
-
+.popup > .popup-content > span {
+    margin: 0;
+    font-size: 14pt;
+    height: 50px;
+    padding: 12px;
+    display: block;
+}
 .popup > .popup-content {
     position: absolute;
-    top: calc(50% - 250px);
-    left: calc(50% - 250px);
-    height: 500px;
-    width: 500px;
+    height: 100px;
     background: white;
-    border-radius: 3px;
     box-shadow: 0 0 5px 1px #000;
 } .popup > .popup-content > button {
     position: relative;
-    height: 50%;
-    width: 100%;
+    height: 50px;
+    width: 50%;
+    float: left;
     font-size: 22pt;
   }
 
   .agree {
-      background-color: #f44336;
+
       border: none;
       color: white;
-      border-radius: 3px 3px 0px 0px;
+      background: forestgreen;
   } .decline {
         border: none;
-        background: white;
-        color: #f44336;
-        border-radius: 0px 0px 3px 3px;
+        color: #fff;
+        background-color: #f44336;
   }
