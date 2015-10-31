@@ -69,6 +69,8 @@
   $('body').removeAttr('style');
   $('body').css({ 'background-image' : "url(/assets/images/grey_wash_wall.png)" });
   var socket = io.connect(document.location.protocol+'//'+document.location.host);
+  var roomname;
+  var amountofsignins = 0;
 
   console.log(document.location.protocol + '//' + document.location.host);
   $('.modal').openModal({
@@ -82,19 +84,15 @@
   });
 
   socket.on('nieuweclient', function(data){
-    console.log("er is een nieuwe client met als teamnaam: " + data.Teamname);
-    addTeam(data.Teamname, null);
-
-
+    //console.log("nieuw teamnaam: " + data.Teamname + " ID: "+data.clientID);
+    amountofsignins = (amountofsignins + 1);
     $('.popup').append('\
-      <div class="popup-content" id="'+ data.Teamname +'">\
+      <div class="popup-content" id="'+ data.Teamname +' ' + data.clientID + ' ">\
           <span> Mag het team '+ data.Teamname +' joinen?</span>\
-          <input type="hidden" id="teamname" value="'+ data.Teamname +'"/>\
           <button onclick="acceptTeam(this)" class="agree">Agree</button>\
           <button onclick="declineTeam(this)" class="decline">Decline</button>\
       </div>\
     ');
-
     $('.popup').show();
   });
 
@@ -102,22 +100,43 @@
     console.log("ik heb zojuist mijn eigen testfunctie binnen gekregen");
   });
 
-  function addTeam(name, score) {
+  function acceptTeam(data) {
+    // clientID is: $(data).parent().attr('id').substr($(data).parent().attr('id').indexOf(' ')+1);
+    // teamnaam is: $(data).parent().attr('id').substr(0,$(data).parent().attr('id').indexOf(' '));
+    amountofsignins = (amountofsignins - 1);
+    addTeam($(data).parent().attr('id').substr(0,$(data).parent().attr('id').indexOf(' ')),$(data).parent().attr('id').substr($(data).parent().attr('id').indexOf(' ')+1) , null);
+    $(data).parent().hide();
+    if (amountofsignins === 0) {
+      $('.popup').hide();
+    }
+  }
+
+  function addTeam(name,id , score) {
+
     if(score === undefined || score === null) { score = 0; }
     $(".content-box .row .col.s3.scores").append("<div class='row'><div class='col s6'><p> " + name + "</p></div><div class='col s6'><p>" + score + "</p></div></div>");
+    socket.emit('teamisAccepted', {roomname: roomname, teamID: id});
   }
 
-  function acceptTeam(data) {
-
-
-    console.log($(data).parent().attr('id'));
+  function declineTeam(data) {
+    amountofsignins = (amountofsignins - 1);
+    teamisRefused($(data).parent().attr('id').substr($(data).parent().attr('id').indexOf(' ')+1));
     $(data).parent().hide();
-    $('.popup').hide();
-
+    if (amountofsignins === 0) {
+      $('.popup').hide();
+    }
   }
+
+
+  function teamisRefused(clientID) {
+    clientID.trim();
+    socket.emit('teamisRefused', {clientID: clientID});
+    console.log("ik heb client met clientID refused: " + clientID);
+  }
+
 
   function testfunctie() {
-    socket.emit('testfunctie', "helloooooo");
+    socket.emit('testfunctie', "hellooooooditiseenawesometest");
     console.log("testfunctie");
   }
 
@@ -127,7 +146,8 @@
   }
 
   function CreateRoom(roompassword) {
-    socket.emit('create', roompassword);
+    socket.emit('joinOrCreate', {roomname: roompassword, funtie: 'create'});
+    roomname = roompassword;
     console.log(roompassword);
   }
 </script>

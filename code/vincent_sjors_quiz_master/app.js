@@ -7,6 +7,7 @@ var http = require('http').createServer(quizzer);
 var io = socketio.listen(http);
 
 var rooms = [];
+//var Teamwhowantstojoin = {};
 var db = mongoose.connection;
 
 var Questions = mongoose.Schema({
@@ -18,27 +19,46 @@ var Questions = mongoose.Schema({
 var QuizQuestions = mongoose.model('QuizQuestions', Questions);
 
 io.sockets.on('connection', function (socket) {
-    socket.on('create', function (room) {
-        socket.join(room);
-        rooms.push(room, socket.id);
-        console.log("room: " + room + ", quizzmastersocketid: "+  socket.id);
+    socket.on('joinOrCreate', function (data) {
+        socket.join(data.roomname);
+        if (data.funtie === "create") {
+            rooms.push(data.roomname, socket.id);
+            console.log("room: " + data.roomname + ", quizzmastersocketid: " + socket.id);
+        }
     });
-    socket.on('join', function (room) {
-        console.log("ik wil room joinen: " + room);
-        if (in_array(room, rooms)) {
-            //TODO: hier moeten we een bericht sturen naar de master voor goedkeuring en dan pas joinen
-            socket.join(room);
-            console.log("joined: "+room);
+    socket.on('join', function (data) {
+        console.log("ik wil room joinen: " + data.Roomname);
+        io.to(socket.id).emit('yourID', {socketID: socket.id});
+        if (in_array(data.Roomname, rooms)) {
+            console.log("ik stuur een ID naar een client: " + socket.id);
+
+            io.to(data.Roomname).emit('nieuweclient', {
+                Teamname: data.Teamname,
+                Roomname: data.Roomname,
+                clientID: socket.id
+            })
         }
         else {
-            console.log("nee jij mag niet joinen" + room);
-            io.to(socket.id).emit('refuse');
+            console.log("nee jij mag niet joinen omdat de room niet bestaat: " + socket.id);
+            io.to(socket.id).emit('refuse', {clientID: socket.id});
         }
     });
-    socket.on('meldAanwezig', function (data){
-        console.log("iemand wil zich aanwezig melden genaamd:" + data.Teamname);
-        io.to(data.Roomname).emit('nieuweclient', data);
+
+    socket.on('teamisAccepted', function (data) {
+        //io.to(data.clientID).emit('JebentAccepted', {roomname: data.roomname});
+        console.log("ik accepteer iemand voor roomname: " + data.roomname);
+        io.emit('JebentAccepted', {roomname: data.roomname, clientID: data.teamID});
     });
+
+    socket.on('teamisRefused', function (data) {
+        console.log("de master heeft declined: ");
+        console.log(data.clientID);
+        io.emit('refuse', {clientID: data.clientID});
+    });
+    //socket.on('meldAanwezig', function (data){
+    //    console.log("iemand wil zich aanwezig melden genaamd:" + data.Teamname);
+    //    io.to(data.Roomname).emit('nieuweclient', data);
+    //});
 
     socket.on('testfunctie', function (data) {
         io.to(socket.rooms[1]).emit('testttt', data);
@@ -48,7 +68,7 @@ io.sockets.on('connection', function (socket) {
 
 function in_array(needle, haystack) {
     if (haystack.indexOf) return haystack.indexOf(needle) > -1;
-    for (var i = 0; i<haystack.length;i++){
+    for (var i = 0; i < haystack.length; i++) {
         if (haystack[i] == needle) {
             return true;
         }
@@ -60,22 +80,20 @@ function in_array(needle, haystack) {
 quizzer.use(express.static(path.join(__dirname, 'client-side')));
 
 //Send questions
-quizzer.get('/questions', function(request, res){
+quizzer.get('/questions', function (request, res) {
 
     mongoose.connect('mongodb://localhost/QuizDB');
 
     db.on('error', console.error.bind(console, 'connection error:'));
 
-    db.once('open', function(callback) {
-        QuizQuestions.find(function (err,data) {
+    db.once('open', function (callback) {
+        QuizQuestions.find(function (err, data) {
             if (err) return console.log(err);
             res.send(JSON.stringify(data));
             mongoose.connection.close();
         });
     });
 });
-
-
 
 
 //quizzer.get('/master', function(req,res) {
