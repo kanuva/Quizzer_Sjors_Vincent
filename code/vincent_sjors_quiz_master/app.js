@@ -7,6 +7,7 @@ var http = require('http').createServer(quizzer);
 var io = socketio.listen(http);
 
 var rooms = [];
+var clients = [];
 //var Teamwhowantstojoin = {};
 var db = mongoose.connection;
 
@@ -45,6 +46,7 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('teamisAccepted', function (data) {
+        clients.push(data);
         //io.to(data.clientID).emit('JebentAccepted', {roomname: data.roomname});
         console.log("ik accepteer iemand voor roomname: " + data.roomname);
         io.emit('JebentAccepted', {roomname: data.roomname, clientID: data.teamID});
@@ -66,6 +68,11 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('pushQuestion', function (data) {
         io.to(rooms[0]).emit('questionPull', data);
+    });
+
+    socket.on('sendGivenAnswer', function (data) {
+        io.to(rooms[0]).emit('sendAnswer' , data);
+        console.log(data);
     });
 });
 

@@ -7,7 +7,7 @@
                 </div>
                 <div class="content-box">
                     <form>
-                        <input type="text" name="question" placeholder="Answer..."/>
+                        <input type="text" name="questionAnswer" placeholder="Answer..." id="answer"/>
                     </form>
                 </div>
             </div>
@@ -61,6 +61,18 @@
             $("button").click();
         }
     }
+
+    $("input#answer").keyup(function() {
+        console.log($(this).val());
+        if(event.keyCode == 13) {
+            socket.emit('sendGivenAnswer', { answer: $(this).val() });
+            $(this).val("");
+            $(this).attr("disabled", "disabled");
+
+
+            $
+        }
+    });
 
     $("input#roompassword").keyup(function (event) {
         enterKey();

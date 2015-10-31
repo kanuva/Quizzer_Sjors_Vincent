@@ -25,6 +25,11 @@
                 <p> Question: {{masterQuestion}}</p>
                 <p> Answer:   {{masterAnswer}}</p>
               </div>
+
+              <hr>
+
+              <div id="answers-holder">
+              </div>
             </div>
 
             <div class="col s3">
@@ -118,8 +123,13 @@
     console.log("ik heb zojuist mijn eigen testfunctie binnen gekregen");
   });
 
-  socket.on('questionPull', function() {
-    console.log('i got myself');
+  var answerCount = 1;
+
+  socket.on('sendAnswer', function(data) {
+    //console.log(data);
+    $('#answers-holder').append('<div> ' + answerCount + ") " + data.answer + ' </div>');
+    //console.log('received a answer');
+    answerCount = (answerCount + 1);
   });
 
   function acceptTeam(data) {
@@ -137,7 +147,7 @@
 
     if(score === undefined || score === null) { score = 0; }
     $(".content-box .row .col.s3.scores").append("<div class='row'><div class='col s6'><p> " + name + "</p></div><div class='col s6'><p>" + score + "</p></div></div>");
-    socket.emit('teamisAccepted', {roomname: roomname, teamID: id});
+    socket.emit('teamisAccepted', {roomname: roomname, teamID: id, teamName: name});
   }
 
   function declineTeam(data) {
@@ -153,13 +163,13 @@
   function teamisRefused(clientID) {
     clientID.trim();
     socket.emit('teamisRefused', {clientID: clientID});
-    console.log("ik heb client met clientID refused: " + clientID);
+    //console.log("ik heb client met clientID refused: " + clientID);
   }
 
 
   function testfunctie() {
     socket.emit('testfunctie', "hellooooooditiseenawesometest");
-    console.log("testfunctie");
+    //console.log("testfunctie");
   }
 
   function closeModal(roompassword) {
@@ -170,6 +180,6 @@
   function CreateRoom(roompassword) {
     socket.emit('joinOrCreate', {roomname: roompassword, funtie: 'create'});
     roomname = roompassword;
-    console.log(roompassword);
+    //console.log(roompassword);
   }
 </script>
