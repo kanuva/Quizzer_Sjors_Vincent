@@ -41,8 +41,11 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('testfunctie', function (data) {
-        io.to(socket.rooms[1]).emit('testttt', data);
-        console.log(data);
+        io.to(rooms[0]).emit('testttt', data);
+    });
+
+    socket.on('pushQuestion', function (data) {
+        io.to(rooms[0]).emit('questionPull', data);
     });
 });
 //io.to(socket.rooms[1]).emit('testttt', data);

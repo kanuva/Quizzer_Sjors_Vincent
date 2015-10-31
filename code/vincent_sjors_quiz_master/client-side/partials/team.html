@@ -19,10 +19,10 @@
         <h4>Type in password to join a room</h4>
 
         <form>
-            <label for="password"></label>
-            <input id="roompassword" type="text" name="password" placeholder="Enter room password..." id="teamname"/>
+            <label for="roompassword"></label>
+            <input id="roompassword" type="text" name="password" placeholder="Enter room password..."/>
             <label for="teamname"></label>
-            <input id="teamname" type="text" name="teamname" placeholder="Enter team name..." id="teamname"/>
+            <input id="teamname" type="text" name="teamname" placeholder="Enter team name..."/>
         </form>
     </div>
     <div class="modal-footer">
@@ -79,8 +79,14 @@
         }, 500);
     });
 
-    socket.on('testttt', function() {
+    socket.on('testttt', function(data) {
         console.log("ik heb zojuist een testfunctie binnengekregen");
+        console.log(data);
+    });
+
+    socket.on('questionPull', function(data) {
+        console.log(data);
+        $('.title-box h1').html(data.question);
     });
 
     //    function displayError() {

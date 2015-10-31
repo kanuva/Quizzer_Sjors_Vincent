@@ -2,6 +2,7 @@ var quizzerApp = angular.module("quizzerApp", ['ngRoute']);
 
 
 quizzerApp.config(function ($routeProvider) {
+
     $routeProvider
 
         .when('/', {
@@ -24,15 +25,61 @@ quizzerApp.config(function ($routeProvider) {
         .otherwise('/');
 });
 
-quizzerApp.controller("quizzerController", function ($scope, $http) {
-    $scope.getQuestions = setQuestions();
 
-    function setQuestions() {
+quizzerApp.factory('socket', function ($rootScope) {
+    var socket = io.connect(document.location.protocol + '//' + document.location.host);
+    return {
+        on: function (eventName, callback) {
+            socket.on(eventName, function () {
+                var args = arguments;
+                $rootScope.$apply(function () {
+                    callback.apply(socket, args);
+                });
+            });
+        },
+        emit: function (eventName, data, callback) {
+            socket.emit(eventName, data, function () {
+                var args = arguments;
+                $rootScope.$apply(function () {
+                    if (callback) {
+                        callback.apply(socket, args);
+                    }
+                });
+            });
+        }
+    };
+});
+
+
+quizzerApp.controller("quizzerController", function ($scope, $http, socket) {
+    $scope.getQuestions = getQuestions();
+    $scope.masterQuestion   = "Currently there isn't a question selected";
+    $scope.masterAnswer     = "";
+
+    // Set Question on client
+    $scope.clientQuestion = "";
+
+
+    function getQuestions() {
         $http
             .get('http://localhost:3000/questions')
             .success(function(response) {
                 $scope.getQuestions = response;
         });
     };
+
+    $scope.selectQuestion = function selectQuestion(question) {
+
+        $scope.masterQuestion = question.question;
+        $scope.masterAnswer = question.answer;
+
+        socket.emit('pushQuestion', { question : question.question });
+    }
+
+    //socket.on('questionPull', function(data) {
+    //    console.log('received some data...');
+    //});
+
+
 
 });
