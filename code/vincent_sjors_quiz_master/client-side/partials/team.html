@@ -35,23 +35,24 @@
     $('.modal').openModal({
         dismissible: false
     });
-
+    var Immemberofaroom = false;
+    var MyID;
     var socket = io.connect(document.location.protocol + '//' + document.location.host);
 
     function closeModal(roompassword, teamname) {
-        console.log("Teamnaam die geenterd is: "+teamname);
-        joinRoom(roompassword);
-        meldAanwezigheid(teamname, roompassword);
+        console.log("Teamnaam die geenterd is: " + teamname);
+        joinRoom(roompassword, teamname);
+        //meldAanwezigheid(teamname, roompassword);
         $('.modal').closeModal();
     }
+    //
+    //    function meldAanwezigheid (teamname, roompassword) {
+    //        console.log("ik wil me aanwezig melden");
+    //        socket.emit('meldAanwezig', {Teamname: teamname, Roomname: roompassword});
+    //    }
 
-    function meldAanwezigheid (teamname, roompassword) {
-        console.log("ik wil me aanwezig melden");
-        socket.emit('meldAanwezig', {Teamname: teamname, Roomname: roompassword});
-    }
-
-    function joinRoom(roompassword) {
-        socket.emit('join', roompassword);
+    function joinRoom(roompassword, teamname) {
+        socket.emit('join', {Teamname: teamname, Roomname: roompassword});
         console.log(roompassword);
     }
 
@@ -69,19 +70,40 @@
         enterKey();
     });
 
+    socket.on('refuse', function (data) {
+        console.log("ik ben refused");
+        console.log("data.clientID: " +data.clientID);
+        console.log("MyID:          " +MyID);
 
-    socket.on('refuse', function () {
-        console.log("ik ben disconnected wss omdat het wachtwoord verkeerd is");
-        setTimeout(function () {
-            // displayError();
-            $('.modal').openModal();
-            document.getElementById('roompassword').value = "";
-        }, 500);
+        if (data.clientID.trim() === MyID.trim()) {
+            console.log("ik ben disconnected wss omdat het wachtwoord verkeerd is of omdat ik gedeclined ben");
+            setTimeout(function () {
+                // displayError();
+                $('.modal').openModal();
+                document.getElementById('roompassword').value = "";
+            }, 500);
+        }
     });
 
-    socket.on('testttt', function(data) {
+    socket.on('JebentAccepted', function (data) {
+        console.log("mag ik joinen?");
+        console.log("data clientID is: " + data.clientID);
+        console.log("mijn var ID is:   " + MyID);
+        if (!Immemberofaroom && data.clientID.trim() === MyID.trim()) {
+            Immemberofaroom = true;
+            socket.emit('joinOrCreate', {roomname: data.roomname, functie: "join"});
+            console.log("ik ben accepted! yay voor room: " + data.roomname);
+        }
+    });
+
+    socket.on('yourID', function (data) {
+        console.log("mijn id is: " + data.socketID);
+        MyID = data.socketID;
+    });
+
+
+    socket.on('testttt', function () {
         console.log("ik heb zojuist een testfunctie binnengekregen");
-        console.log(data);
     });
 
     socket.on('questionPull', function(data) {
