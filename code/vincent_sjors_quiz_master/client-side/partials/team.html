@@ -57,10 +57,10 @@
         }
     }
 
-    $("input#answer").keyup(function() {
+    $("input#answer").keyup(function () {
         console.log($(this).val());
-        if(event.keyCode == 13) {
-            socket.emit('sendGivenAnswer', { answer: $(this).val() , MyID: MyID });
+        if (event.keyCode == 13) {
+            socket.emit('sendGivenAnswer', {answer: $(this).val(), MyID: MyID});
             $(this).val("");
             $(this).attr("disabled", "disabled");
         }
@@ -74,19 +74,13 @@
         enterKey();
     });
 
-    socket.on('refuse', function (data) {
-        console.log("ik ben refused");
-        console.log("data.clientID: " +data.clientID);
-        console.log("MyID:          " +MyID);
-
-        if (data.clientID.trim() === MyID.trim()) {
-            console.log("ik ben disconnected wss omdat het wachtwoord verkeerd is of omdat ik gedeclined ben");
-            setTimeout(function () {
-                // displayError();
-                $('.modal').openModal();
-                document.getElementById('roompassword').value = "";
-            }, 500);
-        }
+    socket.on('refuse', function () {
+        console.log("ik ben disconnected wss omdat het wachtwoord verkeerd is of omdat ik gedeclined ben");
+        setTimeout(function () {
+            // displayError();
+            $('.modal').openModal();
+            document.getElementById('roompassword').value = "";
+        }, 500);
     });
 
     socket.on('JebentAccepted', function (data) {
@@ -110,7 +104,7 @@
         console.log("ik heb zojuist een testfunctie binnengekregen");
     });
 
-    socket.on('questionPull', function(data) {
+    socket.on('questionPull', function (data) {
         console.log(data);
         $('.title-box h1').html(data.question);
 

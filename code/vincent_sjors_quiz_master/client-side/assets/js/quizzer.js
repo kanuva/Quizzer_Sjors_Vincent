@@ -53,7 +53,7 @@ quizzerApp.factory('socket', function ($rootScope) {
 
 quizzerApp.controller("quizzerController", function ($scope, $http, socket) {
     $scope.getQuestions = getQuestions();
-    $scope.masterQuestion   = "Currently there is no question selected";
+    $scope.masterQuestion   = "Op het moment dat er een vraag wordt geselecteerd begint de ronde en kan niemand meer joinen";
     $scope.masterAnswer     = "";
 
     $scope.selectQuestion = function selectQuestion(question) {

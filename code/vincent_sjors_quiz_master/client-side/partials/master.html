@@ -6,7 +6,9 @@
         <div class="title-box">
           <h1>QuizMaster</h1>
           <button onclick="testfunctie()">Testfunctie</button>
+          <span class="right">RoomID:
           <span id="room-id"></span>
+          </span>
         </div>
         <div class="content-box">
           <div class="row">
@@ -104,7 +106,6 @@
   });
 
   socket.on('nieuweclient', function(data){
-    //console.log("nieuw teamnaam: " + data.Teamname + " ID: "+data.clientID);
     amountofsignins = (amountofsignins + 1);
     $('.popup').append('\
       <div class="popup-content" id="'+ data.Teamname +' ' + data.clientID + ' ">\
@@ -118,10 +119,6 @@
 
   socket.on('testttt', function() {
     console.log("ik heb zojuist mijn eigen testfunctie binnen gekregen");
-  });
-
-  socket.on('questionPull', function() {
-    console.log('i got myself');
   });
 
   socket.on('sendAnswer', function (data){
@@ -155,13 +152,11 @@
     }
   }
 
-
   function teamisRefused(clientID) {
     clientID.trim();
     socket.emit('teamisRefused', {clientID: clientID});
     console.log("ik heb client met clientID refused: " + clientID);
   }
-
 
   function testfunctie() {
     socket.emit('testfunctie', "hellooooooditiseenawesometest");
@@ -174,9 +169,7 @@
   }
 
   function CreateRoom(roompassword) {
-
     $("#room-id").html(roompassword);
-
     socket.emit('joinOrCreate', {roomname: roompassword, funtie: 'create'});
     roomname = roompassword;
     console.log(roompassword);

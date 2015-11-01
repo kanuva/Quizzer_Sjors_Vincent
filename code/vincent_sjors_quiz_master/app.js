@@ -28,11 +28,13 @@ io.sockets.on('connection', function (socket) {
         }
     });
     socket.on('join', function (data) {
-        data.teamID = socket.id;
-        clients.push(data);
+        console.log("ik stuur een ID naar een client: " + socket.id);
         io.to(socket.id).emit('yourID', {socketID: socket.id});
         if (in_array(data.Roomname, rooms)) {
-            console.log("ik stuur een ID naar een client: " + socket.id);
+
+            data.teamID = socket.id;
+            data.score = 0;
+            clients.push(data);
 
             io.to(data.Roomname).emit('nieuweclient', {
                 Teamname: data.Teamname,
@@ -42,7 +44,7 @@ io.sockets.on('connection', function (socket) {
         }
         else {
             console.log("nee jij mag niet joinen omdat de room niet bestaat: " + socket.id);
-            io.to(socket.id).emit('refuse', {clientID: socket.id});
+            io.to(socket.id).emit('refuse');
         }
     });
 
