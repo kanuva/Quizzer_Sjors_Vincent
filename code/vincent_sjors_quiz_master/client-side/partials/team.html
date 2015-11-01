@@ -17,7 +17,7 @@
 <div class="modal">
     <div id="modal" class="modal-content">
         <h4>Type in password to join a room</h4>
-
+        <p class="error"></p>
         <form>
             <label for="roompassword"></label>
             <input id="roompassword" type="text" name="password" placeholder="Enter room password..."/>
@@ -84,6 +84,7 @@
             setTimeout(function () {
                 // displayError();
                 $('.modal').openModal();
+                $('.error').html(data.reason);
                 document.getElementById('roompassword').value = "";
             }, 500);
         }
@@ -115,6 +116,17 @@
         $('.title-box h1').html(data.question);
 
         $('#answer').removeAttr('disabled');
+    });
+
+    socket.on('endofgame', function() {
+        console.log("de game heeft 12 rondes bereikt");
+        $('.modal').openModal();
+        $('.error').html("The game has ended, you can now join a new game");
+    });
+
+    socket.on('endofround', function() {
+        $('#answer').val("");
+        $('#answer').attr("disabled", "disabled");
     });
 
     //    function displayError() {

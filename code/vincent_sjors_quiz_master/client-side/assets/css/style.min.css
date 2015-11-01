@@ -7,6 +7,11 @@
     background: #ff0000;
 }
 
+#roomidalign {
+    display:table;
+    margin:0 auto;
+}
+
 
 .popup {
     position: absolute;

@@ -53,32 +53,36 @@ quizzerApp.factory('socket', function ($rootScope) {
 
 quizzerApp.controller("quizzerController", function ($scope, $http, socket) {
     $scope.getQuestions = getQuestions();
-    $scope.masterQuestion   = "Op het moment dat er een vraag wordt geselecteerd begint de ronde en kan niemand meer joinen";
-    $scope.masterAnswer     = "";
+    $scope.masterQuestion = "Op het moment dat er een vraag wordt geselecteerd begint de ronde en kan niemand meer joinen";
+    $scope.masterAnswer = "";
 
     $scope.selectQuestion = function selectQuestion(question) {
         var roomid = "";
-        if($("#room-id").html() !== undefined) {
+        if ($("#room-id").html() !== undefined) {
             roomid = $("#room-id").html();
-        } else
+        }
+        if ($('.endroundbtn').prop("disabled")) {
             $scope.masterQuestion = question.question;
             $scope.masterAnswer = question.answer;
-            socket.emit('pushQuestion', { question : question.question, roomID: roomid });
+            socket.emit('pushQuestion', {question: question.question, roomID: roomid});
+            $('.endroundbtn').removeAttr("disabled");
+            $('.' +question._id).hide();
+        }
     };
+
 
     function getQuestions() {
         $http
             .get('http://localhost:3000/questions')
-            .success(function(response) {
+            .success(function (response) {
                 $scope.getQuestions = response;
-        });
+            });
     }
 
 
     //socket.on('questionPull', function(data) {
     //    console.log('received some data...');
     //});
-
 
 
 });

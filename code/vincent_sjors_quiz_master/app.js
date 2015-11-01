@@ -24,26 +24,35 @@ var QuizQuestions = mongoose.model('QuizQuestions', Questions);
 io.sockets.on('connection', function (socket) {
 
 
-    socket.on('addScoreboard', function(data) {
+    socket.on('addScoreboard', function (data) {
         var result = false;
-        if(in_array(data, rooms)) {
+        if (in_array(data, rooms)) {
             socket.join(data);
             result = true;
         }
-        io.to(socket.id).emit('ScoreboardInit', { accepted: result });
+        io.to(socket.id).emit('ScoreboardInit', {accepted: result});
     });
 
     socket.on('joinOrCreate', function (data) {
-        socket.join(data.roomname);
         if (data.funtie === "create") {
-            rooms.push(data.roomname, socket.id, false, 0);
-            console.log("room: " + data.roomname + ", quizzmastersocketid: " + socket.id);
+            if (!in_array(data.roomname, rooms)) {
+                socket.join(data.roomname);
+                rooms.push(data.roomname, socket.id, false, 0);
+                console.log("room: " + data.roomname + ", quizzmastersocketid: " + socket.id);
+            }
+            else {
+                console.log("de room bestaat al.");
+                io.to(socket.id).emit('roomexists');
+            }
+        }
+        else if (data.functie === "join") {
+            socket.join(data.roomname);
         }
     });
     socket.on('join', function (data) {
         console.log("ik stuur een ID naar een client: " + socket.id);
         io.to(socket.id).emit('yourID', {socketID: socket.id});
-        if (in_array(data.Roomname, rooms) && rooms[rooms.indexOf(data.Roomname)+2] == false) { //kijk of de room bestaat en of deze nog niet gestart is
+        if (in_array(data.Roomname, rooms) && rooms[rooms.indexOf(data.Roomname) + 2] == false) { //kijk of de room bestaat en of deze nog niet gestart is
             data.teamID = socket.id;
             data.score = 0;
             clients.push(data);
@@ -55,7 +64,7 @@ io.sockets.on('connection', function (socket) {
         }
         else {
             console.log("nee jij mag niet joinen omdat de room niet bestaat: " + socket.id);
-            io.to(socket.id).emit('refuse', { clientID: socket.id });
+            io.to(socket.id).emit('refuse', {clientID: socket.id, reason: "The entered room does not exist or is allready playing"});
         }
     });
 
@@ -64,20 +73,32 @@ io.sockets.on('connection', function (socket) {
         io.emit('JebentAccepted', {roomname: data.roomname, clientID: data.teamID});
     });
 
+    socket.on('endround', function (data) {
+        if (rooms[rooms.indexOf(data.roomname) + 3] == 12) {
+            console.log("de ronde zou nu moeten eindigen voor room: " + data.roomname);
+            io.to(data.roomname).emit('endofgame');
+            rooms.splice(rooms.indexOf(data.roomname), 4);
+            socket.leave(data.roomname);
+        } else {
+            io.to(data.roomname).emit('endofround');
+        }
+    });
+
     socket.on('teamisRefused', function (data) {
-        io.emit('refuse', {clientID: data.clientID});
+        io.emit('refuse', {clientID: data.clientID, reason: "The quizmaster declined your invite to enter the quiz"});
     });
 
     socket.on('testfunctie', function (data) {
-        console.log("testfunctie naar room: "+rooms[(rooms.indexOf(socket.id) - 1)]);
+        console.log("testfunctie naar room: " + rooms[(rooms.indexOf(socket.id) - 1)]);
+        console.log(rooms);
         io.to(rooms[(rooms.indexOf(socket.id) - 1)]).emit('testttt', data);
     });
 
     socket.on('pushQuestion', function (data) {
         data.disabled = false; //dit is om de vraag voor de client te disablen
-        rooms[rooms.indexOf(data.roomID)+2] = true; //dit lockt de room (de game is dan gestart)
-        rooms[rooms.indexOf(data.roomID)+3] += 1; //Dit hoogt het aantal rondes op met 1
-        data.roundnr = rooms[rooms.indexOf(data.roomID)+3];
+        rooms[rooms.indexOf(data.roomID) + 2] = true; //dit lockt de room (de game is dan gestart)
+        rooms[rooms.indexOf(data.roomID) + 3] += 1; //Dit hoogt het aantal rondes op met 1
+        data.roundnr = rooms[rooms.indexOf(data.roomID) + 3];
         io.to(data.roomID).emit('questionPull', data);
     });
 
@@ -86,8 +107,6 @@ io.sockets.on('connection', function (socket) {
         for (var i = 0; i < clients.length; i++) {
             var teamID = clients[i].teamID.replace(/\s+$/, '');
             if (data.MyID == teamID) {
-                console.log("clients[i]:");
-                console.log(clients[i]);
                 io.to(clients[i].roomname).emit('sendAnswer', {answer: data.answer, teamname: clients[i].teamnaam});
             }
         }
