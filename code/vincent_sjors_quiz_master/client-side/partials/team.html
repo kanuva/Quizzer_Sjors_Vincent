@@ -74,13 +74,19 @@
         enterKey();
     });
 
-    socket.on('refuse', function () {
-        console.log("ik ben disconnected wss omdat het wachtwoord verkeerd is of omdat ik gedeclined ben");
-        setTimeout(function () {
-            // displayError();
-            $('.modal').openModal();
-            document.getElementById('roompassword').value = "";
-        }, 500);
+    socket.on('refuse', function (data) {
+        console.log("data:");
+        console.log(data);
+        console.log("data.socketid: "+ data.clientID);
+        console.log("MyID:          "+ MyID);
+        if (data.clientID.trim() === MyID.trim()) {
+            console.log("ik ben disconnected wss omdat het wachtwoord verkeerd is of omdat ik gedeclined ben");
+            setTimeout(function () {
+                // displayError();
+                $('.modal').openModal();
+                document.getElementById('roompassword').value = "";
+            }, 500);
+        }
     });
 
     socket.on('JebentAccepted', function (data) {

@@ -36,19 +36,17 @@ io.sockets.on('connection', function (socket) {
     socket.on('joinOrCreate', function (data) {
         socket.join(data.roomname);
         if (data.funtie === "create") {
-            rooms.push(data.roomname, socket.id);
+            rooms.push(data.roomname, socket.id, false, 0);
             console.log("room: " + data.roomname + ", quizzmastersocketid: " + socket.id);
         }
     });
     socket.on('join', function (data) {
         console.log("ik stuur een ID naar een client: " + socket.id);
         io.to(socket.id).emit('yourID', {socketID: socket.id});
-        if (in_array(data.Roomname, rooms)) {
-
+        if (in_array(data.Roomname, rooms) && rooms[rooms.indexOf(data.Roomname)+2] == false) { //kijk of de room bestaat en of deze nog niet gestart is
             data.teamID = socket.id;
             data.score = 0;
             clients.push(data);
-
             io.to(data.Roomname).emit('nieuweclient', {
                 Teamname: data.Teamname,
                 Roomname: data.Roomname,
@@ -57,35 +55,30 @@ io.sockets.on('connection', function (socket) {
         }
         else {
             console.log("nee jij mag niet joinen omdat de room niet bestaat: " + socket.id);
-            io.to(socket.id).emit('refuse');
+            io.to(socket.id).emit('refuse', { clientID: socket.id });
         }
     });
 
     socket.on('teamisAccepted', function (data) {
         clients.push(data);
-        //io.to(data.clientID).emit('JebentAccepted', {roomname: data.roomname});
-        //console.log("ik accepteer iemand voor roomname: " + data.roomname);
         io.emit('JebentAccepted', {roomname: data.roomname, clientID: data.teamID});
     });
 
     socket.on('teamisRefused', function (data) {
-        //console.log("de master heeft declined: ");
-        //console.log(data.clientID);
         io.emit('refuse', {clientID: data.clientID});
     });
 
     socket.on('testfunctie', function (data) {
-        console.log(socket.id);
-        console.log(rooms[(rooms.indexOf(socket.id) - 1)]);
-
+        console.log("testfunctie naar room: "+rooms[(rooms.indexOf(socket.id) - 1)]);
         io.to(rooms[(rooms.indexOf(socket.id) - 1)]).emit('testttt', data);
     });
 
     socket.on('pushQuestion', function (data) {
-        data.disabled = false;
-        console.log(data);
+        data.disabled = false; //dit is om de vraag voor de client te disablen
+        rooms[rooms.indexOf(data.roomID)+2] = true; //dit lockt de room (de game is dan gestart)
+        rooms[rooms.indexOf(data.roomID)+3] += 1; //Dit hoogt het aantal rondes op met 1
+        data.roundnr = rooms[rooms.indexOf(data.roomID)+3];
         io.to(data.roomID).emit('questionPull', data);
-        console.log(data);
     });
 
 
