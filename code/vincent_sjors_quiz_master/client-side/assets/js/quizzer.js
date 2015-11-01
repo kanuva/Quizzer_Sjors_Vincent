@@ -55,9 +55,18 @@ quizzerApp.controller("quizzerController", function ($scope, $http, socket) {
     $scope.getQuestions = getQuestions();
     $scope.masterQuestion   = "Currently there is no question selected";
     $scope.masterAnswer     = "";
-    // Set Question on client
-    $scope.clientQuestion = "";
 
+
+    $scope.selectQuestion = function selectQuestion(question, clients) {
+
+        if(clients.length >= 1) {
+            $scope.masterQuestion = question.question;
+            $scope.masterAnswer = question.answer;
+            socket.emit('pushQuestion', { question : question.question });
+        } else {
+            $().showPopUp();
+        }
+    };
 
     function getQuestions() {
         $http
@@ -65,13 +74,15 @@ quizzerApp.controller("quizzerController", function ($scope, $http, socket) {
             .success(function(response) {
                 $scope.getQuestions = response;
         });
-    }
+    };
 
     $scope.selectQuestion = function selectQuestion(question) {
+
         $scope.masterQuestion = question.question;
         $scope.masterAnswer = question.answer;
+
         socket.emit('pushQuestion', { question : question.question });
-    };
+    }
 
     //socket.on('questionPull', function(data) {
     //    console.log('received some data...');

@@ -30,7 +30,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('join', function (data) {
         console.log("ik wil room joinen: " + data.Roomname);
         io.to(socket.id).emit('yourID', {socketID: socket.id});
-        if (in_array(data.Roomname, rooms) && rooms[rooms.indexOf(data.Roomname) + 2] == false) {
+        if (in_array(data.Roomname, rooms)) {
             console.log("ik stuur een ID naar een client: " + socket.id);
 
             io.to(data.Roomname).emit('nieuweclient', {
@@ -48,13 +48,13 @@ io.sockets.on('connection', function (socket) {
     socket.on('teamisAccepted', function (data) {
         clients.push(data);
         //io.to(data.clientID).emit('JebentAccepted', {roomname: data.roomname});
-        console.log("ik accepteer iemand voor roomname: " + data.roomname);
+        //console.log("ik accepteer iemand voor roomname: " + data.roomname);
         io.emit('JebentAccepted', {roomname: data.roomname, clientID: data.teamID});
     });
 
     socket.on('teamisRefused', function (data) {
-        console.log("de master heeft declined: ");
-        console.log(data.clientID);
+        //console.log("de master heeft declined: ");
+        //console.log(data.clientID);
         io.emit('refuse', {clientID: data.clientID});
     });
     //socket.on('meldAanwezig', function (data){
@@ -79,11 +79,22 @@ io.sockets.on('connection', function (socket) {
         console.log(rooms);
         //console.log("socketid is: " + socket.id);
 
+        io.to(rooms[0]).emit('questionPull', data);
     });
 
     socket.on('sendGivenAnswer', function (data) {
-        io.to(rooms[0]).emit('sendAnswer', data);
-        console.log(data);
+        var clientName;
+        for(var i=0; i < clients.length; i++) {
+            var teamID = clients[i].teamID.replace(/\s+$/, '');
+
+            if(socket.id == teamID) {
+                clientName = clients[i].teamName;
+            }
+        }
+
+        var result = [data, clientName];
+        io.to(rooms[0]).emit('sendAnswer' , result);
+        console.log(result);
     });
 });
 
