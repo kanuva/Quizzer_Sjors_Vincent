@@ -7,7 +7,7 @@
                 </div>
                 <div class="content-box">
                     <form>
-                        <input type="text" name="questionAnswer" placeholder="Answer..." id="answer"/>
+                        <input type="text" name="questionAnswer" placeholder="Answer..." id="answer" disabled/>
                     </form>
                 </div>
             </div>
@@ -68,9 +68,6 @@
             socket.emit('sendGivenAnswer', { answer: $(this).val() });
             $(this).val("");
             $(this).attr("disabled", "disabled");
-
-
-            $
         }
     });
 
