@@ -23,6 +23,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('joinOrCreate', function (data) {
         socket.join(data.roomname);
         if (data.funtie === "create") {
+            console.log("socketid als je een room maakt: "+socket.id);
             rooms.push(data.roomname, socket.id, false);
             console.log("room: " + data.roomname + ", quizzmastersocketid: " + socket.id);
         }
@@ -65,21 +66,22 @@ io.sockets.on('connection', function (socket) {
     socket.on('testfunctie', function (data) {
         //io.to(data.roomname).emit('testttt');
         io.to(rooms[rooms.indexOf(socket.id) - 1]).emit('testttt');
+        console.log("socketid als je testfunctie uitvoerd: "+ socket.id);
         console.log("ik verstuur de testfunctie naar: " + rooms[rooms.indexOf(socket.id) - 1]);
 
     });
 
     socket.on('pushQuestion', function (data) {
-        console.log("ik verstuur een vraag naar de room: " + socket.id);
-        rooms[rooms.indexOf(socket.id)] = true;
+        //console.log("ik verstuur een vraag naar de room: " + socket.id);
+        //console.log(rooms);
+        console.log("socket.id als je een question pusht: "+socket.id);
+        var tmp = rooms[rooms.indexOf(socket.id) - 1];
+        //rooms[rooms.indexOf(socket.id) - 1] = true;
+        //console.log("tmp: "+tmp);
+        //console.log(rooms);
         io.to(rooms[rooms.indexOf(socket.id) - 1]).emit('questionPull', data);
+        //console.log(rooms[rooms.indexOf(socket.id) - 1]);
 
-        // io.to(rooms[rooms.indexOf(socket.id) - 1]).emit('questionPull', data);
-        console.log("ik verstuur een vraag naar de room: " + socket.id);
-        console.log(rooms);
-        //console.log("socketid is: " + socket.id);
-
-        io.to(rooms[0]).emit('questionPull', data);
     });
 
     socket.on('sendGivenAnswer', function (data) {

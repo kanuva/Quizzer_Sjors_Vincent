@@ -74,7 +74,7 @@ quizzerApp.controller("quizzerController", function ($scope, $http, socket) {
             .success(function(response) {
                 $scope.getQuestions = response;
         });
-    };
+    }
 
     $scope.selectQuestion = function selectQuestion(question) {
 
@@ -82,7 +82,7 @@ quizzerApp.controller("quizzerController", function ($scope, $http, socket) {
         $scope.masterAnswer = question.answer;
 
         socket.emit('pushQuestion', { question : question.question });
-    }
+    };
 
     //socket.on('questionPull', function(data) {
     //    console.log('received some data...');
