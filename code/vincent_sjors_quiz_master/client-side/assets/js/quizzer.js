@@ -19,8 +19,8 @@ quizzerApp.config(function ($routeProvider) {
         .when('/#/', {
             templateUrl: 'partials/index.html'
         })
-        .when('/popup', {
-            templateUrl: 'partials/popup.html'
+        .when('/score', {
+            templateUrl: 'partials/scoreboard.html'
         })
         .otherwise('/');
 });
@@ -74,13 +74,6 @@ quizzerApp.controller("quizzerController", function ($scope, $http, socket) {
         });
     }
 
-    $scope.selectQuestion = function selectQuestion(question) {
-
-        $scope.masterQuestion = question.question;
-        $scope.masterAnswer = question.answer;
-
-        socket.emit('pushQuestion', { question : question.question });
-    };
 
     //socket.on('questionPull', function(data) {
     //    console.log('received some data...');
