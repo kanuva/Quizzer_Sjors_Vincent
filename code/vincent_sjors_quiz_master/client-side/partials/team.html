@@ -45,11 +45,6 @@
         //meldAanwezigheid(teamname, roompassword);
         $('.modal').closeModal();
     }
-    //
-    //    function meldAanwezigheid (teamname, roompassword) {
-    //        console.log("ik wil me aanwezig melden");
-    //        socket.emit('meldAanwezig', {Teamname: teamname, Roomname: roompassword});
-    //    }
 
     function joinRoom(roompassword, teamname) {
         socket.emit('join', {Teamname: teamname, Roomname: roompassword});
@@ -65,7 +60,7 @@
     $("input#answer").keyup(function() {
         console.log($(this).val());
         if(event.keyCode == 13) {
-            socket.emit('sendGivenAnswer', { answer: $(this).val() });
+            socket.emit('sendGivenAnswer', { answer: $(this).val() , MyID: MyID });
             $(this).val("");
             $(this).attr("disabled", "disabled");
         }
@@ -118,6 +113,8 @@
     socket.on('questionPull', function(data) {
         console.log(data);
         $('.title-box h1').html(data.question);
+
+        $('#answer').removeAttr('disabled');
     });
 
     //    function displayError() {

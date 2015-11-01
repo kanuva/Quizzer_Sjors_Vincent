@@ -23,12 +23,13 @@ io.sockets.on('connection', function (socket) {
     socket.on('joinOrCreate', function (data) {
         socket.join(data.roomname);
         if (data.funtie === "create") {
-            rooms.push(data.roomname, socket.id, false);
+            rooms.push(data.roomname, socket.id);
             console.log("room: " + data.roomname + ", quizzmastersocketid: " + socket.id);
         }
     });
     socket.on('join', function (data) {
-        console.log("ik wil room joinen: " + data.Roomname);
+        data.teamID = socket.id;
+        clients.push(data);
         io.to(socket.id).emit('yourID', {socketID: socket.id});
         if (in_array(data.Roomname, rooms)) {
             console.log("ik stuur een ID naar een client: " + socket.id);
@@ -57,10 +58,6 @@ io.sockets.on('connection', function (socket) {
         //console.log(data.clientID);
         io.emit('refuse', {clientID: data.clientID});
     });
-    //socket.on('meldAanwezig', function (data){
-    //    console.log("iemand wil zich aanwezig melden genaamd:" + data.Teamname);
-    //    io.to(data.Roomname).emit('nieuweclient', data);
-    //});
 
     socket.on('testfunctie', function (data) {
         console.log(socket.id);
@@ -70,24 +67,22 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('pushQuestion', function (data) {
+        data.disabled = false;
         console.log(data);
         io.to(data.roomID).emit('questionPull', data);
+        console.log(data);
     });
 
 
     socket.on('sendGivenAnswer', function (data) {
-        var clientName;
-        for(var i=0; i < clients.length; i++) {
+        for (var i = 0; i < clients.length; i++) {
             var teamID = clients[i].teamID.replace(/\s+$/, '');
-
-            if(socket.id == teamID) {
-                clientName = clients[i].teamName;
+            if (data.MyID == teamID) {
+                console.log("clients[i]:");
+                console.log(clients[i]);
+                io.to(clients[i].roomname).emit('sendAnswer', {answer: data.answer, teamname: clients[i].teamnaam});
             }
         }
-
-        var result = [data, clientName];
-        io.to(rooms[0]).emit('sendAnswer' , result);
-        console.log(result);
     });
 });
 
@@ -119,18 +114,6 @@ quizzer.get('/questions', function (request, res) {
         });
     });
 });
-
-
-//quizzer.get('/master', function(req,res) {
-//  mongoose.connect('mongodb://localhost/quizmaster');
-//  db.onerror(console.error.bind(console, 'connection error:'));
-//  db.once('open', function(callback){
-//    Quizquestions.find(function (err,Quizquestions) {
-//      if (err) return console.log(err);
-//      res.send(JSON.stringify(Quizquestions))
-//    })
-//  })
-//});
 
 
 http.listen(3000, function () {

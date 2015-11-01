@@ -124,21 +124,26 @@
     console.log('i got myself');
   });
 
+  socket.on('sendAnswer', function (data){
+    console.log("ik heb zojuist een antwoord binnen gekregen: ");
+    console.log(data);
+  });
+
   function acceptTeam(data) {
     // clientID is: $(data).parent().attr('id').substr($(data).parent().attr('id').indexOf(' ')+1);
     // teamnaam is: $(data).parent().attr('id').substr(0,$(data).parent().attr('id').indexOf(' '));
     amountofsignins = (amountofsignins - 1);
-    addTeam($(data).parent().attr('id').substr(0,$(data).parent().attr('id').indexOf(' ')),$(data).parent().attr('id').substr($(data).parent().attr('id').indexOf(' ')+1) , null);
+    addTeam($(data).parent().attr('id').substr(0,$(data).parent().attr('id').indexOf(' ')),$(data).parent().attr('id').substr($(data).parent().attr('id').indexOf(' ')+1) , null, $(data).parent().attr('id').substr(0,$(data).parent().attr('id').indexOf(' ')));
     $(data).parent().hide();
     if (amountofsignins === 0) {
       $('.popup').hide();
     }
   }
 
-  function addTeam(name, id, score) {
+  function addTeam(name, id, score, teamnaam) {
     if(score === undefined || score === null) { score = 0; }
     $(".content-box .row .col.s3.scores").append("<div class='row'><div class='col s6'><p> " + name + "</p></div><div class='col s6'><p>" + score + "</p></div></div>");
-    socket.emit('teamisAccepted', {roomname: roomname, teamID: id});
+    socket.emit('teamisAccepted', {roomname: roomname, teamID: id, teamnaam: teamnaam});
   }
 
   function declineTeam(data) {

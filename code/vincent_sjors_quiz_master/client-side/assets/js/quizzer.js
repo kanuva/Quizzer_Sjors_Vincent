@@ -57,13 +57,13 @@ quizzerApp.controller("quizzerController", function ($scope, $http, socket) {
     $scope.masterAnswer     = "";
 
     $scope.selectQuestion = function selectQuestion(question) {
-        var roomID = "";
+        var roomid = "";
         if($("#room-id").html() !== undefined) {
-            roomID = $("#room-id").html();
+            roomid = $("#room-id").html();
         } else
             $scope.masterQuestion = question.question;
             $scope.masterAnswer = question.answer;
-            socket.emit('pushQuestion', { question : question.question, roomID: roomID });
+            socket.emit('pushQuestion', { question : question.question, roomID: roomid });
     };
 
     function getQuestions() {
