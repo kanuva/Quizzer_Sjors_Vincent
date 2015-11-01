@@ -56,16 +56,14 @@ quizzerApp.controller("quizzerController", function ($scope, $http, socket) {
     $scope.masterQuestion   = "Currently there isn't a question selected";
     $scope.masterAnswer     = "";
 
-
-    $scope.selectQuestion = function selectQuestion(question, clients) {
-
-        if(clients.length >= 1) {
+    $scope.selectQuestion = function selectQuestion(question) {
+        var roomID = "";
+        if($("#room-id").html() !== undefined) {
+            roomID = $("#room-id").html();
+        } else
             $scope.masterQuestion = question.question;
             $scope.masterAnswer = question.answer;
-            socket.emit('pushQuestion', { question : question.question });
-        } else {
-            $().showPopUp();
-        }
+            socket.emit('pushQuestion', { question : question.question, roomID: roomID });
     };
 
     function getQuestions() {

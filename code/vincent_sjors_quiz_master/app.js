@@ -63,11 +63,16 @@ io.sockets.on('connection', function (socket) {
     //});
 
     socket.on('testfunctie', function (data) {
+        console.log(socket.id);
+        console.log(rooms[(rooms.indexOf(socket.id) - 1)]);
+
         io.to(rooms[0]).emit('testttt', data);
     });
 
     socket.on('pushQuestion', function (data) {
-        io.to(rooms[0]).emit('questionPull', data);
+        console.log(socket.id);
+        console.log(data.roomID);
+        io.to(data.roomID).emit('questionPull', data);
     });
 
     socket.on('sendGivenAnswer', function (data) {
