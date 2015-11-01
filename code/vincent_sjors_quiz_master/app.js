@@ -23,15 +23,15 @@ io.sockets.on('connection', function (socket) {
     socket.on('joinOrCreate', function (data) {
         socket.join(data.roomname);
         if (data.funtie === "create") {
-            rooms.push(data.roomname, socket.id);
-            //console.log("room: " + data.roomname + ", quizzmastersocketid: " + socket.id);
+            rooms.push(data.roomname, socket.id, false);
+            console.log("room: " + data.roomname + ", quizzmastersocketid: " + socket.id);
         }
     });
     socket.on('join', function (data) {
         console.log("ik wil room joinen: " + data.Roomname);
         io.to(socket.id).emit('yourID', {socketID: socket.id});
         if (in_array(data.Roomname, rooms)) {
-            //console.log("ik stuur een ID naar een client: " + socket.id);
+            console.log("ik stuur een ID naar een client: " + socket.id);
 
             io.to(data.Roomname).emit('nieuweclient', {
                 Teamname: data.Teamname,
@@ -40,7 +40,7 @@ io.sockets.on('connection', function (socket) {
             })
         }
         else {
-            //console.log("nee jij mag niet joinen omdat de room niet bestaat: " + socket.id);
+            console.log("nee jij mag niet joinen omdat de room niet bestaat: " + socket.id);
             io.to(socket.id).emit('refuse', {clientID: socket.id});
         }
     });
@@ -66,14 +66,13 @@ io.sockets.on('connection', function (socket) {
         console.log(socket.id);
         console.log(rooms[(rooms.indexOf(socket.id) - 1)]);
 
-        io.to(rooms[0]).emit('testttt', data);
+        io.to(rooms[(rooms.indexOf(socket.id) - 1)]).emit('testttt', data);
     });
 
     socket.on('pushQuestion', function (data) {
-        console.log(socket.id);
-        console.log(data.roomID);
         io.to(data.roomID).emit('questionPull', data);
     });
+
 
     socket.on('sendGivenAnswer', function (data) {
         var clientName;
