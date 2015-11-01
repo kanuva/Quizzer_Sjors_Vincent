@@ -8,6 +8,8 @@ var io = socketio.listen(http);
 
 var rooms = [];
 var clients = [];
+var scoreboard = [];
+
 //var Teamwhowantstojoin = {};
 var db = mongoose.connection;
 
@@ -20,6 +22,17 @@ var Questions = mongoose.Schema({
 var QuizQuestions = mongoose.model('QuizQuestions', Questions);
 
 io.sockets.on('connection', function (socket) {
+
+
+    socket.on('addScoreboard', function(data) {
+        var result = false;
+        if(in_array(data, rooms)) {
+            socket.join(data);
+            result = true;
+        }
+        io.to(socket.id).emit('ScoreboardInit', { accepted: result });
+    });
+
     socket.on('joinOrCreate', function (data) {
         socket.join(data.roomname);
         if (data.funtie === "create") {
