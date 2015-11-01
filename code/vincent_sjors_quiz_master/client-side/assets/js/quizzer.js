@@ -19,8 +19,8 @@ quizzerApp.config(function ($routeProvider) {
         .when('/#/', {
             templateUrl: 'partials/index.html'
         })
-        .when('/popup', {
-            templateUrl: 'partials/popup.html'
+        .when('/score', {
+            templateUrl: 'partials/scoreboard.html'
         })
         .otherwise('/');
 });
@@ -57,13 +57,13 @@ quizzerApp.controller("quizzerController", function ($scope, $http, socket) {
     $scope.masterAnswer     = "";
 
     $scope.selectQuestion = function selectQuestion(question) {
-        var roomID = "";
+        var roomid = "";
         if($("#room-id").html() !== undefined) {
-            roomID = $("#room-id").html();
-        } else
+            roomid = $("#room-id").html();
+        }
             $scope.masterQuestion = question.question;
             $scope.masterAnswer = question.answer;
-            socket.emit('pushQuestion', { question : question.question, roomID: roomID });
+            socket.emit('pushQuestion', { question : question.question, roomID: roomid });
     };
 
     function getQuestions() {
@@ -72,15 +72,8 @@ quizzerApp.controller("quizzerController", function ($scope, $http, socket) {
             .success(function(response) {
                 $scope.getQuestions = response;
         });
-    };
-
-    $scope.selectQuestion = function selectQuestion(question) {
-
-        $scope.masterQuestion = question.question;
-        $scope.masterAnswer = question.answer;
-
-        socket.emit('pushQuestion', { question : question.question });
     }
+
 
     //socket.on('questionPull', function(data) {
     //    console.log('received some data...');

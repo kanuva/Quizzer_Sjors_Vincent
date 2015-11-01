@@ -70,6 +70,7 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('pushQuestion', function (data) {
+        console.log(data);
         io.to(data.roomID).emit('questionPull', data);
     });
 
