@@ -127,7 +127,7 @@
 
   socket.on('sendAnswer', function(data) {
     //console.log(data);
-    $('#answers-holder').append('<div> ' + answerCount + ") " + data.answer + ' </div>');
+    $('#answers-holder').append('<div> <span>' + answerCount + ") " + data[1] + ": " + data[0].answer + '</span> <button id="data[1]" onclick="correctAnswer()"></button> <button id="data[1]" onclick="wrongAnswer()"></button> </div>');
     //console.log('received a answer');
     answerCount = (answerCount + 1);
   });
