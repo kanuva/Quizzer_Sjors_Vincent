@@ -7,6 +7,7 @@ var http = require('http').createServer(quizzer);
 var io = socketio.listen(http);
 
 var rooms = [];
+var clients = [];
 //var Teamwhowantstojoin = {};
 var db = mongoose.connection;
 
@@ -22,14 +23,14 @@ io.sockets.on('connection', function (socket) {
     socket.on('joinOrCreate', function (data) {
         socket.join(data.roomname);
         if (data.funtie === "create") {
-            rooms.push(data.roomname, socket.id);
+            rooms.push(data.roomname, socket.id, false);
             console.log("room: " + data.roomname + ", quizzmastersocketid: " + socket.id);
         }
     });
     socket.on('join', function (data) {
         console.log("ik wil room joinen: " + data.Roomname);
         io.to(socket.id).emit('yourID', {socketID: socket.id});
-        if (in_array(data.Roomname, rooms)) {
+        if (in_array(data.Roomname, rooms) && rooms[rooms.indexOf(data.Roomname) + 2] == false) {
             console.log("ik stuur een ID naar een client: " + socket.id);
 
             io.to(data.Roomname).emit('nieuweclient', {
@@ -45,6 +46,7 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('teamisAccepted', function (data) {
+        clients.push(data);
         //io.to(data.clientID).emit('JebentAccepted', {roomname: data.roomname});
         console.log("ik accepteer iemand voor roomname: " + data.roomname);
         io.emit('JebentAccepted', {roomname: data.roomname, clientID: data.teamID});
@@ -61,11 +63,27 @@ io.sockets.on('connection', function (socket) {
     //});
 
     socket.on('testfunctie', function (data) {
-        io.to(rooms[0]).emit('testttt', data);
+        //io.to(data.roomname).emit('testttt');
+        io.to(rooms[rooms.indexOf(socket.id) - 1]).emit('testttt');
+        console.log("ik verstuur de testfunctie naar: " + rooms[rooms.indexOf(socket.id) - 1]);
+
     });
 
     socket.on('pushQuestion', function (data) {
-        io.to(rooms[0]).emit('questionPull', data);
+        console.log("ik verstuur een vraag naar de room: " + socket.id);
+        rooms[rooms.indexOf(socket.id)] = true;
+        io.to(rooms[rooms.indexOf(socket.id) - 1]).emit('questionPull', data);
+
+        // io.to(rooms[rooms.indexOf(socket.id) - 1]).emit('questionPull', data);
+        console.log("ik verstuur een vraag naar de room: " + socket.id);
+        console.log(rooms);
+        //console.log("socketid is: " + socket.id);
+
+    });
+
+    socket.on('sendGivenAnswer', function (data) {
+        io.to(rooms[0]).emit('sendAnswer', data);
+        console.log(data);
     });
 });
 
