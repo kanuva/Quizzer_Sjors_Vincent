@@ -6,6 +6,7 @@
         <div class="title-box">
           <h1>QuizMaster</h1>
           <button onclick="testfunctie()">Testfunctie</button>
+          <span id="room-id"></span>
         </div>
         <div class="content-box">
           <div class="row">
@@ -87,10 +88,6 @@
     $('.card-holder').css('height', ((totalHeight - offsetTop) - 15));
   });
 
-
-
-  $('body').removeAttr('style');
-  $('body').css({ 'background-image' : "url(/assets/images/grey_wash_wall.png)" });
   var socket = io.connect(document.location.protocol+'//'+document.location.host);
   var roomname;
   var amountofsignins = 0;
@@ -99,7 +96,7 @@
   $('.modal').openModal({
     dismissible: false
   });
-  
+
   $("input#roompassword").keyup(function(event){
     if(event.keyCode == 13){
         $("button").click();
@@ -172,6 +169,9 @@
   }
 
   function CreateRoom(roompassword) {
+
+    $("#room-id").html(roompassword);
+
     socket.emit('joinOrCreate', {roomname: roompassword, funtie: 'create'});
     roomname = roompassword;
     console.log(roompassword);
