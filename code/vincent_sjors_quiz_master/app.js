@@ -123,6 +123,7 @@ io.sockets.on('connection', function (socket) {
         io.to(data.roomname).emit('answersHandler', {data: data, client: client});
     });
 });
+//END SOCKET.IO
 
 function in_array(needle, haystack) {
     if (haystack.indexOf) return haystack.indexOf(needle) > -1;
