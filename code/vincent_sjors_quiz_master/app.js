@@ -8,9 +8,7 @@ var io = socketio.listen(http);
 
 var rooms = [];
 var clients = [];
-var scoreboard = [];
 
-//var Teamwhowantstojoin = {};
 var db = mongoose.connection;
 
 var Questions = mongoose.Schema({
@@ -42,10 +40,8 @@ io.sockets.on('connection', function (socket) {
             if (!in_array(data.roomname, rooms)) {
                 socket.join(data.roomname);
                 rooms.push(data.roomname, socket.id, false, 0);
-                console.log("room: " + data.roomname + ", quizzmastersocketid: " + socket.id);
             }
             else {
-                console.log("de room bestaat al.");
                 io.to(socket.id).emit('roomexists');
             }
         }
@@ -54,7 +50,6 @@ io.sockets.on('connection', function (socket) {
         }
     });
     socket.on('join', function (data) {
-        console.log("ik stuur een ID naar een client: " + socket.id);
         io.to(socket.id).emit('yourID', {socketID: socket.id});
         if (in_array(data.Roomname, rooms) && rooms[rooms.indexOf(data.Roomname) + 2] == false) { //kijk of de room bestaat en of deze nog niet gestart is
 
@@ -66,13 +61,11 @@ io.sockets.on('connection', function (socket) {
             })
         }
         else {
-            console.log("nee jij mag niet joinen omdat de room niet bestaat: " + socket.id);
             io.to(socket.id).emit('refuse', {clientID: socket.id, reason: "The entered room does not exist or is allready playing"});
         }
     });
 
     socket.on('teamisAccepted', function (data) {
-        console.log(data);
         var client = {
             teamID : data.teamID,
             score: 0,
@@ -86,7 +79,6 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('endround', function (data) {
         if (rooms[rooms.indexOf(data.roomname) + 3] == 12) {
-            console.log("de ronde zou nu moeten eindigen voor room: " + data.roomname);
             io.to(data.roomname).emit('endofgame');
             rooms.splice(rooms.indexOf(data.roomname), 4);
             socket.leave(data.roomname);
@@ -98,12 +90,6 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('teamisRefused', function (data) {
         io.emit('refuse', {clientID: data.clientID, reason: "The quizmaster declined your invite to enter the quiz"});
-    });
-
-    socket.on('testfunctie', function (data) {
-        console.log("testfunctie naar room: " + rooms[(rooms.indexOf(socket.id) - 1)]);
-        console.log(rooms);
-        io.to(rooms[(rooms.indexOf(socket.id) - 1)]).emit('testttt', data);
     });
 
     socket.on('pushQuestion', function (data) {
@@ -122,23 +108,18 @@ io.sockets.on('connection', function (socket) {
                 io.to(clients[i].roomname).emit('sendAnswer', {answer: data.answer, teamname: clients[i].teamnaam});
             }
         }
-        console.log(clients);
     });
 
     socket.on('answerCheck', function(data){
-        console.log(data);
         for(var i=0; i < clients.length; i++) {
-            //console.log(clients[i]);
             if(clients[i].teamnaam == data.teamname) {
                 if(data.correct) {
                     clients[i].score = (clients[i].score + 1);
                 }
                 var client = clients[i];
-                console.log('if functie')
             }
         }
 
-        //console.log(client);
         io.to(data.roomname).emit('answersHandler', {data: data, client: client});
     });
 });

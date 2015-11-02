@@ -9,12 +9,10 @@
                     </span>
 
                     <h1>QuizMaster</h1>
-                    <button type="button" class="waves-effect waves-light btn" onclick="testfunctie()">Testfunctie
-                    </button>
-                    <span>Round:
+                    <span class="right">Round:
                         <span id="round-number">0</span>
                     </span>
-                    <button type="button" class="right endroundbtn waves-effect waves-light btn" onclick="stopronde()"
+                    <button type="button" class="endroundbtn waves-effect waves-light btn" onclick="stopronde()"
                             disabled> End current round
                     </button>
                 </div>
@@ -108,7 +106,6 @@
     var amountofsignins = 0;
     var rondestopped = false;
 
-    //console.log(document.location.protocol + '//' + document.location.host);
     $('.modal').openModal({
         dismissible: false
     });
@@ -131,15 +128,10 @@
         $('.popup').show();
     });
 
-    socket.on('testttt', function () {
-        console.log("ik heb zojuist mijn eigen testfunctie binnen gekregen");
-    });
-
     socket.on('roomexists', function() {
-        console.log("room bestaat al..");
         setTimeout(function () {
             $('.modal').openModal();
-            $('.error').html("Room bestaat al.");
+            $('.error').html("The room already exists, please enter a new room name");
         }, 500);
     });
 
@@ -148,16 +140,13 @@
     });
 
     socket.on('sendAnswer', function (data) {
-        console.log("ik heb zojuist een antwoord binnen gekregen: ");
-        $("#answers-holder").append('<div id="'+data.teamname+'">' + data.teamname + ': '+ data.answer +'<button class="waves-effect btn-flat" id="correctbutton'+ data.teamname +'" onclick="answerCheck(this, true)">Correct</button><button id="wrongbutton'+ data.teamname +'" onclick="answerCheck(this, false)" class="waves-effect btn-flat">Wrong</button></div>');
-        console.log(data);
+        $("#answers-holder").append('<div id="'+data.teamname+'">' + data.teamname + ': '+ data.answer +'<button class="waves-effect btn-flat correctbutton'+' '+  data.teamname +'" onclick="answerCheck(this, true)" disabled>Correct</button><button onclick="answerCheck(this, false)" class="waves-effect btn-flat wrongbutton'+' '+  data.teamname +'" disabled>Wrong</button></div>');
         answers.push(data);
     });
 
     socket.on('endofgame', function () {
-        console.log("de game heeft 12 rondes bereikt");
         $('.modal').openModal();
-        $('.error').html("Maak een nieuwe room aan");
+        $('.error').html("12 rounds have passed, please enter a new room name");
     });
 
 
@@ -168,11 +157,12 @@
         if(bool === true) {
             $(".card#"+ $(element).parent().attr('id') +" #score").html((current + 1)); // punt toekennen in de dom
             $(element).attr('disabled', 'disabled');
-            $('#wrongbutton'+ $(element).parent().attr('id')).attr('disabled', 'disabled'); //disable wrong button zodat de vraag niet meer fout kan worden gekeurd
+            $('.'+$(element).parent().attr('id')).attr('disabled', 'disabled'); //disable wrong button zodat de vraag niet meer fout kan worden gekeurd
+
         }
         else {
             $(element).attr('disabled', 'disabled'); //disable de wrong button
-            $('#correctbutton'+ $(element).parent().attr('id')).attr('disabled', 'disabled'); //disable correct button zodat de vraag niet meer goedgekeurd kan worden
+            $('.'+ $(element).parent().attr('id')).attr('disabled', 'disabled'); //disable correct button zodat de vraag niet meer goedgekeurd kan worden
         }
     }
 
@@ -189,15 +179,14 @@
     }
 
     function stopronde() {
-        console.log("ik wil de ronde stoppen");
         $('.endroundbtn').attr('disabled', 'disabled');   //("disabled");
-
         socket.emit('endround', {roomname: roomname, answers: answers})
         answers = [];
+        $('.correctbutton').removeAttr("disabled");
+        $('.wrongbutton').removeAttr("disabled");
     }
 
     function addTeam(name, id, score) {
-        console.log("name: " + name + " id: " + id);
         if (score === undefined || score === null) {
             score = 0;
         }
@@ -217,12 +206,6 @@
     function teamisRefused(clientID) {
         clientID.trim();
         socket.emit('teamisRefused', {clientID: clientID});
-        console.log("ik heb client met clientID refused: " + clientID);
-    }
-
-    function testfunctie() {
-        socket.emit('testfunctie', "hellooooooditiseenawesometest");
-        console.log("testfunctie");
     }
 
     function closeModal(roompassword) {
@@ -234,6 +217,5 @@
         $("#room-id").html(roompassword);
         socket.emit('joinOrCreate', {roomname: roompassword, funtie: 'create'});
         roomname = roompassword;
-        //console.log(roompassword);
     }
 </script>

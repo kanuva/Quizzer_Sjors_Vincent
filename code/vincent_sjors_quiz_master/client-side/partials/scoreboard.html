@@ -54,11 +54,6 @@
     </div>
 </div>
 
-
-
-
-
-
 <script type="text/javascript">
     var socket = io.connect(document.location.protocol + '//' + document.location.host);
 
@@ -83,7 +78,6 @@
     });
 
     socket.on('JebentAccepted', function (data) {
-        console.log(data);
         $('#team-scores').append('\
             <div class="card" id="'+ data.teamnaam +'">\
                 <div class="card-content">\
@@ -97,8 +91,6 @@
     });
 
     socket.on('scoreboarsShowAnswers', function(data){
-        console.log(data);
-
         data.forEach(function(e,i) {
             $('#given-answers').append('\
                 <div class="card" id="'+ data[i].teamname +'">\
@@ -114,8 +106,6 @@
     });
 
     socket.on('answersHandler', function(data) {
-        console.log(data);
-
         if (data.data.correct === true) {
             var points = 1;
         } else {

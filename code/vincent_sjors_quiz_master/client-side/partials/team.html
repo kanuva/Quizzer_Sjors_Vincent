@@ -40,15 +40,12 @@
     var socket = io.connect(document.location.protocol + '//' + document.location.host);
 
     function closeModal(roompassword, teamname) {
-        console.log("Teamnaam die geenterd is: " + teamname);
         joinRoom(roompassword, teamname);
-        //meldAanwezigheid(teamname, roompassword);
         $('.modal').closeModal();
     }
 
     function joinRoom(roompassword, teamname) {
         socket.emit('join', {Teamname: teamname, Roomname: roompassword});
-        console.log(roompassword);
     }
 
     function enterKey() {
@@ -58,7 +55,6 @@
     }
 
     $("input#answer").keyup(function () {
-        console.log($(this).val());
         if (event.keyCode == 13) {
             socket.emit('sendGivenAnswer', {answer: $(this).val(), MyID: MyID});
             $(this).val("");
@@ -75,12 +71,7 @@
     });
 
     socket.on('refuse', function (data) {
-        console.log("data:");
-        console.log(data);
-        console.log("data.socketid: "+ data.clientID);
-        console.log("MyID:          "+ MyID);
         if (data.clientID.trim() === MyID.trim()) {
-            console.log("ik ben disconnected wss omdat het wachtwoord verkeerd is of omdat ik gedeclined ben");
             setTimeout(function () {
                 // displayError();
                 $('.modal').openModal();
@@ -91,35 +82,23 @@
     });
 
     socket.on('JebentAccepted', function (data) {
-        console.log("mag ik joinen?");
-        console.log("data clientID is: " + data.clientID);
-        console.log("mijn var ID is:   " + MyID);
         if (!Immemberofaroom && data.clientID.trim() === MyID.trim()) {
             Immemberofaroom = true;
             socket.emit('joinOrCreate', {roomname: data.roomname, functie: "join"});
-            console.log("ik ben accepted! yay voor room: " + data.roomname);
         }
     });
 
     socket.on('yourID', function (data) {
-        console.log("mijn id is: " + data.socketID);
         MyID = data.socketID;
     });
 
-
-    socket.on('testttt', function () {
-        console.log("ik heb zojuist een testfunctie binnengekregen");
-    });
-
     socket.on('questionPull', function (data) {
-        console.log(data);
         $('.title-box h1').html(data.question);
 
         $('#answer').removeAttr('disabled');
     });
 
     socket.on('endofgame', function() {
-        console.log("de game heeft 12 rondes bereikt");
         $('.modal').openModal();
         $('.error').html("The game has ended, you can now join a new game");
     });
@@ -128,15 +107,5 @@
         $('#answer').val("");
         $('#answer').attr("disabled", "disabled");
     });
-
-    //    function displayError() {
-    //        if (document.getElementById("modal")) {
-    //            var divvv = document.getElementById("modal");
-    //            var addd = document.createElement("h3");
-    //            var value = document.createTextNode("Het ingevulde wachtwoord is vekeerd");
-    //            divvv.appendChild(value);
-    //            addd.appendChild(divvv);
-    //        }
-    //    }
 
 </script>
