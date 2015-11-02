@@ -193,6 +193,7 @@
         $('.endroundbtn').attr('disabled', 'disabled');   //("disabled");
 
         socket.emit('endround', {roomname: roomname, answers: answers})
+        answers = [];
     }
 
     function addTeam(name, id, score) {
