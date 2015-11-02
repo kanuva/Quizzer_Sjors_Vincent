@@ -166,7 +166,7 @@ quizzer.get('/questions', function (request, res) {
     db.once('open', function (callback) {
         QuizQuestions.find(function (err, data) {
             if (err) return console.log(err);
-            res.send(JSON.stringify(data));
+            res.json(data);
             mongoose.connection.close();
         });
     });
@@ -176,3 +176,8 @@ quizzer.get('/questions', function (request, res) {
 http.listen(3000, function () {
     console.log('EXPRESS SERVER IS RUNNING');
 });
+
+
+
+
+module.exports = quizzer;
