@@ -164,6 +164,11 @@
     function answerCheck(element, bool) {
         var teamname = $(element).parent().attr('id');
         socket.emit('answerCheck', {roomname: roomname, teamname: teamname, correct: bool});
+
+        if(bool === true) {
+            var current = parseInt($(".card#"+teamname+" #score").html());
+            $(".card#"+teamname+" #score").html((current + 1));
+        }
     }
 
 
@@ -190,7 +195,7 @@
         if (score === undefined || score === null) {
             score = 0;
         }
-        $(".content-box .row .col.s3.scores").append("<div class='row'><div class='col s6'><p> " + name + "</p></div><div class='col s6'><p>" + score + "</p></div></div>");
+        $(".content-box .row .col.s3.scores").append("<div id='"+ name +"' class='card'><div class='card-content'><p> " + name + "</p></div><div class='card-action'><a>Score: <span id='score'>" + score + "</span></a></div></div>");
         socket.emit('teamisAccepted', {roomname: roomname, teamID: id, teamnaam: name});
     }
 
