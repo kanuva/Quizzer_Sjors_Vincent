@@ -160,5 +160,4 @@ http.listen(3000, function () {
 
 
 
-
-module.exports = quizzer;
+module.exports =  {model: mongoose.model('Question', Questions), quizzer: quizzer};

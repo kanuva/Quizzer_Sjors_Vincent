@@ -1,4 +1,4 @@
-quizzer = require('./../app');
+quizzer = require('./../app').quizzer;
 request = require('supertest');
 
 describe("getAllQuestions", function() {
