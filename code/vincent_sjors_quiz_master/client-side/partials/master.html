@@ -149,7 +149,7 @@
 
     socket.on('sendAnswer', function (data) {
         console.log("ik heb zojuist een antwoord binnen gekregen: ");
-        $("#answers-holder").append('<div id="'+data.teamname+'">' + data.teamname + ': '+ data.answer +'<button class="waves-effect btn-flat" onclick="answerCheck(this, true)">Correct</button><button onclick="answerCheck(this, false)" class="waves-effect btn-flat">Wrong</button></div>');
+        $("#answers-holder").append('<div id="'+data.teamname+'">' + data.teamname + ': '+ data.answer +'<button class="waves-effect btn-flat" id="correctbutton'+ data.teamname +'" onclick="answerCheck(this, true)">Correct</button><button id="wrongbutton'+ data.teamname +'" onclick="answerCheck(this, false)" class="waves-effect btn-flat" disabled>Wrong</button></div>');
         console.log(data);
         answers.push(data);
     });
@@ -164,10 +164,20 @@
     function answerCheck(element, bool) {
         var teamname = $(element).parent().attr('id');
         socket.emit('answerCheck', {roomname: roomname, teamname: teamname, correct: bool});
-
+        var current = parseInt($(".card#"+$(element).parent().attr('id')+" #score").html());
         if(bool === true) {
-            var current = parseInt($(".card#"+teamname+" #score").html());
-            $(".card#"+teamname+" #score").html((current + 1));
+            $(".card#"+ $(element).parent().attr('id') +" #score").html((current + 1));
+            $(element).attr('disabled', 'disabled');
+            $('#wrongbutton'+ $(element).parent().attr('id')).removeAttr("disabled");
+            console.log("correctbutton"+$(element).parent().attr('id'));
+        }
+        else {
+            if ($('#correctbutton' + $(element).parent().attr('id')).prop("disabled")) { //controlleer if de correct button is disabled
+                $(".card#"+ $(element).parent().attr('id') +" #score").html((current - 1));
+                $(element).attr('disabled', 'disabled'); //disable de wrong button
+                $('#correctbutton'+ $(element).parent().attr('id')).removeAttr("disabled");
+                console.log("wrongbutton"+$(element).parent().attr('id'));
+            }
         }
     }
 

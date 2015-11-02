@@ -68,6 +68,7 @@ quizzerApp.controller("quizzerController", function ($scope, $http, socket) {
             socket.emit('ScoreboardNewRound', {roomID : roomid, question: question.question});
             $('.endroundbtn').removeAttr("disabled");
             $('.' +question._id).hide();
+            $('#answers-holder').empty();
         }
     };
 
