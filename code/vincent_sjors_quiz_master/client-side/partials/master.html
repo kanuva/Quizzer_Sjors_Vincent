@@ -149,7 +149,7 @@
 
     socket.on('sendAnswer', function (data) {
         console.log("ik heb zojuist een antwoord binnen gekregen: ");
-        $("#answers-holder").append('<div id="'+data.teamname+'">' + data.teamname + ': '+ data.answer +'<button class="waves-effect btn-flat" id="correctbutton'+ data.teamname +'" onclick="answerCheck(this, true)">Correct</button><button id="wrongbutton'+ data.teamname +'" onclick="answerCheck(this, false)" class="waves-effect btn-flat" disabled>Wrong</button></div>');
+        $("#answers-holder").append('<div id="'+data.teamname+'">' + data.teamname + ': '+ data.answer +'<button class="waves-effect btn-flat" id="correctbutton'+ data.teamname +'" onclick="answerCheck(this, true)">Correct</button><button id="wrongbutton'+ data.teamname +'" onclick="answerCheck(this, false)" class="waves-effect btn-flat">Wrong</button></div>');
         console.log(data);
         answers.push(data);
     });
@@ -166,18 +166,13 @@
         socket.emit('answerCheck', {roomname: roomname, teamname: teamname, correct: bool});
         var current = parseInt($(".card#"+$(element).parent().attr('id')+" #score").html());
         if(bool === true) {
-            $(".card#"+ $(element).parent().attr('id') +" #score").html((current + 1));
+            $(".card#"+ $(element).parent().attr('id') +" #score").html((current + 1)); // punt toekennen in de dom
             $(element).attr('disabled', 'disabled');
-            $('#wrongbutton'+ $(element).parent().attr('id')).removeAttr("disabled");
-            console.log("correctbutton"+$(element).parent().attr('id'));
+            $('#wrongbutton'+ $(element).parent().attr('id')).attr('disabled', 'disabled'); //disable wrong button zodat de vraag niet meer fout kan worden gekeurd
         }
         else {
-            if ($('#correctbutton' + $(element).parent().attr('id')).prop("disabled")) { //controlleer if de correct button is disabled
-                $(".card#"+ $(element).parent().attr('id') +" #score").html((current - 1));
-                $(element).attr('disabled', 'disabled'); //disable de wrong button
-                $('#correctbutton'+ $(element).parent().attr('id')).removeAttr("disabled");
-                console.log("wrongbutton"+$(element).parent().attr('id'));
-            }
+            $(element).attr('disabled', 'disabled'); //disable de wrong button
+            $('#correctbutton'+ $(element).parent().attr('id')).attr('disabled', 'disabled'); //disable correct button zodat de vraag niet meer goedgekeurd kan worden
         }
     }
 
