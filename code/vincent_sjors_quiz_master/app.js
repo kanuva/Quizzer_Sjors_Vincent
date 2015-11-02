@@ -33,6 +33,10 @@ io.sockets.on('connection', function (socket) {
         io.to(socket.id).emit('ScoreboardInit', {accepted: result});
     });
 
+    socket.on('ScoreboardNewRound', function(data) {
+       io.to(data.roomID).emit('clearAnswersAndSetQuestion', data);
+    });
+
     socket.on('joinOrCreate', function (data) {
         if (data.funtie === "create") {
             if (!in_array(data.roomname, rooms)) {
@@ -53,9 +57,8 @@ io.sockets.on('connection', function (socket) {
         console.log("ik stuur een ID naar een client: " + socket.id);
         io.to(socket.id).emit('yourID', {socketID: socket.id});
         if (in_array(data.Roomname, rooms) && rooms[rooms.indexOf(data.Roomname) + 2] == false) { //kijk of de room bestaat en of deze nog niet gestart is
-            data.teamID = socket.id;
-            data.score = 0;
-            clients.push(data);
+
+
             io.to(data.Roomname).emit('nieuweclient', {
                 Teamname: data.Teamname,
                 Roomname: data.Roomname,
@@ -69,8 +72,16 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('teamisAccepted', function (data) {
-        clients.push(data);
-        io.emit('JebentAccepted', {roomname: data.roomname, clientID: data.teamID});
+        console.log(data);
+        var client = {
+            teamID : data.teamID,
+            score: 0,
+            roomname: data.roomname,
+            teamnaam: data.teamnaam
+        };
+        clients.push(client);
+
+        io.emit('JebentAccepted', {roomname: data.roomname, clientID: data.teamID, teamnaam: data.teamnaam});
     });
 
     socket.on('endround', function (data) {
@@ -81,6 +92,7 @@ io.sockets.on('connection', function (socket) {
             socket.leave(data.roomname);
         } else {
             io.to(data.roomname).emit('endofround');
+            io.to(data.roomname).emit('scoreboarsShowAnswers', data.answers);
         }
     });
 
@@ -106,10 +118,28 @@ io.sockets.on('connection', function (socket) {
     socket.on('sendGivenAnswer', function (data) {
         for (var i = 0; i < clients.length; i++) {
             var teamID = clients[i].teamID.replace(/\s+$/, '');
-            if (data.MyID == teamID) {
+            if (data.MyID === teamID) {
                 io.to(clients[i].roomname).emit('sendAnswer', {answer: data.answer, teamname: clients[i].teamnaam});
             }
         }
+        console.log(clients);
+    });
+
+    socket.on('answerCheck', function(data){
+        console.log(data);
+        for(var i=0; i < clients.length; i++) {
+            //console.log(clients[i]);
+            if(clients[i].teamnaam == data.teamname) {
+                if(data.correct) {
+                    clients[i].score = (clients[i].score + 1);
+                }
+                var client = clients[i];
+                console.log('if functie')
+            }
+        }
+
+        //console.log(client);
+        io.to(data.roomname).emit('answersHandler', {data: data, client: client});
     });
 });
 

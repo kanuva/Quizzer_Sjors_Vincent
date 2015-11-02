@@ -65,6 +65,7 @@ quizzerApp.controller("quizzerController", function ($scope, $http, socket) {
             $scope.masterQuestion = question.question;
             $scope.masterAnswer = question.answer;
             socket.emit('pushQuestion', {question: question.question, roomID: roomid});
+            socket.emit('ScoreboardNewRound', {roomID : roomid, question: question.question});
             $('.endroundbtn').removeAttr("disabled");
             $('.' +question._id).hide();
         }
@@ -80,9 +81,9 @@ quizzerApp.controller("quizzerController", function ($scope, $http, socket) {
     }
 
 
-    //socket.on('questionPull', function(data) {
-    //    console.log('received some data...');
-    //});
+    socket.on('questionPull', function(data) {
+        console.log('received some data...');
+    });
 
 
 });

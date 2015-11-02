@@ -14,32 +14,23 @@
                         </div>
                     </div>
 
-                    <div id="team-scores" class="col s6">
-                        <div class="card">
-                            <div class="card-content">
-                                Sjors
-                            </div>
+                    <div class="col s12">
+                        <div class="title-box">
+                            <h4 id="question">Er is op dit moment nog geen vraag geselecteerd</h4>
                         </div>
+                    </div>
 
-                        <div class="card">
-                            <div class="card-content">
-                                Vincent
-                            </div>
+                    <div id="team-scores" class="col s6">
+                        <div class="title-box">
+                            <h4>Teams:</h4>
                         </div>
                     </div>
 
                     <div id="given-answers" class="col s6">
-                        <div class="card">
-                            <div class="card-content">
-                                Antwoord
-                            </div>
+                        <div class="title-box">
+                            <h4>Answers:</h4>
                         </div>
 
-                        <div class="card">
-                            <div class="card-content">
-                                Antwoord
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -89,5 +80,54 @@
         else {
             $('.error').html("Room bestaat niet.");
         }
+    });
+
+    socket.on('JebentAccepted', function (data) {
+        console.log(data);
+        $('#team-scores').append('\
+            <div class="card" id="'+ data.teamnaam +'">\
+                <div class="card-content">\
+                   '+ data.teamnaam +'\
+                </div>\
+                <div class="card-action">\
+                    <a>Score: <span id="score"></span></a>\
+                </div>\
+            </div>\
+        ');
+    });
+
+    socket.on('scoreboarsShowAnswers', function(data){
+        console.log(data);
+
+        data.forEach(function(e,i) {
+            $('#given-answers').append('\
+                <div class="card" id="'+ data[i].teamname +'">\
+                    <div class="card-content">\
+                           '+ data[i].teamname +': '+ data[i].answer +'\
+                    </div>\
+                    <div class="card-action">\
+                        <a>Given points: <span id="score"></span></a>\
+                    </div>\
+                </div>\
+            ');
+        });
+    });
+
+    socket.on('answersHandler', function(data) {
+        console.log(data);
+
+        if (data.data.correct === true) {
+            var points = 1;
+        } else {
+            var points = 0;
+        }
+
+        $('#given-answers .card#'+ data.client.teamnaam +' .card-action #score').html(points);
+        $('#team-scores .card#'+ data.client.teamnaam +' .card-action #score').html(data.client.score);
+    });
+
+    socket.on('clearAnswersAndSetQuestion', function(data) {
+        $('#given-answers').html('<div class="title-box"><h4>Answers:</h4></div>');
+        $('#question').html(data.question)
     });
 </script>
