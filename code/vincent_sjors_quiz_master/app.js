@@ -6,21 +6,14 @@ var quizzer = express();
 var http = require('http').createServer(quizzer);
 var io = socketio.listen(http);
 
+
+// vars for saving data
 var rooms = [];
 var clients = [];
 
-var db = mongoose.connection;
 
-var Questions = mongoose.Schema({
-    question: String,
-    answer: String,
-    category: String
-}, {collection: 'questions'});
-
-var QuizQuestions = mongoose.model('QuizQuestions', Questions);
-
+//SOCKETS.IO
 io.sockets.on('connection', function (socket) {
-
 
     socket.on('addScoreboard', function (data) {
         var result = false;
@@ -32,7 +25,7 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('ScoreboardNewRound', function(data) {
-       io.to(data.roomID).emit('clearAnswersAndSetQuestion', data);
+        io.to(data.roomID).emit('clearAnswersAndSetQuestion', data);
     });
 
     socket.on('joinOrCreate', function (data) {
@@ -49,6 +42,7 @@ io.sockets.on('connection', function (socket) {
             socket.join(data.roomname);
         }
     });
+
     socket.on('join', function (data) {
         io.to(socket.id).emit('yourID', {socketID: socket.id});
         if (in_array(data.Roomname, rooms) && rooms[rooms.indexOf(data.Roomname) + 2] == false) { //kijk of de room bestaat en of deze nog niet gestart is
@@ -100,7 +94,6 @@ io.sockets.on('connection', function (socket) {
         io.to(data.roomID).emit('questionPull', data);
     });
 
-
     socket.on('sendGivenAnswer', function (data) {
         for (var i = 0; i < clients.length; i++) {
             var teamID = clients[i].teamID.replace(/\s+$/, '');
@@ -123,7 +116,18 @@ io.sockets.on('connection', function (socket) {
         io.to(data.roomname).emit('answersHandler', {data: data, client: client});
     });
 });
+//END SOCKET.IO
 
+var db = mongoose.connection;
+
+var Questions = mongoose.Schema({
+    question: String,
+    answer: String,
+    category: String
+}, {collection: 'questions'});
+
+//Send questions
+var QuizQuestions = mongoose.model('QuizQuestions', Questions);
 function in_array(needle, haystack) {
     if (haystack.indexOf) return haystack.indexOf(needle) > -1;
     for (var i = 0; i < haystack.length; i++) {
@@ -134,13 +138,14 @@ function in_array(needle, haystack) {
     return false;
 }
 
+
 //Express
 quizzer.use(express.static(path.join(__dirname, 'client-side')));
-
-//Send questions
 quizzer.get('/questions', function (request, res) {
 
+
     mongoose.connect('mongodb://localhost/QuizDB');
+
 
     db.on('error', console.error.bind(console, 'connection error:'));
 
@@ -161,4 +166,4 @@ http.listen(3000, function () {
 
 
 
-module.exports = quizzer;
+module.exports = {quizzer: quizzer, http: http};
