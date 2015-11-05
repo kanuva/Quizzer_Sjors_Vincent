@@ -79,4 +79,5 @@ quizzerApp.controller("quizzerController", function ($scope, $http, socket) {
                 $scope.getQuestions = response;
             });
     }
+
 });
