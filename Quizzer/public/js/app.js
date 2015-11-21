@@ -50,7 +50,7 @@ app.controller('quizMainController', function($scope) {
 
 
 app.controller('master-controller', function($scope, $location, $http) {
-    //category validation vars
+    // Category validation vars
     $scope.checked = 0;
     $scope.limit = 3;
 
@@ -75,6 +75,11 @@ app.controller('master-controller', function($scope, $location, $http) {
     $scope.teams = [];
 
 
+/*
+========================================================================================================================
+
+========================================================================================================================
+ */
     $scope.sendRoomName = function() {
         socket.emit('Master_sendRoomName', { roomName:  $scope.roomName });
     };
@@ -85,7 +90,7 @@ app.controller('master-controller', function($scope, $location, $http) {
 
     $scope.requestJoinRoom = function() {
         console.log({ roomName:  $scope.roomName });
-        socket.emit('Team_requestJoinRoom', { roomName:  $scope.roomName, teamName: $scope.teamName });
+        socket.emit('Team_requestJoinRoom', { roomName:  $scope.roomName });
     };
 
 /*
@@ -98,15 +103,16 @@ app.controller('master-controller', function($scope, $location, $http) {
      */
     socket.on('Master_roomSuccessfullyCreated', function() {
         $location.path('master-select-team');
-        swal("Room created", "The room is successfully created", "success");
+        //swal("Room created", "The room is successfully created", "success");
     });
 
     socket.on('Master_roomAlreadyExists', function() {
         swal("Please try again!", "The room does already exists", "error");
     });
 
-    socket.on('Master_getIncomingTeam', function() {
-        swal("A client wants to join, may he?", "warning")
+    socket.on('Master_getIncomingTeam', function(data) {
+        swal("A client wants to join\, may he?", "warning");
+        console.log(data);
     });
 
     /**
@@ -121,5 +127,7 @@ app.controller('master-controller', function($scope, $location, $http) {
         $location.path('team-join-room');
         swal("Please try again!", "This team does already exists", "error");
     });
+
+    socket.on('Team_Accepted')
 
 });

@@ -10,10 +10,19 @@ var server      = require('http').Server(app);
 var io      = require('socket.io')(server);
 
 var teamNames = [];
+/**
+ * Properties in teamNames
+ * ---------------------------------------------------------------------------------------------------------------------
+ * teamName: data.teamName      (the team name)
+ * clientID: socket.id          (the id of the team)
+ *
+ * @type {Array}
+ */
+
 var gameData = [];
 /**
  * Properties in gameData
- * ------------------------
+ * ---------------------------------------------------------------------------------------------------------------------
  * roomName: data.roomName,     (the room password)
  * quizMaster: socket.id,       (the id of the master)
  * questionNumber: 0,           (the amount of questions that are passed, default 1)
@@ -21,6 +30,8 @@ var gameData = [];
  * questions: [],               (will be a array, question that are ask)
  * teams: [],                   (will be a array)
  * started: false               (default when initializing)
+ *
+ * @type {Array}
  */
 
 /*
@@ -81,6 +92,10 @@ io.on('connection', function (socket) {
     console.log('connected');
 
     /**
+     * MASTER
+     */
+
+    /*
      * Receiving roomName & Check if roomName doesn't exists
      */
     socket.on('Master_sendRoomName', function(data) {
@@ -107,9 +122,14 @@ io.on('connection', function (socket) {
         }
     });
 
+
     /**
-     * Receiving teamName & Check if TeamName doesn't exists
+     * TEAM
      */
+
+    /*------------------------------------------------------------------------------------------------------------------
+     * Receiving teamName & Check if TeamName doesn't exists
+     -----------------------------------------------------------------------------------------------------------------*/
     socket.on('Team_sendTeamName', function(data) {
         var checkIfExists = false;
         teamNames.forEach(function(element, index) {
@@ -138,9 +158,10 @@ io.on('connection', function (socket) {
 
         gameData.forEach(function(element, index) {
             if(gameData[index].teamName === data.teamName) {
-                teams.forEach(function(element, index) {
-                    if(teams[index].clientID === socket.id) {
-                        socket.emit('')
+                teamNames.forEach(function(element, count) {
+                    if(teamNames[count].clientID === socket.id) {
+                        socket.to(gameData[index].quizMaster).emit('Master_getIncomingTeam', data);
+                        console.log('pushed');
                     }
                 });
             }
