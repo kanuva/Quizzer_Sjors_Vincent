@@ -111,7 +111,12 @@ app.controller('master-controller', function($scope, $location, $http) {
     });
 
     socket.on('Master_getIncomingTeam', function(data) {
-        swal("A client wants to join\, may he?", "warning");
+        swal({
+            type: "warning",
+            title: "A team wants to join, may he?",
+            description: "sure :)",
+            showConfirmButton: "Sure"
+        });
         console.log(data);
     });
 
