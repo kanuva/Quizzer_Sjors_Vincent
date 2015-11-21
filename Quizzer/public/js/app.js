@@ -50,7 +50,7 @@ app.controller('quizMainController', function($scope) {
 });
 
 
-app.controller('master-controller', function($scope, $location, $http) {
+app.controller('master-controller', function($scope, $rootScope, $location, $http) {
     // Category validation vars
     $scope.checked = 0;
     $scope.limit = 3;
@@ -105,7 +105,9 @@ app.controller('master-controller', function($scope, $location, $http) {
     --------------------------------------------------------------------------------------------------------------------
      */
     socket.on('Master_roomSuccessfullyCreated', function() {
-        $location.path('master/accept-teams');
+        $rootScope.$apply(function() {
+            $location.path('master/accept-teams');
+        });
         //swal("Room created", "The room is successfully created", "success");
     });
 
