@@ -14,13 +14,13 @@ var gameData = [];
 /**
  * Properties in gameData
  * ------------------------
- * roomName: data.roomName,
- * quizMaster: socket.id,
- * questionNumber: 0,
- * roundNumber: 1,
- * questions: [],
- * teams: [],
- * started: false
+ * roomName: data.roomName,     (the room password)
+ * quizMaster: socket.id,       (the id of the master)
+ * questionNumber: 0,           (the amount of questions that are passed, default 1)
+ * roundNumber: 1,              (the amount of rounds that are passed, default: 1)
+ * questions: [],               (will be a array, question that are ask)
+ * teams: [],                   (will be a array)
+ * started: false               (default when initializing)
  */
 
 /*
