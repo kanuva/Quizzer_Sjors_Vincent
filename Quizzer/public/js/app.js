@@ -129,7 +129,6 @@ app.controller('master-controller', function($scope, $location, $http) {
     });
 
     socket.on('Team_teamAlreadyExists', function() {
-        $location.path('team-join-room');
         swal("Please try again!", "This team does already exists", "error");
     });
 
