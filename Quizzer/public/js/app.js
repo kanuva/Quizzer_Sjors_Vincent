@@ -30,10 +30,10 @@ app.config(function($routeProvider) {
         .when('/master/create-roompassword', {
             templateUrl: '/partials/master/create-roompassword.html'
         })
-        .when('/master/accept-teams', {
+        .when('/master/:roomPassword/accept-teams', {
             templateUrl: '/partials/master/accept-teams.html'
         })
-        .when('/master/dashboard', {
+        .when('/master/:roomPassword/dashboard', {
             templateUrl: '/partials/master/dashboard.html'
         })
 
@@ -46,11 +46,11 @@ app.config(function($routeProvider) {
 
 
 app.controller('quizMainController', function($scope) {
-    $scope.roomPassword, $scope.teamName;
+
 });
 
 
-app.controller('master-controller', function($scope, $rootScope, $location, $http) {
+app.controller('master-controller', function($scope, $rootScope, $location, $http, $routeParams) {
     // Category validation vars
     $scope.checked = 0;
     $scope.limit = 3;
@@ -75,10 +75,9 @@ app.controller('master-controller', function($scope, $rootScope, $location, $htt
 
     $scope.teams = [];
 
-
 /*
 ========================================================================================================================
-
+    ACTIONS
 ========================================================================================================================
  */
     $scope.sendRoomPassword = function() {
@@ -101,14 +100,32 @@ app.controller('master-controller', function($scope, $rootScope, $location, $htt
 */
     /*
     --------------------------------------------------------------------------------------------------------------------
-     MASTER
+        GENERAL
     --------------------------------------------------------------------------------------------------------------------
-     */
-    socket.on('Master_roomSuccessfullyCreated', function() {
+    */
+
+    socket.on('serverReboot', function() {
         $rootScope.$apply(function() {
-            $location.path('master/accept-teams');
+            $location.path('/');
+            swal({
+                type: "info",
+                title: "Server Reboot",
+                description: "Our apologies",
+                timer: 1
+            });
         });
-        //swal("Room created", "The room is successfully created", "success");
+
+    });
+
+    /*
+    --------------------------------------------------------------------------------------------------------------------
+        MASTER
+    --------------------------------------------------------------------------------------------------------------------
+    */
+    socket.on('Master_roomSuccessfullyCreated', function(data) {
+        $rootScope.$apply(function() {
+            $location.path('master/'+ data.roomPassword +'/accept-teams');
+        });
     });
 
     socket.on('Master_roomAlreadyExists', function() {
@@ -132,7 +149,9 @@ app.controller('master-controller', function($scope, $rootScope, $location, $htt
      --------------------------------------------------------------------------------------------------------------------
      */
     socket.on('Team_teamSuccessfullyCreated', function() {
-        $location.path('team/enter-roompassword');
+        $rootScope.$apply(function() {
+            $location.path('team/enter-roompassword');
+        });
         swal("Team created", "Your team is successfully created, you may now enter the room password", "success");
     });
 
