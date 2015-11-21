@@ -1,0 +1,311 @@
+/*
+========================================================================================================================
+    CSS RESET
+========================================================================================================================
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+
+/*
+========================================================================================================================
+    General
+========================================================================================================================
+*/
+body {
+    background: #444;
+    font-family: Roboto, Helvetica, sans-serif;
+    font-size: 14pt;
+}
+
+/*
+------------------------------------------------------------------------------------------------------------------------
+    CONTAINER
+------------------------------------------------------------------------------------------------------------------------
+*/
+
+.fa {
+    font-size: 20pt;
+    position: relative;
+    top: 2px;
+}
+
+/*
+------------------------------------------------------------------------------------------------------------------------
+    CONTAINER
+------------------------------------------------------------------------------------------------------------------------
+*/
+.content-holder {
+    min-height: 100vh;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+
+/*
+------------------------------------------------------------------------------------------------------------------------
+    MAIN-MENU
+------------------------------------------------------------------------------------------------------------------------
+*/
+.content-holder .main-menu {
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    width: 900px;
+    min-height: 100px;
+    transform: translateX(-50%);
+}
+.content-holder .main-menu .menu-item {
+    margin-bottom: 5px;
+}
+.content-holder .main-menu .menu-item a {
+    padding: 20px;
+    width: calc(100% - 40px);
+    background: #07122C;
+    color: #fff;
+    font-size: 14pt;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+}
+
+/*
+------------------------------------------------------------------------------------------------------------------------
+    MASTER
+------------------------------------------------------------------------------------------------------------------------
+*/
+.form-holder {
+    padding: 5px;
+    position: fixed;
+    z-index: 9999;
+    bottom: 0px;
+}
+.form-holder input#roomname,
+.form-holder input#teamname {
+    padding: 10px 40px 10px 10px;
+    height: 40px;
+    width: calc(100% - 52px);
+    display: inline-block;
+    border: 1px solid #07122c;
+    border-radius: 0;
+}
+.form-holder input#roomname:focus,
+.form-holder input#teamname:focus  {
+    box-shadow: 0; outline: 0;
+}
+.form-holder button.submit {
+    padding: 22px 10px 22px 10px;
+    width: 100%;
+    background: #07122c;
+    border: 1px solid #07122c;
+    border-radius: 0;
+    color: #fff;
+    font-weight: 600;
+    font-size: 14pt;
+}
+
+/*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Master accept clients
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
+
+.loading-screen {
+    width: 100%;
+    display: block;
+}
+.loading-img {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top: 78%;
+
+    width: 15% !important;
+}
+
+
+/*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Master overview
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
+h1.page-header {
+    font-size: 18pt;
+    border-bottom: 1px solid #07122c;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.team-holder, .answer-holder{
+    float: left;
+    display: inline-block;
+    width: 50%;
+    min-height: 50px;
+    background: #ccc;
+}
+.team, .answer-holder .answer {
+    margin: 10px;
+    background: #fff;
+    padding: 10px;
+    background: #07122c;
+    color: #ffffff;
+}
+.team .team-header {
+    font-size: 14pt;
+    font-weight: 600;
+    padding: 15px 6px;
+    border-bottom: 1px solid #fff;
+}
+
+.team .team-score-holder {
+    text-transform: uppercase;
+    color: #ffffff;
+    clear:both;
+    padding: 15px 6px 9px 6px;
+}
+.team .team-score-holder .team-score-name {
+    float: left;
+    width: 50%;
+}
+
+/*
+========================================================================================================================
+    Smartphones
+========================================================================================================================
+*/
+@media (min-width:320px) {
+    .content-holder {
+        width: 100%;
+    }
+    .content-holder > img {
+        width: 100%;
+    }
+    .form-holder {
+        width: calc(100% - 10px);
+    } .form-holder input {
+      box-shadow: 0 0 5px 3px #fff;
+  }
+/*
+------------------------------------------------------------------------------------------------------------------------
+    MAIN-MENU
+------------------------------------------------------------------------------------------------------------------------
+*/
+    .content-holder .main-menu {
+        width: calc(100% - 10px);
+    }
+    .content-holder .main-menu .menu-item a {
+        padding: 7.5% 20px 7.5% 20px;
+    }
+}
+
+/*
+========================================================================================================================
+    E-readers / Smaller tablets
+========================================================================================================================
+*/
+@media (min-width:481px) {
+
+}
+
+/*
+========================================================================================================================
+    Portrait Tablets
+========================================================================================================================
+*/
+@media (min-width:641px) {
+
+}
+
+/*
+========================================================================================================================
+    Small landscape tablets, Low resolution laptops
+========================================================================================================================
+*/
+@media (min-width:961px) {
+
+}
+
+/*
+========================================================================================================================
+    Big landscape tablets, laptops and desktops
+========================================================================================================================
+*/
+@media (min-width:1025px) {
+
+}
+
+/*
+========================================================================================================================
+    High resolution laptops / desktops
+========================================================================================================================
+*/
+@media (min-width:1281px) {
+    .content-holder {
+        width: 1000px;
+        margin: 0px auto;
+        overflow: hidden;
+    }
+    .content-holder img {
+        width: 50%;
+        margin: 0px auto;
+        display: block;
+    }
+/*
+------------------------------------------------------------------------------------------------------------------------
+    MAIN-MENU
+------------------------------------------------------------------------------------------------------------------------
+*/
+    .content-holder .main-menu {
+        width: 990px;
+    }
+
+    .content-holder .main-menu .menu-item a {
+        padding: 5% 20px 5% 20px;
+    }
+
+
+    .form-holder {
+        width: 990px;
+    }
+}

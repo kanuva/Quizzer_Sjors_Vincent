@@ -1,0 +1,17 @@
+{
+  "name": "pubQuiz",
+  "version": "0.0.0",
+  "description": "A awesome quizzer web-app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vincent van Rossum & Sjors Kamphuis",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "express": "~4.13.3",
+    "http": "0.0.0",
+    "mongoose": "~4.2.4",
+    "socket.io": "^1.3.7"
+  }
+}

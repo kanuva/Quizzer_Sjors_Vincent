@@ -1,0 +1,11 @@
+<div class="content-holder" ng-controller="master-controller">
+    <!-- Logo -->
+    <img src="/img/pubquiz-logo.png" alt="pubquiz"/>
+
+    <!-- Form for creating the team-name -->
+    <form class="form-holder" autocomplete="off">
+        <input type="text" id="roomname" ng-model="roomName" autocomplete="off"
+               placeholder="Please enter your room password" autofocus required/>
+        <button class="submit" ng-click="requestJoinRoom()"> NEXT <i class="fa fa-angle-right"></i> </button>
+    </form>
+</div>
