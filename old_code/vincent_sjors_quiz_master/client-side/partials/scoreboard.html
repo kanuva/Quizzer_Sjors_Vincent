@@ -1,0 +1,123 @@
+<div class="flex-wrapper-master">
+    <div class="flex-container z-depth-2">
+        <div class="row">
+            <div class="col s12">
+                <div class="title-box">
+                    <h1> Scoreboard </h1>
+                </div>
+
+                <div class="content-box row">
+
+                    <div class="col s12">
+                        <div class="title-box">
+                            <h6> Round: 0 </h6>
+                        </div>
+                    </div>
+
+                    <div class="col s12">
+                        <div class="title-box">
+                            <h4 id="question">Er is op dit moment nog geen vraag geselecteerd</h4>
+                        </div>
+                    </div>
+
+                    <div id="team-scores" class="col s6">
+                        <div class="title-box">
+                            <h4>Teams:</h4>
+                        </div>
+                    </div>
+
+                    <div id="given-answers" class="col s6">
+                        <div class="title-box">
+                            <h4>Answers:</h4>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal">
+    <div id="modal" class="modal-content">
+        <h4>Type in password to join a room</h4>
+        <p class="error"></p>
+        <form>
+            <label for="roompassword"></label>
+            <input id="roompassword" type="text" name="password" placeholder="Enter room password..."/>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" onclick="closeModal($('#roompassword').val())"
+                class="waves-effect btn-flat">agree
+        </button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var socket = io.connect(document.location.protocol + '//' + document.location.host);
+
+    $(document).ready(function() {
+        $('.modal').openModal({
+            dismissible: false
+        });
+    });
+
+    function closeModal(data) {
+        socket.emit('addScoreboard', data);
+    }
+
+    socket.on('ScoreboardInit', function(accepted) {
+        if(accepted.accepted === true) {
+            $('.error').html("");
+            $('.modal').closeModal();
+        }
+        else {
+            $('.error').html("Room bestaat niet.");
+        }
+    });
+
+    socket.on('JebentAccepted', function (data) {
+        $('#team-scores').append('\
+            <div class="card" id="'+ data.teamnaam +'">\
+                <div class="card-content">\
+                   '+ data.teamnaam +'\
+                </div>\
+                <div class="card-action">\
+                    <a>Score: <span id="score"></span></a>\
+                </div>\
+            </div>\
+        ');
+    });
+
+    socket.on('scoreboarsShowAnswers', function(data){
+        data.forEach(function(e,i) {
+            $('#given-answers').append('\
+                <div class="card" id="'+ data[i].teamname +'">\
+                    <div class="card-content">\
+                           '+ data[i].teamname +': '+ data[i].answer +'\
+                    </div>\
+                    <div class="card-action">\
+                        <a>Given points: <span id="score"></span></a>\
+                    </div>\
+                </div>\
+            ');
+        });
+    });
+
+    socket.on('answersHandler', function(data) {
+        if (data.data.correct === true) {
+            var points = 1;
+        } else {
+            var points = 0;
+        }
+
+        $('#given-answers .card#'+ data.client.teamnaam +' .card-action #score').html(points);
+        $('#team-scores .card#'+ data.client.teamnaam +' .card-action #score').html(data.client.score);
+    });
+
+    socket.on('clearAnswersAndSetQuestion', function(data) {
+        $('#given-answers').html('<div class="title-box"><h4>Answers:</h4></div>');
+        $('#question').html(data.question)
+    });
+</script>
