@@ -23,13 +23,14 @@ var gameData = [];
 /**
  * Properties in gameData
  * ---------------------------------------------------------------------------------------------------------------------
- * roomPassword: data.roomPassword,     (the room password)
- * quizMaster: socket.id,               (the id of the master)
- * questionNumber: 0,                   (the amount of questions that are passed, default 1)
- * roundNumber: 1,                      (the amount of rounds that are passed, default: 1)
- * questions: [],                       (will be a array, question that are ask)
- * teams: [],                           (will be a array)
- * started: false                       (default when initializing)
+ * roomPassword: data.roomPassword,                 (the room password)
+ * quizMaster: socket.id,                           (the id of the master)
+ * scoreBoard: socket.id of the scoreboard window)  (the id of the scoreboard)
+ * questionNumber: 0,                               (the amount of questions that are passed, default 1)
+ * roundNumber: 1,                                  (the amount of rounds that are passed, default: 1)
+ * questions: [],                                   (will be a array, question that are ask)
+ * teams: [],                                       (will be a array)
+ * started: false                                   (default when initializing)
  *
  * @type {Array}
  */
@@ -117,6 +118,7 @@ io.on('connection', function (socket) {
             gameData.push({
                 roomPassword: data.roomPassword,
                 quizMaster: socket.id,
+                scoreBoard: null,
                 questionNumber: 0,
                 roundNumber: 1,
                 questions: [],
