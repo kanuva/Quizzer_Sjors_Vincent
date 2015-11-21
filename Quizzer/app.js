@@ -7,14 +7,14 @@ var mongoose    = require('mongoose');
 var express     = require('express');
 var app         = express();
 var server      = require('http').Server(app);
-var io      = require('socket.io')(server);
+var io          = require('socket.io')(server);
 
 var teamNames = [];
 /**
  * Properties in teamNames
  * ---------------------------------------------------------------------------------------------------------------------
- * teamName: data.teamName      (the team name)
- * clientID: socket.id          (the id of the team)
+ * teamName: data.teamName              (the team name)
+ * clientID: socket.id                  (the id of the team)
  *
  * @type {Array}
  */
@@ -23,13 +23,13 @@ var gameData = [];
 /**
  * Properties in gameData
  * ---------------------------------------------------------------------------------------------------------------------
- * roomName: data.roomName,     (the room password)
- * quizMaster: socket.id,       (the id of the master)
- * questionNumber: 0,           (the amount of questions that are passed, default 1)
- * roundNumber: 1,              (the amount of rounds that are passed, default: 1)
- * questions: [],               (will be a array, question that are ask)
- * teams: [],                   (will be a array)
- * started: false               (default when initializing)
+ * roomPassword: data.roomPassword,     (the room password)
+ * quizMaster: socket.id,               (the id of the master)
+ * questionNumber: 0,                   (the amount of questions that are passed, default 1)
+ * roundNumber: 1,                      (the amount of rounds that are passed, default: 1)
+ * questions: [],                       (will be a array, question that are ask)
+ * teams: [],                           (will be a array)
+ * started: false                       (default when initializing)
  *
  * @type {Array}
  */
@@ -77,7 +77,7 @@ app.get('/getAllRooms', function(request, response) {
     var rooms = [];
 
     gameData.forEach(function(element, index) {
-        rooms.push(gameData[index].roomName);
+        rooms.push(gameData[index].roomPassword);
     });
 
     response.json(rooms)
@@ -96,12 +96,12 @@ io.on('connection', function (socket) {
      */
 
     /*
-     * Receiving roomName & Check if roomName doesn't exists
+     * Receiving roomPassword & Check if roomPassword doesn't exists
      */
-    socket.on('Master_sendRoomName', function(data) {
+    socket.on('Master_sendRoomPassword', function(data) {
         var checkIfExists = false;
         gameData.forEach(function(element, index) {
-            if(gameData[index].roomName === data.roomName) {
+            if(gameData[index].roomPassword === data.roomPassword) {
                 socket.emit('Master_roomAlreadyExists');
                 checkIfExists = true;
             }
@@ -110,7 +110,7 @@ io.on('connection', function (socket) {
         if(checkIfExists === false) {
             console.log('room is created');
             gameData.push({
-                roomName: data.roomName,
+                roomPassword: data.roomPassword,
                 quizMaster: socket.id,
                 questionNumber: 0,
                 roundNumber: 1,

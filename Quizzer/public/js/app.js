@@ -18,34 +18,35 @@ app.config(function($routeProvider) {
         })
 
 
-        .when('/team-create', {
-            templateUrl: '/partials/team/create-team.html'
+        .when('/team/enter-teamname', {
+            templateUrl: '/partials/team/enter-teamname.html'
         })
-        .when('/team-join-room', {
-            templateUrl: '/partials/team/join-room.html'
+        .when('/team/enter-roompassword', {
+            templateUrl: '/partials/team/enter-roompassword.html'
         })
 
 
 
-        .when('/master-create-room', {
-            templateUrl: '/partials/master/create-room.html'
+        .when('/master/create-roompassword', {
+            templateUrl: '/partials/master/create-roompassword.html'
         })
-        .when('/master-select-team', {
-            templateUrl: '/partials/master/select-teams.html'
+        .when('/master/accept-teams', {
+            templateUrl: '/partials/master/accept-teams.html'
         })
-        .when('/master-overview', {
-            templateUrl: '/partials/master/overview.html'
+        .when('/master/dashboard', {
+            templateUrl: '/partials/master/dashboard.html'
         })
-        .when('/master-select-categories', {
-            templateUrl: '/partials/master/select-categories.html'
-        })
+
+        //.when('/master/select-question-categories', {
+        //    templateUrl: '/partials/master/select-question-categories.html'
+        //})
 
         .otherwise('/');
 });
 
 
 app.controller('quizMainController', function($scope) {
-    $scope.roomName, $scope.teamName;
+    $scope.roomPassword, $scope.teamName;
 });
 
 
@@ -80,8 +81,8 @@ app.controller('master-controller', function($scope, $location, $http) {
 
 ========================================================================================================================
  */
-    $scope.sendRoomName = function() {
-        socket.emit('Master_sendRoomName', { roomName:  $scope.roomName });
+    $scope.sendRoomPassword = function() {
+        socket.emit('Master_sendRoomPassword', { roomPassword:  $scope.roomPassword });
     };
 
     $scope.sendTeamName = function() {
@@ -89,8 +90,8 @@ app.controller('master-controller', function($scope, $location, $http) {
     };
 
     $scope.requestJoinRoom = function() {
-        console.log({ roomName:  $scope.roomName });
-        socket.emit('Team_requestJoinRoom', { roomName:  $scope.roomName });
+        console.log({ roomPassword:  $scope.roomPassword });
+        socket.emit('Team_requestJoinRoom', { roomPassword:  $scope.roomPassword });
     };
 
 /*
@@ -98,16 +99,19 @@ app.controller('master-controller', function($scope, $location, $http) {
     Socket Listeners
 ========================================================================================================================
 */
-    /**
-     * MASTER
+    /*
+    --------------------------------------------------------------------------------------------------------------------
+     MASTER
+    --------------------------------------------------------------------------------------------------------------------
      */
     socket.on('Master_roomSuccessfullyCreated', function() {
-        $location.path('master-select-team');
+        $location.path('master/accept-teams');
         //swal("Room created", "The room is successfully created", "success");
     });
 
     socket.on('Master_roomAlreadyExists', function() {
         swal("Please try again!", "The room does already exists", "error");
+        $scope.roomPassword = "";
     });
 
     socket.on('Master_getIncomingTeam', function(data) {
@@ -115,23 +119,26 @@ app.controller('master-controller', function($scope, $location, $http) {
             type: "warning",
             title: "A team wants to join, may he?",
             description: "sure :)",
-            showConfirmButton: "Sure"
+            confirmButtonText: "Accept"
         });
         console.log(data);
     });
 
-    /**
-     * TEAM
+    /*
+     --------------------------------------------------------------------------------------------------------------------
+        TEAM
+     --------------------------------------------------------------------------------------------------------------------
      */
     socket.on('Team_teamSuccessfullyCreated', function() {
-        $location.path('team-join-room');
+        $location.path('team/enter-roompassword');
         swal("Team created", "Your team is successfully created, you may now enter the room password", "success");
     });
 
     socket.on('Team_teamAlreadyExists', function() {
         swal("Please try again!", "This team does already exists", "error");
+        $scope.teamName = "";
     });
 
-    socket.on('Team_Accepted')
+    socket.on('Team_Accepted');
 
 });

@@ -121,7 +121,7 @@ body {
     z-index: 9999;
     bottom: 0px;
 }
-.form-holder input#roomname,
+.form-holder input#roompassword,
 .form-holder input#teamname {
     padding: 10px 40px 10px 10px;
     height: 40px;
@@ -130,7 +130,7 @@ body {
     border: 1px solid #07122c;
     border-radius: 0;
 }
-.form-holder input#roomname:focus,
+.form-holder input#roompassword:focus,
 .form-holder input#teamname:focus  {
     box-shadow: 0; outline: 0;
 }
