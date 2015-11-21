@@ -168,11 +168,12 @@ io.on('connection', function (socket) {
         console.log(data);
 
         gameData.forEach(function(element, index) {
-            if(gameData[index].teamName === data.teamName) {
+            if(gameData[index].roomPassword === data.roomPassword) {
                 teamNames.forEach(function(element, count) {
                     if(teamNames[count].clientID === socket.id) {
-                        socket.to(gameData[index].quizMaster).emit('Master_getIncomingTeam', data);
-                        console.log('pushed');
+                        socket.to(gameData[index].quizMaster).emit('Master_getIncomingTeam', teamNames[count]);
+                        console.log('data:');
+                        console.log(data);
                     }
                 });
             }

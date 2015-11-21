@@ -92,7 +92,7 @@ app.controller('master-controller', function ($scope, $rootScope, $location, $ht
             });
     };
 
-    $scope.teams = [];
+    $scope.joinRequests = [];
 
     /*
      ===================================================================================================================
@@ -101,15 +101,6 @@ app.controller('master-controller', function ($scope, $rootScope, $location, $ht
      */
     $scope.sendRoomPassword = function () {
         socket.emit('Master_sendRoomPassword', {roomPassword: $scope.roomPassword});
-    };
-
-    $scope.sendTeamName = function () {
-        socket.emit('Team_sendTeamName', {teamName: $scope.teamName});
-    };
-
-    $scope.requestJoinRoom = function () {
-        console.log({roomPassword: $scope.roomPassword});
-        socket.emit('Team_requestJoinRoom', {roomPassword: $scope.roomPassword});
     };
 
     /*
@@ -131,18 +122,37 @@ app.controller('master-controller', function ($scope, $rootScope, $location, $ht
     });
 
     socket.on('Master_getIncomingTeam', function (data) {
+        $scope.$apply(function () {
+            $scope.joinRequests.push(data.teamName);
+        });
         swal({
             type: "warning",
-            title: "A team wants to join, may he?",
+            title: "The team: "+ data.teamName +" would like to join, may he?",
             description: "sure :)",
-            confirmButtonText: "Accept"
+            confirmButtonText: "Accept",
         });
-        console.log(data);
+
     });
 });
 
 
 app.controller('team-controller', function ($scope, $rootScope, $location) {
+
+    /*
+     ===================================================================================================================
+     Click Actions
+     ===================================================================================================================
+     */
+
+    $scope.sendTeamName = function () {
+        socket.emit('Team_sendTeamName', {teamName: $scope.teamName});
+    };
+
+    $scope.requestJoinRoom = function () {
+        console.log({roomPassword: $scope.roomPassword});
+        socket.emit('Team_requestJoinRoom', {roomPassword: $scope.roomPassword});
+    };
+
     /*
      ===================================================================================================================
         Socket Listeners

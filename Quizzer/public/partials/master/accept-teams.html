@@ -1,6 +1,11 @@
 <div class="content-holder" ng-controller="master-controller">
     <img src="img/pubquiz-logo.png" alt="pubQuiz">
+
     <h1 class="page-header"> Accept Teams </h1>
+
+    <h2 ng-repeat="teamname in joinRequests">
+        teamname: {{teamname}}
+    </h2>
 </div>
 
 <script>
