@@ -1,8 +1,9 @@
-/*
-========================================================================================================================
-    CSS RESET
-========================================================================================================================
+@charset "UTF-8";
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
 */
+@import url(../plugins/foundation-icons/foundation-icons.css);
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -16,296 +17,463 @@ article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
-}
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
-    display: block;
-}
+  display: block; }
+
 body {
-    line-height: 1;
-}
+  line-height: 1; }
+
 ol, ul {
-    list-style: none;
-}
+  list-style: none; }
+
 blockquote, q {
-    quotes: none;
-}
+  quotes: none; }
+
 blockquote:before, blockquote:after,
 q:before, q:after {
-    content: '';
-    content: none;
-}
+  content: '';
+  content: none; }
+
 table {
-    border-collapse: collapse;
-    border-spacing: 0;
-}
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+/*-----------------------------------*\
+
+  $TOAST-GRID
+
+  An insane grid.
+  You'd be mad to use it.
+
+  Usage
+  =====
+
+  Assuming default values:
+
+  <div class="grid">
+    <div class="grid__col grid__col--1-of-2">
+      A half-width column.
+    </div>
+    <div class="grid__col grid__col--1-of-4 grid__col--pull-1-of-4">
+      A quarter, pulled left by its own width. You get this, right?
+    </div>
+  </div>
 
 
-/*
-========================================================================================================================
-    General
-========================================================================================================================
-*/
+  Customisation
+  =============
+
+  $toast-grid-namespace and $toast-grid-column-namespace
+  adjusts the class names for the grid. With
+  default values, grid wrappers have a class
+  of '.grid' and columns '.grid__col'.
+
+  $toast-col-groups(n) adjusts column divisions.
+  For example, $toast-col-groups(12) will produce
+  a 12-column grid. $col-groups(3,6,8)
+  will produce a 3-, 6-, and 8-column grid.
+
+  $toast-gutter-width is—you guessed it—the gutter
+  width. Accepts any unit.
+
+  That's it. Have fun.
+
+\*-----------------------------------*/
+.row {
+  list-style: none; }
+
+.col--2-of-2, .col--3-of-3, .col--4-of-4, .col--5-of-5, .col--6-of-6, .col--8-of-8, .col--12-of-12 {
+  width: 100%; }
+
+.col--1-of-2, .col--2-of-4, .col--3-of-6, .col--4-of-8, .col--6-of-12 {
+  width: 50%; }
+
+.col--1-of-3, .col--2-of-6, .col--4-of-12 {
+  width: 33.33333%; }
+
+.col--2-of-3, .col--4-of-6, .col--8-of-12 {
+  width: 66.66667%; }
+
+.col--1-of-4, .col--2-of-8, .col--3-of-12 {
+  width: 25%; }
+
+.col--3-of-4, .col--6-of-8, .col--9-of-12 {
+  width: 75%; }
+
+.col--push-2-of-2, .col--push-3-of-3, .col--push-4-of-4, .col--push-5-of-5, .col--push-6-of-6, .col--push-8-of-8, .col--push-12-of-12 {
+  margin-left: 100%; }
+
+.col--push-1-of-2, .col--push-2-of-4, .col--push-3-of-6, .col--push-4-of-8, .col--push-6-of-12 {
+  margin-left: 50%; }
+
+.col--push-1-of-3, .col--push-2-of-6, .col--push-4-of-12 {
+  margin-left: 33.33333%; }
+
+.col--push-2-of-3, .col--push-4-of-6, .col--push-8-of-12 {
+  margin-left: 66.66667%; }
+
+.col--push-1-of-4, .col--push-2-of-8, .col--push-3-of-12 {
+  margin-left: 25%; }
+
+.col--push-3-of-4, .col--push-6-of-8, .col--push-9-of-12 {
+  margin-left: 75%; }
+
+.col--pull-2-of-2, .col--pull-3-of-3, .col--pull-4-of-4, .col--pull-5-of-5, .col--pull-6-of-6, .col--pull-8-of-8, .col--pull-12-of-12 {
+  margin-left: -100%; }
+
+.col--pull-1-of-2, .col--pull-2-of-4, .col--pull-3-of-6, .col--pull-4-of-8, .col--pull-6-of-12 {
+  margin-left: -50%; }
+
+.col--pull-1-of-3, .col--pull-2-of-6, .col--pull-4-of-12 {
+  margin-left: -33.33333%; }
+
+.col--pull-2-of-3, .col--pull-4-of-6, .col--pull-8-of-12 {
+  margin-left: -66.66667%; }
+
+.col--pull-1-of-4, .col--pull-2-of-8, .col--pull-3-of-12 {
+  margin-left: -25%; }
+
+.col--pull-3-of-4, .col--pull-6-of-8, .col--pull-9-of-12 {
+  margin-left: -75%; }
+
+.col--1-of-5 {
+  width: 20%; }
+
+.col--push-1-of-5 {
+  margin-left: 20%; }
+
+.col--pull-1-of-5 {
+  margin-left: -20%; }
+
+.col--2-of-5 {
+  width: 40%; }
+
+.col--push-2-of-5 {
+  margin-left: 40%; }
+
+.col--pull-2-of-5 {
+  margin-left: -40%; }
+
+.col--3-of-5 {
+  width: 60%; }
+
+.col--push-3-of-5 {
+  margin-left: 60%; }
+
+.col--pull-3-of-5 {
+  margin-left: -60%; }
+
+.col--4-of-5 {
+  width: 80%; }
+
+.col--push-4-of-5 {
+  margin-left: 80%; }
+
+.col--pull-4-of-5 {
+  margin-left: -80%; }
+
+.col--1-of-6 {
+  width: 16.66667%; }
+
+.col--push-1-of-6 {
+  margin-left: 16.66667%; }
+
+.col--pull-1-of-6 {
+  margin-left: -16.66667%; }
+
+.col--5-of-6 {
+  width: 83.33333%; }
+
+.col--push-5-of-6 {
+  margin-left: 83.33333%; }
+
+.col--pull-5-of-6 {
+  margin-left: -83.33333%; }
+
+.col--1-of-8 {
+  width: 12.5%; }
+
+.col--push-1-of-8 {
+  margin-left: 12.5%; }
+
+.col--pull-1-of-8 {
+  margin-left: -12.5%; }
+
+.col--3-of-8 {
+  width: 37.5%; }
+
+.col--push-3-of-8 {
+  margin-left: 37.5%; }
+
+.col--pull-3-of-8 {
+  margin-left: -37.5%; }
+
+.col--5-of-8 {
+  width: 62.5%; }
+
+.col--push-5-of-8 {
+  margin-left: 62.5%; }
+
+.col--pull-5-of-8 {
+  margin-left: -62.5%; }
+
+.col--7-of-8 {
+  width: 87.5%; }
+
+.col--push-7-of-8 {
+  margin-left: 87.5%; }
+
+.col--pull-7-of-8 {
+  margin-left: -87.5%; }
+
+.col--1-of-12 {
+  width: 8.33333%; }
+
+.col--push-1-of-12 {
+  margin-left: 8.33333%; }
+
+.col--pull-1-of-12 {
+  margin-left: -8.33333%; }
+
+.col--2-of-12 {
+  width: 16.66667%; }
+
+.col--push-2-of-12 {
+  margin-left: 16.66667%; }
+
+.col--pull-2-of-12 {
+  margin-left: -16.66667%; }
+
+.col--5-of-12 {
+  width: 41.66667%; }
+
+.col--push-5-of-12 {
+  margin-left: 41.66667%; }
+
+.col--pull-5-of-12 {
+  margin-left: -41.66667%; }
+
+.col--7-of-12 {
+  width: 58.33333%; }
+
+.col--push-7-of-12 {
+  margin-left: 58.33333%; }
+
+.col--pull-7-of-12 {
+  margin-left: -58.33333%; }
+
+.col--10-of-12 {
+  width: 83.33333%; }
+
+.col--push-10-of-12 {
+  margin-left: 83.33333%; }
+
+.col--pull-10-of-12 {
+  margin-left: -83.33333%; }
+
+.col--11-of-12 {
+  width: 91.66667%; }
+
+.col--push-11-of-12 {
+  margin-left: 91.66667%; }
+
+.col--pull-11-of-12 {
+  margin-left: -91.66667%; }
+
+.col {
+  box-sizing: border-box;
+  display: inline-block;
+  margin-right: -.25em;
+  min-height: 1px;
+  padding-left: 20px;
+  vertical-align: top; }
+  @media (max-width: 700px) {
+    .col {
+      display: block;
+      margin-left: 0;
+      margin-right: 0;
+      width: auto; } }
+  @media (max-width: 700px) and (min-width: 480px) {
+    .col[class*="col--m-"] {
+      display: inline-block;
+      margin-right: -.24em; }
+    .col.col--m-1-of-2, .col.col--m-2-of-4 {
+      width: 50%; }
+    .col.col--m-1-of-3 {
+      width: 33.33333%; }
+    .col.col--m-2-of-3 {
+      width: 66.66667%; }
+    .col.col--m-1-of-4 {
+      width: 25%; }
+    .col.col--m-3-of-4 {
+      width: 75%; } }
+  @media (max-width: 480px) {
+    .col[class*="col--s-"] {
+      display: inline-block;
+      margin-right: -.24em; }
+    .col.col--s-1-of-2, .col.col--s-2-of-4 {
+      width: 50%; }
+    .col.col--s-1-of-3 {
+      width: 33.33333%; }
+    .col.col--s-2-of-3 {
+      width: 66.66667%; }
+    .col.col--s-1-of-4 {
+      width: 25%; }
+    .col.col--s-3-of-4 {
+      width: 75%; } }
+
+.col--centered {
+  display: block;
+  margin-left: auto;
+  margin-right: auto; }
+
+.col--d-first {
+  float: left; }
+
+.col--d-last {
+  float: right; }
+
+.row--no-gutter {
+  margin-left: 0;
+  width: 100%; }
+  .row--no-gutter .col {
+    padding-left: 0; }
+  .row--no-gutter .col--span-all {
+    margin-left: 0;
+    width: 100%; }
+
+.col--ab {
+  vertical-align: bottom; }
+
+.col--am {
+  vertical-align: middle; }
+
+@font-face {
+  font-family: 'tusjbold';
+  src: url("../fonts/FFF_Tusj-webfont.eot");
+  src: url("../fonts/FFF_Tusj-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/FFF_Tusj-webfont.woff") format("woff"), url("../fonts/FFF_Tusj-webfont.ttf") format("truetype"), url("../fonts/FFF_Tusj-webfont.svg#fff_tusjbold") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+@font-face {
+  font-family: 'existencestencil_light';
+  src: url("../fonts/Existence-StencilLight-webfont.eot");
+  src: url("../fonts/Existence-StencilLight-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/Existence-StencilLight-webfont.woff") format("woff"), url("../fonts/Existence-StencilLight-webfont.ttf") format("truetype"), url("../fonts/Existence-StencilLight-webfont.svg#existencestencil_light") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+/********************************************************************************
+********************************* FONTS SIZE ************************************
+********************************************************************************/
+html, body, input, table, span, p {
+  font-family: existencestencil_light; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: tusjbold; }
+
+h1 {
+  font-size: 2.75em;
+  padding: 5px 0px;
+  border-bottom: 1px solid #ffffff;
+  margin-bottom: 15px; }
+
+/********************************************************************************
+********************************* VARIABLES *************************************
+********************************************************************************/
+/********************************************************************************
+********************************** GENERAL **************************************
+********************************************************************************/
 body {
-    background: #444;
-    font-family: Roboto, Helvetica, sans-serif;
-    font-size: 14pt;
-}
+  background: #22222a;
+  color: #ffffff;
+  font-size: 14pt; }
 
-/*
-------------------------------------------------------------------------------------------------------------------------
-    CONTAINER
-------------------------------------------------------------------------------------------------------------------------
-*/
+a {
+  color: #ffffff;
+  text-decoration: none; }
 
-.fa {
-    font-size: 20pt;
-    position: relative;
-    top: 2px;
-}
+.spacing {
+  margin: 7.5px 0px; }
 
-/*
-------------------------------------------------------------------------------------------------------------------------
-    CONTAINER
-------------------------------------------------------------------------------------------------------------------------
-*/
-.content-holder {
-    min-height: 100vh;
-    background: #ffffff;
-    overflow: hidden;
-}
+/********************************************************************************
+*********************************** FORMS ***************************************
+********************************************************************************/
+.form-input {
+  margin: 0px 0px 15px 0px;
+  border: none;
+  padding: 15px;
+  width: calc(100% - 30px);
+  color: #22222a;
+  outline: none; }
+  .form-input:focus {
+    outline: none;
+    border: none; }
 
+/********************************************************************************
+********************************** BUTTONS **************************************
+********************************************************************************/
+.btn {
+  color: #22222a;
+  background: #22222a;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  padding: 15px;
+  transition: all 0.2s ease; }
+  .btn:hover {
+    background: #17171d; }
 
-/*
-------------------------------------------------------------------------------------------------------------------------
-    MAIN-MENU
-------------------------------------------------------------------------------------------------------------------------
-*/
-.content-holder .main-menu {
-    position: absolute;
-    bottom: 0px;
-    left: 50%;
-    width: 900px;
-    min-height: 100px;
-    transform: translateX(-50%);
-}
-.content-holder .main-menu .menu-item {
-    margin-bottom: 5px;
-}
-.content-holder .main-menu .menu-item a {
-    padding: 20px;
-    width: calc(100% - 40px);
-    background: #07122C;
-    color: #fff;
-    font-size: 14pt;
-    text-align: center;
-    text-decoration: none;
-    display: block;
-}
+/********************************************************************************
+********************************* CONTAINER *************************************
+********************************************************************************/
+.container {
+  padding-top: 30px;
+  position: relative;
+  display: table;
+  left: 50%;
+  transform: translate(-50%);
+  width: 75%;
+  max-width: 500px;
+  min-width: 320px; }
 
-/*
-------------------------------------------------------------------------------------------------------------------------
-    MASTER
-------------------------------------------------------------------------------------------------------------------------
-*/
-.form-holder {
-    padding: 5px;
-    position: fixed;
-    z-index: 9999;
-    bottom: 0px;
-}
-.form-holder input#roompassword,
-.form-holder input#teamname {
-    padding: 10px 40px 10px 10px;
-    height: 40px;
-    width: calc(100% - 52px);
-    display: inline-block;
-    border: 1px solid #07122c;
-    border-radius: 0;
-}
-.form-holder input#roompassword:focus,
-.form-holder input#teamname:focus  {
-    box-shadow: 0; outline: 0;
-}
-.form-holder button.submit {
-    padding: 22px 10px 22px 10px;
-    width: 100%;
-    background: #07122c;
-    border: 1px solid #07122c;
-    border-radius: 0;
-    color: #fff;
-    font-weight: 600;
-    font-size: 14pt;
-}
+/********************************************************************************
+********************************** HEADER ***************************************
+********************************************************************************/
+.header {
+  width: 100%;
+  margin-bottom: 30px; }
+  .header img {
+    width: 100%; }
 
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Master accept clients
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-.loading-screen {
-    width: 100%;
-    display: block;
-}
-.loading-img {
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    top: 78%;
-
-    width: 15% !important;
-}
-
-
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Master overview
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-h1.page-header {
-    font-size: 18pt;
-    border-bottom: 1px solid #07122c;
-    padding: 10px;
-    margin-bottom: 10px;
-}
-
-.team-holder, .answer-holder{
+/********************************************************************************
+********************************* MAIN-MENU *************************************
+********************************************************************************/
+.main-menu {
+  list-style: none;
+  display: table;
+  clear: both;
+  width: 100%;
+  position: relative;
+  top: 50%;
+  left: 0px;
+  transform: translate(0%, 50%); }
+  .main-menu li {
     float: left;
-    display: inline-block;
-    width: 50%;
-    min-height: 50px;
-    background: #ccc;
-}
-.team, .answer-holder .answer {
-    margin: 10px;
-    background: #fff;
-    padding: 10px;
-    background: #07122c;
-    color: #ffffff;
-}
-.team .team-header {
-    font-size: 14pt;
-    font-weight: 600;
-    padding: 15px 6px;
-    border-bottom: 1px solid #fff;
-}
+    width: 100%; }
+    .main-menu li a {
+      display: inline-block;
+      width: calc(100% - 60px);
+      background: #ffffff;
+      color: #22222a;
+      padding: 40px 30px;
+      font-weight: 600; }
+    .main-menu li a:hover {
+      background: rgba(255, 255, 255, 0.5); }
 
-.team .team-score-holder {
-    text-transform: uppercase;
-    color: #ffffff;
-    clear:both;
-    padding: 15px 6px 9px 6px;
-}
-.team .team-score-holder .team-score-name {
-    float: left;
-    width: 50%;
-}
-
-/*
-========================================================================================================================
-    Smartphones
-========================================================================================================================
-*/
-@media (min-width:320px) {
-    .content-holder {
-        width: 100%;
-    }
-    .content-holder > img {
-        width: 100%;
-    }
-    .form-holder {
-        width: calc(100% - 10px);
-    } .form-holder input {
-      box-shadow: 0 0 5px 3px #fff;
-  }
-/*
-------------------------------------------------------------------------------------------------------------------------
-    MAIN-MENU
-------------------------------------------------------------------------------------------------------------------------
-*/
-    .content-holder .main-menu {
-        width: calc(100% - 10px);
-    }
-    .content-holder .main-menu .menu-item a {
-        padding: 7.5% 20px 7.5% 20px;
-    }
-}
-
-/*
-========================================================================================================================
-    E-readers / Smaller tablets
-========================================================================================================================
-*/
-@media (min-width:481px) {
-
-}
-
-/*
-========================================================================================================================
-    Portrait Tablets
-========================================================================================================================
-*/
-@media (min-width:641px) {
-
-}
-
-/*
-========================================================================================================================
-    Small landscape tablets, Low resolution laptops
-========================================================================================================================
-*/
-@media (min-width:961px) {
-
-}
-
-/*
-========================================================================================================================
-    Big landscape tablets, laptops and desktops
-========================================================================================================================
-*/
-@media (min-width:1025px) {
-
-}
-
-/*
-========================================================================================================================
-    High resolution laptops / desktops
-========================================================================================================================
-*/
-@media (min-width:1281px) {
-    .content-holder {
-        width: 1000px;
-        margin: 0px auto;
-        overflow: hidden;
-    }
-    .content-holder img {
-        width: 50%;
-        margin: 0px auto;
-        display: block;
-    }
-/*
-------------------------------------------------------------------------------------------------------------------------
-    MAIN-MENU
-------------------------------------------------------------------------------------------------------------------------
-*/
-    .content-holder .main-menu {
-        width: 990px;
-    }
-
-    .content-holder .main-menu .menu-item a {
-        padding: 5% 20px 5% 20px;
-    }
-
-
-    .form-holder {
-        width: 990px;
-    }
-}
+/*# sourceMappingURL=global.css.map */

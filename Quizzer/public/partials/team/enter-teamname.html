@@ -1,12 +1,9 @@
-<div class="content-holder" ng-controller="team-controller">
-    <!-- Logo -->
-    <img src="/img/pubquiz-logo.png" alt="pubquiz"/>
-
+<div ng-controller="team-controller">
     <!-- Form for creating the team-name -->
     <form class="form-holder" autocomplete="off">
-        <h1> Progress: 1/2</h1>
-        <input type="text" id="teamname" ng-model="teamName" autocomplete="off"
+        <h1> Create the Team </h1>
+        <input type="text" class="form-input" ng-model="teamName" autocomplete="off"
                placeholder="Please enter your teamName" autofocus required/>
-        <button class="submit" ng-click="sendTeamName()"> NEXT <i class="fa fa-angle-right"></i> </button>
+        <button class="btn col--2-of-2" ng-click="sendTeamName()"> Next <i class="fa fa-angle-right"></i> </button>
     </form>
 </div>

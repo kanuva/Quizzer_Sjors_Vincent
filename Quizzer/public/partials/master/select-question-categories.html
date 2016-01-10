@@ -1,9 +1,0 @@
-<div class="content-holder" ng-controller="master-controller" ng-init="getCategories()">
-
-    <!-- Logo -->
-    <img src="/img/pubquiz-logo.png" alt="pubQuiz"/>
-    <div ng-repeat="cat in questionCategories">
-        <input type="checkbox" ng-model="cat.checked" ng-change="checkChanged(cat)"  ng-disabled="checked==limit && !cat.checked"/> {{ cat.name }}
-    </div>
-
-</div>

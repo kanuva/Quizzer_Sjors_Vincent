@@ -36,8 +36,8 @@ app.config(function ($routeProvider) {
             templateUrl: '/partials/master/dashboard.html'
         })
 
-        //.when('/master/select-question-categories', {
-        //    templateUrl: '/partials/master/select-question-categories.html'
+        //.when('/master_backup/select-question-categories', {
+        //    templateUrl: '/partials/master_backup/select-question-categories.html'
         //})
 
         .otherwise('/');
@@ -125,13 +125,6 @@ app.controller('master-controller', function ($scope, $rootScope, $location, $ht
         $scope.$apply(function () {
             $scope.joinRequests.push(data.teamName);
         });
-        swal({
-            type: "warning",
-            title: "The team: "+ data.teamName +" would like to join, may he?",
-            description: "sure :)",
-            confirmButtonText: "Accept",
-        });
-
     });
 });
 

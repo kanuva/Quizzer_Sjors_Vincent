@@ -1,18 +1,20 @@
-<div class="content-holder" ng-controller="master-controller">
-    <img src="img/pubquiz-logo.png" alt="pubQuiz">
+<div ng-controller="master-controller">
+    <div class="row">
+        <div class="col--1-of-1">
+            <h1> Add the Teams </h1>
+        </div>
+    </div>
 
-    <h1 class="page-header"> Accept Teams </h1>
-
-    <h2 ng-repeat="teamname in joinRequests">
-        teamname: {{teamname}}
-    </h2>
+    <div class="row">
+        <div class="col--1-of-1">
+            <div class="row row--no-gutter spacing" ng-repeat="team in joinRequests">
+                <div class="col col--1-of-2 col--am">
+                    <span ng-bind="team"></span>
+                </div>
+                <div class="col col--1-of-2 col--am">
+                    <button ng-click="acceptTeam(team)" class="btn col--2-of-2"><i class="fi-check"></i> Accept</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-<script>
-    swal({
-        title: 'Waiting...',
-        text: 'This message will be gone when teams join',
-        imageUrl: "img/magnify.gif",
-        showConfirmButton: false
-    });
-</script>

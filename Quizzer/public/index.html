@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <title>PubQuiz - So you think you're a wise guy?</title>
+    <title>PubQuiz - So you think you know it all?</title>
     <!-- Font awesome -->
     <link rel="stylesheet" href="plugins/font-awesome-4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/sweetalert.css">
@@ -24,7 +24,14 @@
 
 </head>
 <body ng-controller="quizMainController">
-    <div ng-view></div>
+    <div class="container">
+
+        <div class="header">
+            <img src="/img/pubquiz-logo_v2.png" alt="pubquiz"/>
+        </div>
+
+        <div ng-view></div>
+    </div>
 </body>
 </html>
 

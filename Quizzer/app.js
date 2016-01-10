@@ -24,7 +24,7 @@ var gameData = [];
  * Properties in gameData
  * ---------------------------------------------------------------------------------------------------------------------
  * roomPassword: data.roomPassword,                 (the room password)
- * quizMaster: socket.id,                           (the id of the master)
+ * quizMaster: socket.id,                           (the id of the master_backup)
  * scoreBoard: socket.id of the scoreboard window)  (the id of the scoreboard)
  * questionNumber: 0,                               (the amount of questions that are passed, default 1)
  * roundNumber: 1,                                  (the amount of rounds that are passed, default: 1)

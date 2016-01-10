@@ -1,0 +1,41 @@
+@font-face {
+  font-family: 'tusjbold';
+  src: url('../fonts/FFF_Tusj-webfont.eot');
+  src: url('../fonts/FFF_Tusj-webfont.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/FFF_Tusj-webfont.woff') format('woff'),
+       url('../fonts/FFF_Tusj-webfont.ttf') format('truetype'),
+       url('../fonts/FFF_Tusj-webfont.svg#fff_tusjbold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'existencestencil_light';
+  src: url('../fonts/Existence-StencilLight-webfont.eot');
+  src: url('../fonts/Existence-StencilLight-webfont.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/Existence-StencilLight-webfont.woff') format('woff'),
+       url('../fonts/Existence-StencilLight-webfont.ttf') format('truetype'),
+       url('../fonts/Existence-StencilLight-webfont.svg#existencestencil_light') format('svg');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+
+/********************************************************************************
+********************************* FONTS SIZE ************************************
+********************************************************************************/
+html, body, input, table, span, p {
+  font-family: existencestencil_light;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: tusjbold;
+}
+
+h1 {
+  font-size: 2.75em;
+  padding: 5px 0px;
+  border-bottom: 1px solid #ffffff;
+  margin-bottom: 15px;
+}
