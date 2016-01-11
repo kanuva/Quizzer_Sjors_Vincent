@@ -92,7 +92,7 @@ app.controller('master-controller', function ($scope, $rootScope, $location, $ht
             });
     };
 
-    $scope.joinRequests = [];
+    $scope.joinRequests = new Object();
 
     /*
      ===================================================================================================================
@@ -101,6 +101,16 @@ app.controller('master-controller', function ($scope, $rootScope, $location, $ht
      */
     $scope.sendRoomPassword = function () {
         socket.emit('Master_sendRoomPassword', {roomPassword: $scope.roomPassword});
+    };
+
+    $scope.acceptTeam = function(team) {
+        socket.emit('Master_acceptClientToRoom', team);
+        delete $scope.joinRequests[team.teamName];
+    };
+
+    $scope.declineTeam = function(team) {
+        socket.emit('Master_declineClientToRoom', team);
+        delete $scope.joinRequests[team.teamName];
     };
 
     /*
@@ -123,7 +133,7 @@ app.controller('master-controller', function ($scope, $rootScope, $location, $ht
 
     socket.on('Master_getIncomingTeam', function (data) {
         $scope.$apply(function () {
-            $scope.joinRequests.push(data.teamName);
+            $scope.joinRequests[data.teamName] = {teamName: data.teamName, clientID: data.clientID};
         });
     });
 });

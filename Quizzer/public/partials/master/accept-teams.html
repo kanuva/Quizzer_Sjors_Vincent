@@ -9,11 +9,13 @@
         <div class="col--1-of-1">
             <div class="row row--no-gutter spacing" ng-repeat="team in joinRequests">
                 <div class="col col--1-of-2 col--am">
-                    <span ng-bind="team"></span>
+                    <span ng-bind="team.teamName"></span>
                 </div>
                 <div class="col col--1-of-2 col--am">
                     <button ng-click="acceptTeam(team)" class="btn col--2-of-2"><i class="fi-check"></i> Accept</button>
+                    <button ng-click="declineTeam(team)" class="btn col--2-of-2"><i class="fi-x"></i> Decline</button>
                 </div>
+                <hr>
             </div>
         </div>
     </div>

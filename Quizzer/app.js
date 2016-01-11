@@ -129,6 +129,14 @@ io.on('connection', function (socket) {
         }
     });
 
+    socket.on('Master_acceptClientToRoom', function(data) {
+
+    });
+
+    socket.on('Master_declineClientToRoom', function(data) {
+        console.log(data);
+    });
+
 
     /**
     ********************************************************************************************************************
