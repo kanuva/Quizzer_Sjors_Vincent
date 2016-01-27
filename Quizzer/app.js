@@ -130,7 +130,10 @@ io.on('connection', function (socket) {
     });
 
     socket.on('Master_acceptClientToRoom', function(data) {
+		console.log('team '+ data.teamName +' is accepted');
+		console.log(data);
 
+		socket.broadcast.to(data.clientID).emit('Team_Accepted');
     });
 
     socket.on('Master_declineClientToRoom', function(data) {
@@ -159,7 +162,7 @@ io.on('connection', function (socket) {
         });
 
         if(checkIfExists === false) {
-            console.log('team is created');
+            console.log('team '+ data.teamName +' is created');
             teamNames.push({
                 teamName: data.teamName,
                 clientID: socket.id
@@ -172,16 +175,12 @@ io.on('connection', function (socket) {
      * Request to join a room
      */
     socket.on('Team_requestJoinRoom', function(data) {
-        console.log('---');
-        console.log(data);
-
         gameData.forEach(function(element, index) {
             if(gameData[index].roomPassword === data.roomPassword) {
                 teamNames.forEach(function(element, count) {
                     if(teamNames[count].clientID === socket.id) {
                         socket.to(gameData[index].quizMaster).emit('Master_getIncomingTeam', teamNames[count]);
-                        console.log('data:');
-                        console.log(data);
+                        console.log('roomPassword:' + data.roomPassword);
                     }
                 });
             }
@@ -194,5 +193,5 @@ app.use(express.static('public'));
 
 // Start server on port 80
 server.listen(3000, function() {
-    console.log('Server is running...')
+    console.log('Server is running on port 3000...')
 });
