@@ -54,11 +54,10 @@ var questionModel = db.model('questionList', questionSchema);
 // Fill collection when it's empty
 questionModel.count({}, function(error, count) {
     if(count <= 0) {
-        questionModel.create(Questions);
+        questionModel.create(questions);
         console.log('filled collection questions with: ' + questions.length + ' documents' );
     }
 });
-
 /*
 ========================================================================================================================
     API Routes
