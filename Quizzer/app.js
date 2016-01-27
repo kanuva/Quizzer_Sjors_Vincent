@@ -54,7 +54,7 @@ var questionModel = db.model('questionList', questionSchema);
 // Fill collection when it's empty
 questionModel.count({}, function(error, count) {
     if(count <= 0) {
-        questionModel.create(questions);
+        questionModel.create(Questions);
         console.log('filled collection questions with: ' + questions.length + ' documents' );
     }
 });
@@ -130,14 +130,16 @@ io.on('connection', function (socket) {
     });
 
     socket.on('Master_acceptClientToRoom', function(data) {
-		console.log('team '+ data.teamName +' is accepted');
-		console.log(data);
-
 		socket.broadcast.to(data.clientID).emit('Team_Accepted');
     });
 
     socket.on('Master_declineClientToRoom', function(data) {
-        console.log(data);
+        socket.to(data.clientID).emit('Team_Declined');
+        teamNames.forEach(function(element, index) {
+            if (teamNames[index].teamName === data.teamName) {
+                teamNames.splice(index, 2);
+            }
+        });
     });
 
 

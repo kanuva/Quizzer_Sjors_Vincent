@@ -90,6 +90,7 @@ app.controller('master-controller', function ($scope, $rootScope, $location, $ht
 
     $scope.joinRequests = {};
     $scope.acceptedRequests = {};
+    $scope.someisAccepted = false;
 
     /*
      ===================================================================================================================
@@ -104,7 +105,7 @@ app.controller('master-controller', function ($scope, $rootScope, $location, $ht
         socket.emit('Master_acceptClientToRoom', team);
         $scope.acceptedRequests[team.teamName] = {teamName: team.teamName, clientID: team.clientID};
         delete $scope.joinRequests[team.teamName];
-        console.log($scope.acceptedRequests);
+        $scope.someisAccepted = true;
     };
 
     $scope.declineTeam = function(team) {
@@ -182,6 +183,15 @@ app.controller('team-controller', function ($scope, $rootScope, $location) {
 
     socket.on('Team_Accepted', function() {
 		console.log('we are in the game');
+
 	});
+
+    socket.on('Team_Declined', function() {
+        console.log('we are declined');
+        $rootScope.$apply(function () {
+            $location.path('team/enter-teamname');
+        });
+
+    })
 
 });

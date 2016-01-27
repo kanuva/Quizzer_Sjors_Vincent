@@ -21,7 +21,7 @@
     </div>
     <div class="row">
         <div class="col--1-of-1">
-            <h1> Accepted teams </h1>
+            <h1 ng-show="someisAccepted"> Accepted teams </h1>
         </div>
     </div>
 
@@ -33,6 +33,11 @@
                 </div>
                 <hr>
             </div>
+        </div>
+    </div>
+    <div ng-show="someisAccepted" class="row">
+        <div class="col--1-of-1">
+            <button ng-click="" class="btn col--2-of-2">test</button>
         </div>
     </div>
 </div>
