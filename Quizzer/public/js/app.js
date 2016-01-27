@@ -24,6 +24,9 @@ app.config(function ($routeProvider) {
         .when('/team/enter-roompassword', {
             templateUrl: '/partials/team/enter-roompassword.html'
         })
+		.when('/team/enter-game', {
+            templateUrl: '/partials/team/waitscreen.html'
+        })
 
 
         .when('/master/create-roompassword', {
@@ -54,13 +57,6 @@ app.controller('quizMainController', function ($rootScope, $route, $location) {
     socket.on('serverReboot', function () {
         $rootScope.$apply(function () {
             $location.path('/');
-            swal({
-                type: "info",
-                title: "Server Reboot",
-                description: "Our apologies",
-                timer: 1
-            });
-
             $route.reload();
         });
 
@@ -157,6 +153,8 @@ app.controller('team-controller', function ($scope, $rootScope, $location) {
     $scope.requestJoinRoom = function () {
         console.log({roomPassword: $scope.roomPassword});
         socket.emit('Team_requestJoinRoom', {roomPassword: $scope.roomPassword});
+
+        $location.path('team/enter-game');
     };
 
     /*
@@ -168,7 +166,13 @@ app.controller('team-controller', function ($scope, $rootScope, $location) {
         $rootScope.$apply(function () {
             $location.path('team/enter-roompassword');
         });
-        swal("Team created", "Your team is successfully created, you may now enter the room password", "success");
+        swal({
+			title:"Team created",
+			text: "Your team is successfully created, you may now enter the room password",
+			type: "success",
+			timer: 1500,
+			showConfirmButton: false
+		});
     });
 
     socket.on('Team_teamAlreadyExists', function () {
@@ -176,6 +180,8 @@ app.controller('team-controller', function ($scope, $rootScope, $location) {
         $scope.teamName = "";
     });
 
-    socket.on('Team_Accepted');
+    socket.on('Team_Accepted', function() {
+		console.log('we are in the game');
+	});
 
 });
