@@ -92,7 +92,8 @@ app.controller('master-controller', function ($scope, $rootScope, $location, $ht
             });
     };
 
-    $scope.joinRequests = new Object();
+    $scope.joinRequests = {};
+    $scope.acceptedRequests = {};
 
     /*
      ===================================================================================================================
@@ -105,7 +106,9 @@ app.controller('master-controller', function ($scope, $rootScope, $location, $ht
 
     $scope.acceptTeam = function(team) {
         socket.emit('Master_acceptClientToRoom', team);
+        $scope.acceptedRequests[team.teamName] = {teamName: team.teamName, clientID: team.clientID};
         delete $scope.joinRequests[team.teamName];
+        console.log($scope.acceptedRequests);
     };
 
     $scope.declineTeam = function(team) {
