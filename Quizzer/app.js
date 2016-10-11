@@ -71,6 +71,7 @@ app.get('/getCategories', function(request, response) {
     });
 });
 
+/** Send all questions of a specified category */
 app.get('/getQuestions/:category', function(request, response){
     questionModel.find({}).where('category', request.params.category).exec(function(err, questions){
         response.json(questions);
