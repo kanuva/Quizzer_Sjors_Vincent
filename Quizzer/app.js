@@ -71,6 +71,11 @@ app.get('/getCategories', function(request, response) {
     });
 });
 
+app.get('/getQuestions/:category', function(request, response){
+    questionModel.find({}).where('category', request.params.category).exec(function(err, questions){
+        response.json(questions);
+    });
+});
 
 /** Send all rooms */
 app.get('/getAllRooms', function(request, response) {
