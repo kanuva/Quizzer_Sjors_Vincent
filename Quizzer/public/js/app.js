@@ -17,7 +17,6 @@ app.config(function ($routeProvider) {
             templateUrl: '/partials/main-menu.html'
         })
 
-
         .when('/team/enter-teamname', {
             templateUrl: '/partials/team/enter-teamname.html'
         })
@@ -27,7 +26,6 @@ app.config(function ($routeProvider) {
 		.when('/team/enter-game', {
             templateUrl: '/partials/team/waitscreen.html'
         })
-
 
         .when('/master/create-roompassword', {
             templateUrl: '/partials/master/create-roompassword.html'
@@ -39,9 +37,9 @@ app.config(function ($routeProvider) {
             templateUrl: '/partials/master/dashboard.html'
         })
 
-        //.when('/master_backup/select-question-categories', {
+        // .when('/master_backup/select-question-categories', {
         //    templateUrl: '/partials/master_backup/select-question-categories.html'
-        //})
+        // })
 
         .otherwise('/');
 });
@@ -59,7 +57,6 @@ app.controller('quizMainController', function ($rootScope, $route, $location) {
             $location.path('/');
             $route.reload();
         });
-
     });
 
 });
@@ -140,7 +137,7 @@ app.controller('master-controller', function ($scope, $rootScope, $location, $ht
 
 
 app.controller('team-controller', function ($scope, $rootScope, $location) {
-
+    $scope.waitscreenTitle = 'Waiting for the quiz master...';
     /*
      ===================================================================================================================
      Click Actions
@@ -183,8 +180,10 @@ app.controller('team-controller', function ($scope, $rootScope, $location) {
 
     socket.on('Team_Accepted', function() {
 		console.log('we are in the game');
-
-	});
+        $rootScope.$apply(function() {
+            $scope.waitscreenTitle = "You are accepted to the game";
+        });
+    });
 
     socket.on('Team_Declined', function() {
         console.log('we are declined');
