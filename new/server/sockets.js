@@ -91,7 +91,7 @@ module.exports.listen = function(server) {
 
         });
 
-        // declining the team
+        // Declining the team
         socket.on('master_decline_team', function(data) {
 
             console.log('declining team to game...');
@@ -112,6 +112,41 @@ module.exports.listen = function(server) {
                     io.to(data.master).emit('master_team_declined', data);
                 }
 
+            });
+
+        });
+
+        // Start the game
+        socket.on('start_game', function(data) {
+
+            console.log('start game...');
+            console.log(data);
+
+            Game.findOneAndUpdate({ 'master': data.master, 'room': data.room }, {
+                $pull : {
+                    "teams" : {
+                        accepted: {
+                            $in : ['false', 'none']
+                        }
+                    }
+                },
+                $set : {
+                    'started': true
+                }
+            }, { new: true }, function(error, game) {
+                if(!error) {
+
+                    console.log('started the game and removed the teams that aren\'t accepted');
+
+                    io.to(data.master).emit('game_started', game);
+
+                    game.teams.forEach(function(team, index) {
+                        io.to(team.socket_id).emit('game_started', game);
+                    });
+
+                } else {
+                    console.log(error);
+                }
             });
 
         });

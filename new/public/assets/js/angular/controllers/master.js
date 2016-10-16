@@ -25,9 +25,9 @@ app.controller('MasterController', function($scope, $rootScope, $window, $locati
       socket.emit('master_accept_team', {
           team: team.name,
           master: socket.id,
-          room: $route.current.params.team
+          room: $route.current.params.room
       });
-  }
+  };
 
   // Accept team
   $scope.decline_team = function(team) {
@@ -36,9 +36,17 @@ app.controller('MasterController', function($scope, $rootScope, $window, $locati
       socket.emit('master_decline_team', {
           team: team.name,
           master: socket.id,
-          room: $route.current.params.team
+          room: $route.current.params.room
       });
-  }
+  };
+
+  // Start game
+  $scope.start = function() {
+      socket.emit('start_game', {
+          room: $route.current.params.password,
+          master: socket.id
+      });
+  };
 
   /*
    ===================================================================================================================
@@ -102,6 +110,12 @@ app.controller('MasterController', function($scope, $rootScope, $window, $locati
           });
        });
 
+   });
+
+
+   socket.on('game_started', function(data) {
+       $location.path('/master/' + $scope.room + '/dashboard');
+       $scope.$apply();
    });
 
 }); // End of MasterController
