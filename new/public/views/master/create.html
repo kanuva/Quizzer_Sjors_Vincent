@@ -4,16 +4,16 @@
   {{ error }}
 
 </div>
-
+<form ng-submit="create_room()">
 <!-- input fields -->
-<div class="input-group">
+  <div class="input-group">
 
-  <input type="text" name="create" ng-model="room" id="create" class="form-control" placeholder="Create a room..." />
+    <input type="text" name="create" ng-model="room" id="create" class="form-control" placeholder="Create a room..." autofocus required/>
 
-  <div class="input-group-btn">
+    <div class="input-group-btn">
 
-    <button type="button" ng-click="create_room()" class="btn btn-action pull-right"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></button>
+      <button type="submit" class="btn btn-action pull-right"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></button>
 
+    </div>
   </div>
-
-</div>
+</form>

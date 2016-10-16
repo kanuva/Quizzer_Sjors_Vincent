@@ -4,16 +4,17 @@
   {{ error }}
 
 </div>
+<form ng-submit="create_team()">
+  <!-- input fields -->
+  <div class="input-group">
 
-<!-- input fields -->
-<div class="input-group">
+    <input type="text" name="create" ng-model="name" id="create" class="form-control" placeholder="Create a team..." autofocus required />
 
-  <input type="text" name="create" ng-model="name" id="create" class="form-control" placeholder="Create a team..." />
+    <div class="input-group-btn">
 
-  <div class="input-group-btn">
+      <button type="submit" class="btn btn-action pull-right"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></button>
 
-    <button type="button" ng-click="create_team()" class="btn btn-action pull-right"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></button>
+    </div>
 
   </div>
-
-</div>
+</form>
