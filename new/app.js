@@ -26,7 +26,7 @@ app.use('/', router);
 // Sockets.io
 require('./server/sockets').listen(server, games);
 
-// Serve
+// Server
 app.use(express.static('public'));
 
 server.listen(1337, function() {

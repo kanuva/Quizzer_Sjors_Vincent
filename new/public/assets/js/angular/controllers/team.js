@@ -60,7 +60,7 @@ app.controller('TeamController', function($scope, $rootScope, $window, $location
    });
 
    socket.on('game_started', function(data) {
-       $location.path('/master/' + $scope.room + '/dashboard');
+       $location.path('/master/' + data.room + '/dashboard');
        $scope.$apply();
    });
 

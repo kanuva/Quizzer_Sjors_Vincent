@@ -22,6 +22,12 @@ router.get('/categories', function(request, response) {
     });
 });
 
+router.get('/getQuestions/:category', function(request, response){
+    Question.find({}).where('category', request.params.category).exec(function(err, questions){
+        response.json(questions);
+    });
+});
+
 router.get('/games', function(request, response) {
     Game.find({}).exec(function(error, games) {
         response.json(games);
