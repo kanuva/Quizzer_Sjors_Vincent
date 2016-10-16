@@ -6,6 +6,7 @@ var mongoose = require('mongoose')
 */
 var questions = require('./db/import');
 var db = mongoose.connect('mongodb://localhost/quizzer');
+
 var Schema = mongoose.Schema;
 
 
@@ -51,13 +52,37 @@ var questionModel = db.model('question', questionSchema);
 var gameModel = db.model('game', gameSchema);
 var teamModel = db.model('team', teamSchema);
 
-// Fill collection when it's empty
-questionModel.count({}, function(error, count) {
-    if(count <= 0) {
-        questionModel.create(questions);
-        console.log('filled collection questions with: ' + questions.length + ' documents' );
+questionModel.remove(function(error, p) {
+    if(error) {
+        console.log(error);
+    } else {
+        // Fill collection when it's empty
+        questionModel.count({}, function(error, count) {
+            if(count <= 0) {
+                questionModel.create(questions);
+                console.log('filled collection questions with: ' + questions.length + ' documents' );
+            }
+        });
     }
 });
+
+gameModel.remove(function(error, p) {
+    if(error) {
+        console.log(error);
+    }
+});
+
+teamModel.remove(function(error, p) {
+    if(error) {
+        console.log(error);
+    }
+});
+
+
+
+
+
+
 
 
 
