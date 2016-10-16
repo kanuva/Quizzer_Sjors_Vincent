@@ -57,7 +57,7 @@ app.controller('MasterController', function($scope, $rootScope, $window, $locati
    // Room created, redirect to accepting teams
    socket.on('master_created', function(data) {
 
-       $location.path('/master/' + $scope.room + '/teams');
+       $location.path('/master/' + data.room + '/teams');
        $scope.$apply();
 
    });
@@ -114,7 +114,7 @@ app.controller('MasterController', function($scope, $rootScope, $window, $locati
 
 
    socket.on('game_started', function(data) {
-       $location.path('/master/' + $scope.room + '/dashboard');
+       $location.path('/master/' + data.room + '/dashboard');
        $scope.$apply();
    });
 
