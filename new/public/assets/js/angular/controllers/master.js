@@ -1,4 +1,4 @@
-app.controller('MasterController', function($scope, $rootScope, $window, $location, $route) {
+app.controller('MasterController', function($scope, $rootScope, $window, $location, $route, $http) {
   /*
    ===================================================================================================================
       Server socket
@@ -56,6 +56,14 @@ app.controller('MasterController', function($scope, $rootScope, $window, $locati
           room: $route.current.params.password,
           master: socket.id
       });
+  };
+
+  $scope.categories = [];
+  $scope.getCategories = function () {
+    $http.get('/categories')
+        .success(function (data){
+            $scope.categories = data;
+        })
   };
 
   /*

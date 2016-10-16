@@ -1,1 +1,11 @@
-DASHBOARD
+<!-- error handling -->
+<div class="alert">
+
+    {{ error }}
+
+</div>
+<div ng-init="getCategories()">
+    <p ng-repeat="category in categories">
+        {{category}}
+    </p>
+</div>
