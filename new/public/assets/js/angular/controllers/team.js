@@ -1,4 +1,16 @@
 app.controller('TeamController', function($scope, $rootScope, $window, $location, $route) {
+   /*
+    ===================================================================================================================
+       Server socket
+    ===================================================================================================================
+    */
+    socket.on('serverReboot', function () {
+         $rootScope.$apply(function () {
+             $location.path('/');
+             $route.reload();
+         });
+     });
+
   /*
    ===================================================================================================================
       Actions
@@ -60,7 +72,7 @@ app.controller('TeamController', function($scope, $rootScope, $window, $location
    });
 
    socket.on('game_started', function(data) {
-       $location.path('/team/' + data.room + '/dashboard');
+       $location.path('/team/' + data.team + '/game/' + data.room + '/started');
        $scope.$apply();
    });
 
