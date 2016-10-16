@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Quizzer </title>
+    <base href="/">
+    <!-- stylesheet -->
+    <link href="/assets/css/style.min.css" rel="stylesheet" />
+
+    <!-- AngularJS core files -->
+    <script src="/assets/js/angular/core/angular.min.js"></script>
+    <script src="/assets/js/angular/core/angular-route.min.js"></script>
+
+    <!-- font-awesome -->
+    <script src="https://use.fontawesome.com/3d73befce9.js"></script>
+
+    <!-- socket.io -->
+    <script src="/assets/js/socket.io/socket.io.js"></script>
+</head>
+<body ng-app="quizzer">
+    <!-- content below here -->
+    <div class="container">
+      <header>
+        <a href="/#/">
+          <!-- <img src="/assets/images/logo_other.png" /> -->
+          <h1> Quizzer </h1>
+        </a>
+      </header>
+
+      <div class="stick-to-bottom" ng-view></div>
+    </div>
+
+    <!-- content above here -->
+</body>
+</html>
+
+
+
+<!-- Angular controllers & models-->
+<script src="/assets/js/angular/modules/app.js"></script>
+<script src="/assets/js/angular/routes/route.js"></script>
+
+<script src="/assets/js/angular/controllers/master.js"></script>
+<script src="/assets/js/angular/controllers/team.js"></script>

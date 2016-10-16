@@ -1,0 +1,23 @@
+@import "../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+@import "scss/fonts";
+@import "scss/variables";
+@import "scss/general";
+@import "scss/buttons";
+@import "scss/header";
+@import "scss/menu";
+
+.alert {
+  color: $accent_light;
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+}
+.stick-to-bottom {
+  position: absolute;
+  bottom: 25px;
+  width: 100%;
+}
+
+.team i {
+    font-size: 28px;
+}

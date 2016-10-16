@@ -1,0 +1,35 @@
+{
+  "name": "quizzer",
+  "version": "1.0.0",
+  "description": "quizzer project for the semester dwa",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sjorskamphuis/quizzer.git"
+  },
+  "keywords": [
+    "quizzer",
+    "dwa",
+    "han",
+    "ica"
+  ],
+  "author": "Sjors Kamphuis & Vincent van Rossum",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sjorskamphuis/quizzer/issues"
+  },
+  "homepage": "https://github.com/sjorskamphuis/quizzer#readme",
+  "dependencies": {
+    "bootstrap-sass": "^3.3.7",
+    "express": "^4.14.0",
+    "http": "0.0.0",
+    "mocha": "^3.1.1",
+    "mongodb": "^2.2.10",
+    "mongoose": "^4.6.3",
+    "path": "^0.12.7",
+    "socket.io": "^1.5.0"
+  }
+}

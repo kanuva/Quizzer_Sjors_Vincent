@@ -1,0 +1,23 @@
+.btn {
+  &.btn-primary {
+    background: $accent;
+    border: 1px solid darken($accent,20%);
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+
+  &.btn-action {
+    background: transparent;
+    border: none;
+    font-size: 46px;
+    color: $accent_light;
+    transition: all 200ms ease-in-out;
+    line-height: 0;
+    padding: 4px 15px;
+
+    &:hover {
+      color: $accent;
+    }
+  }
+}
