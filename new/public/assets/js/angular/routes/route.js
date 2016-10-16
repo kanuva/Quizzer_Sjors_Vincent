@@ -26,10 +26,11 @@ app.config(function ($routeProvider) {
             templateUrl: '/views/team/waiting.html',
             controller: 'TeamController as team'
         })
-        .when('/team/:team/game/:room', {
-            templateUrl: '/views/team/waiting.html',
+        .when('/team/:team/game/:game/started', {
+            templateUrl: '/views/team/started.html',
             controller: 'TeamController as team'
         })
+
 
         // Master routes...
         .when('/master/create', {
