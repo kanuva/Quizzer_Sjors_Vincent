@@ -30,6 +30,7 @@ app.controller('TeamController', function($scope, $rootScope, $window, $location
 
   // Create team
   $scope.join_room = function() {
+      
     console.info('trying to join the room: ' + $scope.room);
 
     socket.emit('team_join', {
@@ -49,7 +50,7 @@ app.controller('TeamController', function($scope, $rootScope, $window, $location
    // Team created, redirect to join room
    socket.on('team_created', function(data) {
 
-       $location.path('/team/' + data.name + '/join');
+       $location.path('/team/' + data.team + '/join');
        $scope.$apply();
 
    });
@@ -66,13 +67,14 @@ app.controller('TeamController', function($scope, $rootScope, $window, $location
    // Room joined, redirect to accepting teams
    socket.on('team_joined', function(data) {
 
-       $location.path('/team/' + $scope.room + '/game/' + data.room + '/waiting');
+       $location.path('/team/' + data.team + '/game/' + data.room + '/waiting');
        $scope.$apply();
 
    });
 
    socket.on('game_started', function(data) {
-       $location.path('/team/' + data.team + '/game/' + data.room + '/started');
+
+       $location.path('/team/' + $route.current.params.team + '/game/' + data.room + '/started');
        $scope.$apply();
    });
 
