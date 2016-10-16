@@ -26,7 +26,7 @@ app.controller('TeamController', function($scope, $rootScope, $window, $location
         socket_id: socket.id
     });
 
-  }
+  };
 
   // Create team
   $scope.join_room = function() {
@@ -38,7 +38,7 @@ app.controller('TeamController', function($scope, $rootScope, $window, $location
         socket_id: socket.id
     });
 
-  }
+  };
 
   /*
    ===================================================================================================================
@@ -49,7 +49,7 @@ app.controller('TeamController', function($scope, $rootScope, $window, $location
    // Team created, redirect to join room
    socket.on('team_created', function(data) {
 
-       $location.path('/team/' + $scope.name + '/join');
+       $location.path('/team/' + data.name + '/join');
        $scope.$apply();
 
    });

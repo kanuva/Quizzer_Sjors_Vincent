@@ -22,8 +22,8 @@ router.get('/categories', function(request, response) {
     });
 });
 
-router.get('/getQuestions/:category', function(request, response){
-    Question.find({}).where('category', request.params.category).exec(function(err, questions){
+router.get('/questions/:categoryOne/:categoryTwo?/:categoryThree?', function(request, response){
+    Question.find({category: {$in:[request.params.categoryOne, request.params.categoryTwo, request.params.categoryThree]}}).exec(function(err, questions){
         response.json(questions);
     });
 });
