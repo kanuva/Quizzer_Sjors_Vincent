@@ -38,7 +38,6 @@ app.controller('TeamController', function($scope, $rootScope, $window, $location
         team: $route.current.params.team,
         socket_id: socket.id
     });
-
   };
 
   /*
@@ -73,9 +72,25 @@ app.controller('TeamController', function($scope, $rootScope, $window, $location
    });
 
    socket.on('game_started', function(data) {
-
        $location.path('/team/' + $route.current.params.team + '/game/' + data.room + '/started');
        $scope.$apply();
    });
+
+    //if team is declined
+    socket.on('game_declined', function(data){
+        $rootScope.$apply(function() {
+            $scope.error = "The gamemaster has declined your team.";
+        });
+        $location.path('team/' + $route.current.params.team + '/join');
+        $scope.$apply();
+    });
+    socket.on('room_does_not_exist', function(data){
+        console.log("De game bestaat niet");
+        $rootScope.$apply(function() {
+            $scope.error = "The game you're trying to join does not exist (yet...)";
+        });
+        // $location.path('team/' + $route.current.params.team + '/join');
+        // $scope.$apply();
+    });
 
 }); // End of TeamController

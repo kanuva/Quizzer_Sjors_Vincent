@@ -89,7 +89,7 @@ app.controller('MasterController', function($scope, $rootScope, $window, $locati
 
    });
 
-   $scope.teams = new Array();
+   $scope.teams = [];
    // Team is joining
    socket.on('team_joined', function(data) {
 

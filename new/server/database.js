@@ -78,19 +78,10 @@ teamModel.remove(function(error, p) {
     }
 });
 
-
-
-
-
-
-
-
-
-
 model = {
   question : questionModel,
   game: gameModel,
-  team: teamModel,
+  team: teamModel
 };
 
 module.exports = model;

@@ -54,7 +54,7 @@ module.exports.listen = function(server) {
                     categories: [],
                     round:      1,
                     ended:      false,
-                    started:    false,
+                    started:    false
                   }
               );
 
@@ -83,7 +83,7 @@ module.exports.listen = function(server) {
             Game.findOneAndUpdate({ 'master': data.master, 'teams.name': data.team }, {
 
                 "$set" : {
-                    "teams.$.accepted" : true,
+                    "teams.$.accepted" : true
                 }
 
             }, { new: true }, function(error, game) {
@@ -108,7 +108,7 @@ module.exports.listen = function(server) {
             Game.findOneAndUpdate({ 'master': data.master, 'teams.name': data.team }, {
 
                 "$set" : {
-                    "teams.$.accepted" : false,
+                    "teams.$.accepted" : false
                 }
 
             }, { new: true }, function(error, game) {
@@ -141,7 +141,7 @@ module.exports.listen = function(server) {
                 $set : {
                     'started': true
                 }
-            }, { new: true }, function(error, game) {
+            }, { new: false }, function(error, game) {
                 if(!error) {
 
                     console.log('started the game and removed the teams that aren\'t accepted');
@@ -149,8 +149,13 @@ module.exports.listen = function(server) {
                     io.to(data.master).emit('game_started', game);
 
                     game.teams.forEach(function(team, index) {
-                        io.to(team.socket_id).emit('game_started', game);
-                    });
+                        if (game.teams.accepted === 'true'){
+                            io.to(team.socket_id).emit('game_started', game);
+                        }
+                        else {
+                            io.to(team.socket_id).emit('game_declined', game)
+                        }
+                      });
 
                 } else {
                     console.log(error);
@@ -184,7 +189,7 @@ module.exports.listen = function(server) {
                       name: data.team,
                       socket_id: data.socket_id,
                       score: 0,
-                      accepted: 'none',
+                      accepted: 'none'
                     }
                 );
                 team.save(function(error) {
@@ -209,34 +214,44 @@ module.exports.listen = function(server) {
 
           // Join room
           socket.on('team_join', function(data) {
+              Game.findOne({room: data.room}).count({}, function (error, count) {
+                  if (count > 0 && Game.master) {
 
-              Game.findOneAndUpdate({ room: data.room }, {
+                      Game.findOneAndUpdate({room: data.room}, {
 
-                  "$push" : {
-                      "teams" : {
-                          name :     data.team,
-                          socket_id: data.socket_id,
-                          points:    0,
-                          accepted:  'none' }
-                  }
+                          "$push": {
+                              "teams": {
+                                  name: data.team,
+                                  socket_id: data.socket_id,
+                                  points: 0,
+                                  accepted: 'none'
+                              }
+                          }
 
-              }, function(error, numAffected, rawResponse) {
+                      }, function (error, numAffected, rawResponse) {
 
-                  if(!error) {
+                          if (!error) {
 
-                      io.to(data.socket_id).emit('team_joined', data)
+                              io.to(data.socket_id).emit('team_joined', data);
 
-                      Game.findOne({ room: data.room }).exec(function(error, room) {
+                              Game.findOne({room: data.room}).exec(function (error, room) {
+                                  if (!error) {
 
-                          io.to(room.master).emit('team_joined', data);
+                                      io.to(room.master).emit('team_joined', data);
+
+                                  }
+                              });
+
+                          }
 
                       });
-
+                  } else {
+                      //Client should be rejected because the room does not exist
+                      io.to(data.socket_id).emit('room_does_not_exist', data);
                   }
 
               });
           });
+     return io;
     });
-
-  return io;
-}
+};
