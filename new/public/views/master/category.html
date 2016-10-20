@@ -1,0 +1,29 @@
+<!-- error handling -->
+<div class="alert">
+
+    {{ error }}
+
+</div>
+
+<div ng-init="getCategories()">
+
+    <div ng-repeat="category in categories">
+
+        <label>
+
+            <input type="checkbox" ng-model="category.checked" ng-change="checkChanged(category)"  ng-disabled="checked==limit && !category.checked" />
+            {{ category.name }}
+        </label>
+
+    </div>
+
+</div>
+
+<div class="action-bar">
+
+    <button ng-click="start_game()" class="btn btn-action">
+        <i class="fa fa-arrow-circle-o-right"></i>
+        Start
+    </button>
+
+</div>

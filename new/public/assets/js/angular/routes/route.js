@@ -37,10 +37,17 @@ app.config(function ($routeProvider) {
             templateUrl: '/views/master/create.html',
             controller: 'MasterController as master'
         })
+
         .when('/master/:password/teams', {
             templateUrl: '/views/master/teams.html',
             controller: 'MasterController as master'
         })
+
+        .when('/master/:password/categories', {
+            templateUrl: '/views/master/category.html',
+            controller: 'MasterController as master'
+        })
+
         .when('/master/:password/dashboard', {
             templateUrl: '/views/master/dashboard.html',
             controller: 'MasterController as master'
