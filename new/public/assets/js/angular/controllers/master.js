@@ -52,7 +52,6 @@ app.controller('MasterController', function($scope, $rootScope, $window, $locati
 
   // Select the categories, has choosen the teams
   $scope.select_categories = function() {
-
       socket.emit('master_category', {
           room: $route.current.params.password,
           master: socket.id

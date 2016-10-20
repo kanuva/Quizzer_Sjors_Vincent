@@ -214,8 +214,8 @@ module.exports.listen = function(server) {
 
           // Join room
           socket.on('team_join', function(data) {
-              Game.findOne({room: data.room}).count({}, function (error, count) {
-                  if (count > 0 && Game.master) {
+              Game.findOne({room: data.room}).exec( function (error, game) {
+                  if (game.master && game.started == false){
 
                       Game.findOneAndUpdate({room: data.room}, {
 
@@ -245,7 +245,7 @@ module.exports.listen = function(server) {
                           }
 
                       });
-                  } else {
+                  }  {
                       //Client should be rejected because the room does not exist
                       io.to(data.socket_id).emit('room_does_not_exist', data);
                   }
