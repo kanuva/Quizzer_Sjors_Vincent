@@ -84,13 +84,16 @@ app.controller('TeamController', function($scope, $rootScope, $window, $location
         $location.path('team/' + $route.current.params.team + '/join');
         $scope.$apply();
     });
-    socket.on('room_does_not_exist', function(data){
-        console.log("De game bestaat niet");
+    socket.on('game_does_not_exist', function(data){
         $rootScope.$apply(function() {
             $scope.error = "The game you're trying to join does not exist (yet...)";
         });
-        // $location.path('team/' + $route.current.params.team + '/join');
-        // $scope.$apply();
     });
+    socket.on('game_has_been_started', function(data){
+        $rootScope.$apply(function() {
+            $scope.error = "The game you're trying to join has already been started.";
+        });
+    });
+
 
 }); // End of TeamController

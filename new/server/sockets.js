@@ -245,9 +245,13 @@ module.exports.listen = function(server) {
                           }
 
                       });
-                  }  {
+                  } else if(game.started == true) {
+                      //Client should be rejected because this game has allready been started
+                      io.to(data.socket_id).emit('game_has_been_started', data);
+                  }
+                  else if(game.master){
                       //Client should be rejected because the room does not exist
-                      io.to(data.socket_id).emit('room_does_not_exist', data);
+                      io.to(data.socket_id).emit('game_does_not_exist', data);
                   }
 
               });
