@@ -241,7 +241,7 @@ module.exports.listen = function (server) {
                 }
 
             });
-            
+
         });
 
         // Join room
