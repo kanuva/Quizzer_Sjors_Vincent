@@ -30,7 +30,7 @@ app.controller('MasterController', function($scope, $rootScope, $window, $locati
 
   // Accept team
   $scope.accept_team = function(team) {
-      console.log('accepting team' + team.name);
+      console.log('accepting team: ' + team.name);
 
       socket.emit('master_accept_team', {
           team: team.name,
@@ -41,7 +41,7 @@ app.controller('MasterController', function($scope, $rootScope, $window, $locati
 
   // Accept team
   $scope.decline_team = function(team) {
-      console.log('declining team' + team.name);
+      console.log('declining team: ' + team.name);
 
       socket.emit('master_decline_team', {
           team: team.name,
@@ -50,20 +50,59 @@ app.controller('MasterController', function($scope, $rootScope, $window, $locati
       });
   };
 
-  // Start game
-  $scope.start = function() {
-      socket.emit('start_game', {
+  // Select the categories, has choosen the teams
+  $scope.select_categories = function() {
+
+      socket.emit('master_category', {
           room: $route.current.params.password,
           master: socket.id
       });
+
   };
+
+  // Select the categories, has choosen the teams
+  $scope.start_game = function() {
+      var checked_categories = [];
+
+      angular.forEach($scope.categories, function(value, key) {
+          if(value.checked === true) {
+              checked_categories.push(value.name);
+          }
+      });
+
+      console.log(checked_categories);
+
+      socket.emit('start_game', {
+          room: $route.current.params.password,
+          categories: checked_categories,
+          master: socket.id
+      });
+
+  };
+
+
+
+  // Category validation vars
+    $scope.checked = 0;
+    $scope.limit = 3;
+
+
+    $scope.checkChanged = function (category) {
+        if (category.checked) $scope.checked++;
+        else $scope.checked--;
+    };
+
 
   $scope.categories = [];
   $scope.getCategories = function () {
     $http.get('/categories')
         .success(function (data){
-            $scope.categories = data;
-        })
+
+            data.forEach(function(category, key) {
+                $scope.categories.push({ name: category, checked: false });
+            });
+
+        });
   };
 
   /*
@@ -131,8 +170,8 @@ app.controller('MasterController', function($scope, $rootScope, $window, $locati
    });
 
 
-   socket.on('game_started', function(data) {
-       $location.path('/master/' + data.room + '/dashboard');
+   socket.on('master_to_categories', function(data) {
+       $location.path('/master/' + data.room + '/categories');
        $scope.$apply();
    });
 

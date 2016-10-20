@@ -124,10 +124,10 @@ module.exports.listen = function(server) {
 
         });
 
-        // Start the game
-        socket.on('start_game', function(data) {
+        // Master has choosen the teams, select categories
+        socket.on('master_category', function(data) {
 
-            console.log('start game...');
+            console.log('Master has chooses it\'s teams and will select the quiz categories now ...');
             console.log(data);
 
             Game.findOneAndUpdate({ 'master': data.master, 'room': data.room }, {
@@ -146,7 +146,7 @@ module.exports.listen = function(server) {
 
                     console.log('started the game and removed the teams that aren\'t accepted');
 
-                    io.to(data.master).emit('game_started', game);
+                    io.to(data.master).emit('master_to_categories', game);
 
                     game.teams.forEach(function(team, index) {
                         io.to(team.socket_id).emit('game_started', game);
