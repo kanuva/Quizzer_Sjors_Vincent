@@ -1,5 +1,5 @@
 body {
-  background: url('http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/school.png');
+  background: url('../images/schoolrorname.png');
   font-size: 16px;
   font-family: 'sketch_blockbold', sans-serif;
 
@@ -14,7 +14,6 @@ body {
     &:focus{
       outline: none;
       border: 1px solid $blue;
-      box-shadow: 0 0 0 0 transparent;
       box-shadow: inset 0 0 2px #444;
     }
 
