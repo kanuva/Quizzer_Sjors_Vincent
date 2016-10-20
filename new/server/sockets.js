@@ -201,42 +201,47 @@ module.exports.listen = function (server) {
         socket.on('team_create', function (data) {
             var exists = false;
 
-            allteams.forEach(function (element, index) {
-                if (allteams[index].name === data.team) {
-                    socket.emit('team_exists');
-                    exists = true;
-                }
-            });
+            Team.find({}).exec(function(error, teams) {
 
-            console.log(data);
+                teams.forEach(function (element, index) {
 
-            if (!exists) {
-                var team = new Team(
-                    {
-                        name: data.team,
-                        socket_id: data.socket_id,
-                        score: 0,
-                        accepted: 'none',
+                    if (teams[index].name === data.team) {
+                        socket.emit('team_exists');
+                        exists = true;
                     }
-                );
-                team.save(function (error) {
-                    if (error) {
 
-                        console.log('team isn\'t created');
-                        console.log(error);
-
-                    } else {
-
-                        console.log('team created');
-
-                        io.to(data.socket_id).emit('team_created', data);
-
-                    }
                 });
 
-            } else {
-                console.log('team already exists');
-            }
+                if (!exists) {
+                    var team = new Team(
+                        {
+                            name: data.team,
+                            socket_id: data.socket_id,
+                            score: 0,
+                            accepted: 'none',
+                        }
+                    );
+                    team.save(function (error) {
+                        if (error) {
+
+                            console.log('team isn\'t created');
+                            console.log(error);
+
+                        } else {
+
+                            console.log('team created');
+
+                            io.to(data.socket_id).emit('team_created', data);
+
+                        }
+                    });
+
+                } else {
+                    console.log('team already exists');
+                }
+
+            });
+            
         });
 
         // Join room
