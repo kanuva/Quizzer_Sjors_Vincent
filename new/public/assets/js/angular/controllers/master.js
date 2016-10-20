@@ -175,4 +175,9 @@ app.controller('MasterController', function($scope, $rootScope, $window, $locati
        $scope.$apply();
    });
 
+    socket.on('master_game_started', function(data) {
+        $location.path('/master/' + data.room + '/dashboard');
+        $scope.$apply();
+    });
+
 }); // End of MasterController
