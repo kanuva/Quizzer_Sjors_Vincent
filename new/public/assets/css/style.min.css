@@ -5828,10 +5828,6 @@ body {
       border: 1px solid #011C26;
       box-shadow: inset 0 0 2px #444; }
 
-.container {
-  position: relative;
-  min-height: 100vh; }
-
 ::-webkit-input-placeholder {
   /* WebKit, Blink, Edge */
   color: #222 !important; }
@@ -5878,31 +5874,27 @@ header {
   header a:hover {
     text-decoration: none; }
 
-.menu {
-  position: absolute;
-  bottom: 50px;
-  width: 100%; }
-  .menu ul {
-    display: block;
-    margin: 0 auto;
-    font-size: 0; }
-    .menu ul li {
-      display: inline-block;
+.menu ul {
+  display: block;
+  margin: 0 auto;
+  font-size: 0; }
+  .menu ul li {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 15px; }
+    .menu ul li .btn.btn-primary {
+      margin: 0px auto;
       width: 100%;
-      text-align: center;
-      margin-bottom: 15px; }
-      .menu ul li .btn.btn-primary {
-        margin: 0px auto;
-        width: 100%;
-        padding-top: 15px;
-        font-size: 28px;
-        background: #588C8C;
-        border: 1px solid #314d4d;
-        transition: all 200ms ease-in-out;
-        color: #011C26; }
-        .menu ul li .btn.btn-primary:hover {
-          background: #314d4d;
-          color: #fff; }
+      padding-top: 15px;
+      font-size: 28px;
+      background: #588C8C;
+      border: 1px solid #314d4d;
+      transition: all 200ms ease-in-out;
+      color: #011C26; }
+      .menu ul li .btn.btn-primary:hover {
+        background: #314d4d;
+        color: #fff; }
 
 .alert {
   color: #D9042B;
@@ -5911,7 +5903,8 @@ header {
 
 .stick-to-bottom {
   position: absolute;
-  bottom: 25px;
+  top: 50%;
+  margin-top: -250px;
   width: 100%; }
 
 .team i {

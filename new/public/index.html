@@ -19,15 +19,15 @@
 </head>
 <body ng-app="quizzer">
     <!-- content below here -->
-    <div class="container">
+    <div>
       <header>
         <a href="/#/">
-          <!-- <img src="/assets/images/logo_other.png" /> -->
+           <!--<img src="/assets/images/logo_other.png" />-->
           <h1> Quizzer </h1>
         </a>
       </header>
 
-      <div class="stick-to-bottom" ng-view></div>
+      <div ng-class="(dashboard) ? '': 'container'" ng-view></div>
     </div>
 
     <!-- content above here -->
