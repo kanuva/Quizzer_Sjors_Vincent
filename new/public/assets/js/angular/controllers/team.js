@@ -1,4 +1,7 @@
 app.controller('TeamController', function($scope, $rootScope, $window, $location, $route) {
+
+
+    $scope.joinstatus = "Waiting for acceptance...";
    /*
     ===================================================================================================================
        Server socket
@@ -40,6 +43,8 @@ app.controller('TeamController', function($scope, $rootScope, $window, $location
     });
   };
 
+
+
   /*
    ===================================================================================================================
       Socket Listeners
@@ -78,6 +83,7 @@ app.controller('TeamController', function($scope, $rootScope, $window, $location
 
     //if team is declined
     socket.on('game_declined', function(data){
+        console.log("ik ben declined #sad");
         $rootScope.$apply(function() {
             $scope.error = "The gamemaster has declined your team.";
         });
@@ -95,5 +101,18 @@ app.controller('TeamController', function($scope, $rootScope, $window, $location
         });
     });
 
+    //temp socket listeners
+    socket.on('team_temp_declined', function(data){
+        $rootScope.$apply(function() {
+            $scope.joinstatus = "You are declined, for now...";
+            console.log("ik ben tussendoor declined");
+        });
+    });
+    socket.on('team_temp_accept', function(data){
+        $rootScope.$apply(function() {
+            $scope.joinstatus = "You are accepted, for now...";
+            console.log("ik ben tussendoor geaccepteerd");
+        });
+    });
 
 }); // End of TeamController
