@@ -32,3 +32,5 @@ app.use(express.static('public'));
 server.listen(1337, function() {
     console.log('server is now running at port 1337');
 });
+
+module.exports =  {quizzer: app};
