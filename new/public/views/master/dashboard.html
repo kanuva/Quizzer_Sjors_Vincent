@@ -1,4 +1,4 @@
-<div class="row" ng-init="dashboard_init()">
+<div ng-init="dashboard_init()">
 
     <!-- Teams -->
     <div class="col-md-3">
@@ -34,9 +34,18 @@
 
     </div>
 
-    <!-- Answers -->
-    <div class="col-md-9" style="min-height: 100px; background: #fff;">
+    <!-- Answers & Questions -->
+    <div class="col-md-9">
+        <div style="max-height: 200px; overflow: auto; background: #fff; padding: 15px;">
+            <!-- Questions-->
+            <div class="question" ng-repeat="question in questions">
+                <p ng-click="select_question(question.id)" ng-bind="question.question">{{ question.question }}</p>
+            </div>
+        </div>
 
+        <div style="min-height: 200px; background: #fff; margin-top: 30px;">
+            <!-- Answers -->
+        </div>
     </div>
 
 

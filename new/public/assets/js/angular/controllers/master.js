@@ -1,4 +1,6 @@
 app.controller('MasterController', function ($scope, $rootScope, $window, $location, $route, $http) {
+
+    $scope.questions = [];
     /*
      ===================================================================================================================
      Server socket
@@ -108,12 +110,30 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
         $http.get('/game/' + $route.current.params.password + '/teams')
             .success(function(data) {
 
-                console.log(data);
-
                 data.teams.forEach(function(team, key) {
                     $scope.teams.push(team);
                 });
 
+                data.categories.forEach(function(category, key) {
+                    $scope.categories.push(category);
+                });
+
+                console.log('/questions/' + $scope.categories[0] + '/' + $scope.categories[1] + '/' + $scope.categories[2]);
+
+                $http.get('/questions/' + $scope.categories[0] + '/' + $scope.categories[1] + '/' + $scope.categories[2])
+                    .success(function(data) {
+                        console.info('questions:');
+                        console.log(data);
+
+                        data.forEach(function(question, key) {
+
+                                $scope.questions.push(question);
+
+                        });
+
+                        console.log($scope.questions);
+
+                    });
             });
     };
 
