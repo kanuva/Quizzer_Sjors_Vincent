@@ -84,13 +84,12 @@ module.exports.listen = function (server) {
 
             }, {new: true}, function (error, game) {
                 if (!error) {
-
-                    console.log('team is accepted: ' + data.team);
-                    console.log(game);
-
                     io.to(data.master).emit('master_team_accepted', data);
+                    Game.findOne({"teams.name": data.team}, {'teams.$': 1}, function (error, game) {
+                        console.log('team is accepted: ' + data.team);
+                        io.to(game.teams[0].socket_id).emit('team_temp_accept', data);
+                    });
                 }
-
             });
 
         });
@@ -105,11 +104,11 @@ module.exports.listen = function (server) {
 
             }, {new: true}, function (error, game) {
                 if (!error) {
-
-                    console.log('team is declined: ' + data.team);
-                    console.log(game);
-
                     io.to(data.master).emit('master_team_declined', data);
+                    Game.findOne({"teams.name": data.team}, {'teams.$': 1}, function (error, game) {
+                        console.log('team is declined: ' + data.team);
+                        io.to(game.teams[0].socket_id).emit('team_temp_declined',data);
+                    });
                 }
 
             });
@@ -120,7 +119,6 @@ module.exports.listen = function (server) {
         socket.on('master_category', function (data) {
 
             console.log('Master has chooses it\'s teams and will select the quiz categories now ...');
-            console.log(data);
 
             Game.findOneAndUpdate({'master': data.master, 'room': data.room}, {
                 $pull: {
@@ -133,15 +131,16 @@ module.exports.listen = function (server) {
                 $set: {
                     'started': true
                 }
-            }, {new: true}, function (error, game) {
+            }, {new: false}, function (error, game) {
                 if (!error) {
-
-                    console.log('started the game and removed the teams that aren\'t accepted');
-
                     io.to(data.master).emit('master_to_categories', game);
-
                     game.teams.forEach(function (team, index) {
-                        io.to(team.socket_id).emit('master_to_categories', game);
+                        if (team.accepted === "true") {
+                            io.to(team.socket_id).emit('game_started', game);
+                        }
+                        else {
+                            io.to(team.socket_id).emit('game_declined', game);
+                        }
                     });
 
                 } else {
