@@ -39,7 +39,7 @@
         <div style="max-height: 200px; overflow: auto; background: #fff; padding: 15px;">
             <!-- Questions-->
             <div class="question" ng-repeat="question in questions">
-                <p ng-click="select_question(question.id)" ng-bind="question.question">{{ question.question }}</p>
+                <p ng-class="question.class" ng-click="select_question(question.id)" ng-bind="question.question">{{ question.question }}</p>
             </div>
         </div>
 
