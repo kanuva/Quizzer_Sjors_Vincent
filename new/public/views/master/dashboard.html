@@ -51,21 +51,37 @@
 
         </div>
     </div>
-    <div ng-if="currentGame.roundNumber === 0" class="pull-right">
 
-        <button class="btn btn-action" ng-click="start_Round()" ng-disabled="currentGame.roundStarted"><i class="fa fa-arrow-circle-o-right"></i> Start the first round </button>
+    <div class="col-md-12">
+        <div class="row">
 
+            <div class="col-sm-6">
+                <div class="pull-left" ng-if="currentGame.roundNumber > 0">
+
+                    <button class="btn btn-action" ng-click="end_Round()" ng-disabled="currentGame.roundStarted == false"><i class="fa fa-ban"></i> End current round </button>
+
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div ng-if="currentGame.roundNumber === 0" class="pull-right">
+
+                    <button class="btn btn-action" ng-click="start_Round()" ng-disabled="currentGame.roundStarted"><i class="fa fa-arrow-circle-o-right"></i> Start the first round </button>
+
+                </div>
+
+                <div ng-if="currentGame.roundNumber > 0" class="pull-right">
+
+                    <button class="btn btn-action" ng-click="start_Round()" ng-disabled="currentGame.roundStarted"><i class="fa fa-arrow-circle-o-right"></i> Next Round </button>
+
+                </div>
+            </div>
+
+
+        </div>
     </div>
-    <div ng-if="currentGame.roundNumber > 0" class="pull-right">
 
-        <button class="btn btn-action" ng-click="start_Round()" ng-disabled="currentGame.roundStarted"><i class="fa fa-arrow-circle-o-right"></i> Next Round </button>
 
-    </div>
-    <div class="pull-left">
-
-        <button class="btn btn-action" ng-click="end_Round()" ng-disabled="currentGame.roundStarted == false"><i class="fa fa-ban"></i> End current round </button>
-
-    </div>
 
 
 

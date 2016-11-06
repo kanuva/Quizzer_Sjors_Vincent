@@ -88,8 +88,6 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
             }
         });
 
-        console.log(checked_categories);
-
         socket.emit('start_game', {
             room: $route.current.params.password,
             categories: checked_categories,
@@ -136,8 +134,6 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
 
                 $http.get('/questions/' + $scope.categories[0] + '/' + $scope.categories[1] + '/' + $scope.categories[2])
                     .success(function(data) {
-                        console.info('questions:');
-                        console.log(data);
 
                         data.forEach(function(question, key) {
 
@@ -165,7 +161,6 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
             if($scope.questions[i].id == id) {
                 $scope.questions[i].class = 'selected';
                 $scope.currentGame.currentQuestion = $scope.questions[i].question;
-                console.log($scope.currentGame);
             }
         }
     };
@@ -177,7 +172,6 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
         for(var i=0; i < $scope.questions.length; i++) {
 
             if($scope.questions[i].question == $scope.currentGame.currentQuestion) {
-                console.log('found the question... \r splicing now...')
                 $scope.questions.splice(i, 1);
             }
 
@@ -230,8 +224,6 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
             $scope.teams.push({name: data.team, accepted: false});
 
         });
-
-        console.log($scope.teams);
     });
 
 
