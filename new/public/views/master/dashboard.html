@@ -45,7 +45,26 @@
 
         <div style="min-height: 200px; background: #fff; margin-top: 30px;">
             <!-- Answers -->
+            <h3 ng-bind="currentQuestion">{{currentQuestion}}</h3>
+            <br/>
+            <p ng-bind="givenAnswers">{{givenAnswers}}</p>
+
         </div>
+    </div>
+    <div ng-if="roundNumber === 0" class="pull-right">
+
+        <button class="btn btn-action"><i class="fa fa-arrow-circle-o-right"></i> Start the first round </button>
+
+    </div>
+    <div ng-if="roundNumber > 0" class="pull-right">
+
+        <button class="btn btn-action"><i class="fa fa-arrow-circle-o-right"></i> Next Round </button>
+
+    </div>
+    <div class="pull-left">
+
+        <button class="btn btn-action"><i class="fa fa-ban"></i> End current round </button>
+
     </div>
 
 

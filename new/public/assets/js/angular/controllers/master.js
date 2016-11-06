@@ -1,6 +1,9 @@
 app.controller('MasterController', function ($scope, $rootScope, $window, $location, $route, $http) {
 
     $scope.questions = [];
+    $scope.currentQuestion = "You have not selected a question (yet)..";
+    $scope.givenAnswers = "There are no answers given (yet)..";
+    $scope.roundNumber = 0;
     /*
      ===================================================================================================================
      Server socket
