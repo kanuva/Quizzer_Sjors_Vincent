@@ -1,7 +1,7 @@
 <div ng-init="dashboard_init()">
         <!--team-->
         <div class="col-sm-3">
-            <h3>hier komen de rondes!</h3>
+            <h3>Round: {{currentGame.round}}</h3>
             <div class="table-responsive">
                 <table class="teams table table-striped">
                     <thead>
@@ -11,7 +11,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="team" ng-repeat="team in teams">
+                    <tr class="team" ng-repeat="team in currentGame.teams">
                         <td>{{ team.name }}</td>
                         <td>{{ team.score }}</td>
                     </tr>
@@ -21,7 +21,7 @@
     </div>
     <div style="min-height: 200px; background: #fff; margin-top: 30px; padding: 15px;">
         <!-- Answers -->
-        <h3 ng-bind="currentQuestion!!!"></h3>
+        <h3 ng-bind="currentGame.questions[currentGame.questions.length -1]"></h3>
         <div class="answers" ng-repeat="answer in answers">
 
             <p><strong>Team: </strong> <span ng-bind="answer.team"></span></p>

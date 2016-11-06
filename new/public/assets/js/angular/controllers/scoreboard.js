@@ -17,9 +17,10 @@ app.controller('ScoreboardController', function ($scope, $rootScope, $window, $l
     $scope.dashboard_init = function () {
         $http.get('/game/' + $route.current.params.game)
             .success(function (data) {
-                console.log(data);
-                socket.emit('scoreboard_join', {room: data.room, socket_id: socket.id});
                 $scope.currentGame = data;
+                console.log($scope.currentGame);
+                socket.emit('scoreboard_join', {room: data.room, socket_id: socket.id});
+
             })
     };
 
@@ -27,7 +28,6 @@ app.controller('ScoreboardController', function ($scope, $rootScope, $window, $l
         $http.get('/game/' + $route.current.params.game)
             .success(function (data) {
                 $scope.currentGame = data;
-
                 console.log($scope.currentGame);
             })
     };
