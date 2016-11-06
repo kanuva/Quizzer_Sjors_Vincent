@@ -11,6 +11,11 @@
   color: #4cae4c;
 }
 
+.question button.ng-binding {
+  background: none;
+  border: none;
+}
+
 .alert {
   color: $accent_light;
   padding: 0 0 0 0;
