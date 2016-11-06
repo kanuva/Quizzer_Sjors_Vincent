@@ -33,7 +33,6 @@ app.controller('TeamController', function ($scope, $rootScope, $window, $locatio
             team: $scope.name,
             socket_id: socket.id
         });
-
     };
 
     // Create team
