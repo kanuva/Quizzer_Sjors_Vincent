@@ -1,0 +1,26 @@
+<div ng-init="selectRoom_init()" class="row">
+
+    <div class="col-md-12">
+
+        <h1> Select a room: </h1>
+
+    </div>
+
+    <!-- show games -->
+    <div class="col-md-12" ng-if="games.length > 0">
+
+        <div class="team" ng-repeat="game in games">
+
+            <div class="row">
+
+                <div class="col-md-10">
+                    <h2> <a href="/#/scoreboard/{{game.room}}"> {{ game.room }} </a></h2>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

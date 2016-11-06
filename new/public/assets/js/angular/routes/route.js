@@ -52,5 +52,16 @@ app.config(function ($routeProvider) {
             controller: 'MasterController as master'
         })
 
+        //Scoreboard routes
+        .when('/scoreboard/selectgame', {
+            templateUrl: '/views/scoreboard/selectgame.html',
+            controller: 'ScoreboardController as scoreboard'
+        })
+
+        .when('/scoreboard/:game', {
+            templateUrl: '/views/scoreboard/scoreboard.html',
+            controller: 'ScoreboardController as scoreboard'
+        })
+
         .otherwise('/');
 });

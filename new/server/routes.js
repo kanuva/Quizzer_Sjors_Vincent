@@ -38,6 +38,14 @@ router.get('/games', function(request, response) {
 
 });
 
+router.get('/game/:game', function(request, response){
+    var game = request.params.game;
+
+    Game.findOne({room: game}).exec(function(error, game){
+        response.json(game);
+    })
+});
+
 router.get('/game/:password/teams', function(request, response) {
 
     var password = request.params.password;
