@@ -317,7 +317,8 @@ module.exports.listen = function (server) {
         // Join room
         socket.on('team_join', function (data) {
             Game.findOne({room: data.room}).exec(function (error, game) {
-                if (game.master != null && game.started == false) {
+
+                if (game != null && game.master != null && game.started == false) {
 
                     Game.findOneAndUpdate({room: data.room}, {
 
@@ -347,11 +348,11 @@ module.exports.listen = function (server) {
                         }
 
                     });
-                } else if (game.started == true) {
+                } else if (game != null && game.started == true) {
                     //Client should be rejected because this game has allready been started
                     io.to(data.socket_id).emit('game_has_been_started', data);
                 }
-                else if (game.master == null) {
+                else if (game == null) {
                     //Client should be rejected because the room does not exist
                     io.to(data.socket_id).emit('game_does_not_exist', data);
                 }
