@@ -27,7 +27,6 @@ module.exports.listen = function (server) {
          */
         socket.on('master_create', function (data) {
             var exists = false;
-            console.log("data.room " + data.room);
             Game.find({}).exec(function (error, games) {
                 games.forEach(function (element, index) {
                     if (games[index].room === data.room) {
@@ -57,13 +56,11 @@ module.exports.listen = function (server) {
                             console.log('room isn\'t created');
                             console.log(error);
                         } else {
-                            console.log('room created');
                             io.to(socket.id).emit('master_created', data);
                         }
                     });
 
                 } else {
-                    console.log('room already exists');
                 }
             });
         });
@@ -364,8 +361,6 @@ module.exports.listen = function (server) {
             Game.findOne({'teams.socket_id': data.socket_id}).exec(function (error, foundData) {
                 if (!error) {
                     io.to(foundData.master).emit('question_Answer', {answer: data.answer, team: data.team});
-                    console.log("Found data:");
-                    console.log(foundData);
                 }
             });
         });
@@ -377,8 +372,6 @@ module.exports.listen = function (server) {
          */
 
         socket.on('scoreboard_join', function (data) {
-            console.log("een nieuwe scoreboard heeft zich gemeld! voor room: " + data.room);
-
             Game.findOneAndUpdate({'room': data.room}, {
                 "$set": {
                     "scoreboard": data.socket_id
@@ -386,8 +379,7 @@ module.exports.listen = function (server) {
             }, function (error, game) {
                 if (!error) {
                     Game.findOne ({'room': data.room}).exec(function(error, foundData){
-                        console.log("FoundData: !!!!!!!!!!!! ");
-                        console.log(foundData);
+
                     });
                 }
             });

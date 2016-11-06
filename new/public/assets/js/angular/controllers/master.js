@@ -50,8 +50,6 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
 
     // Accept team
     $scope.accept_team = function (team) {
-        console.log('accepting team: ' + team.name);
-
         socket.emit('master_accept_team', {
             team: team.name,
             master: socket.id,
@@ -61,8 +59,6 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
 
     // Accept team
     $scope.decline_team = function (team) {
-        console.log('declining team: ' + team.name);
-
         socket.emit('master_decline_team', {
             team: team.name,
             master: socket.id,
@@ -220,8 +216,6 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
     };
 
     $scope.correct_answer = function(answer_obj) {
-        console.log('answered the question of team: '+ answer_obj.team + ' as correct...');
-
         for(var i=0; i < $scope.answers.length; i++) {
             if($scope.answers[i].team == answer_obj.team) {
                 $scope.answers[i].answered = 'correct';
@@ -230,8 +224,6 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
     };
 
     $scope.wrong_answer = function(answer_obj) {
-        console.log('answered the question of team: '+ answer_obj.team + ' as wrong...');
-
         $scope.answers.forEach(function(answer, key) {
             if(answer.team == answer_obj.team) {
                 $scope.answers[key].answered = 'wrong';
@@ -267,8 +259,6 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
     $scope.teams = [];
     // Team is joining
     socket.on('team_joined', function (data) {
-
-        console.log('team wants to join...');
         $rootScope.$apply(function () {
 
             $scope.teams.push({name: data.team, accepted: false});
@@ -315,8 +305,6 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
     });
 
     socket.on('question_Answer', function(data){
-        console.log("ik heb een antwoord binnen gekregen");
-
         $scope.answers.push({ team: data.team, answer: data.answer, answered: false });
         $scope.$apply();
 

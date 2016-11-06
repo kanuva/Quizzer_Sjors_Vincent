@@ -27,8 +27,6 @@ app.controller('TeamController', function ($scope, $rootScope, $window, $locatio
 
     // Create team
     $scope.create_team = function () {
-        console.info('created the team: ' + $scope.name);
-
         socket.emit('team_create', {
             team: $scope.name,
             socket_id: socket.id
@@ -37,9 +35,6 @@ app.controller('TeamController', function ($scope, $rootScope, $window, $locatio
 
     // Create team
     $scope.join_room = function () {
-
-        console.info('trying to join the room: ' + $scope.room);
-
         socket.emit('team_join', {
             room: $scope.room,
             team: $route.current.params.team,
@@ -97,7 +92,6 @@ app.controller('TeamController', function ($scope, $rootScope, $window, $locatio
 
     //if team is declined
     socket.on('game_declined', function (data) {
-        console.log("ik ben declined #sad");
         $rootScope.$apply(function () {
             $scope.error = "The gamemaster has declined your team.";
         });
@@ -119,13 +113,11 @@ app.controller('TeamController', function ($scope, $rootScope, $window, $locatio
     socket.on('team_temp_declined', function (data) {
         $rootScope.$apply(function () {
             $scope.joinstatus = "You are declined, for now...";
-            console.log("ik ben tussendoor declined");
         });
     });
     socket.on('team_temp_accept', function (data) {
         $rootScope.$apply(function () {
             $scope.joinstatus = "You are accepted, for now...";
-            console.log("ik ben tussendoor geaccepteerd");
         });
     });
 
