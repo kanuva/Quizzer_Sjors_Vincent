@@ -8,9 +8,9 @@
     <!-- input fields -->
     <div class="input-group">
 
-        <p ng-bind="currentQuestion">{{currentQuestion}}</p>
+        <p ng-bind="currentGame.currentQuestion">{{currentGame.currentQuestion}}</p>
 
-        <input type="text" name="create" ng-model="room" id="create" class="form-control" placeholder="Answer here.." autofocus required/>
+        <input ng-readonly="!currentGame.answerAble" type="text" name="create" ng-model="answer" id="create" class="form-control" placeholder="{{currentGame.placeHolder}}" autofocus required/>
 
         <div class="input-group-btn">
 

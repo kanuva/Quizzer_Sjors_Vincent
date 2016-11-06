@@ -176,7 +176,6 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
             question: $scope.currentGame.currentQuestion,
             masterId: socket.id
         });
-        console.log(socket.id);
     };
 
     $scope.end_Round = function (){

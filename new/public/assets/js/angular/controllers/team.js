@@ -2,7 +2,11 @@ app.controller('TeamController', function($scope, $rootScope, $window, $location
 
 
     $scope.joinstatus = "Waiting for acceptance...";
-    $scope.currentQuestion = "The gamemaster hasn't asked a question yet...";
+    $scope.currentGame = {
+        currentQuestion: "The gamemaster hasn't asked a question yet...",
+        answerAble: false,
+        placeHolder: "You can't answer yet..."
+    };
    /*
     ===================================================================================================================
        Server socket
@@ -118,10 +122,19 @@ app.controller('TeamController', function($scope, $rootScope, $window, $location
 
     socket.on('new_question', function(data) {
         $rootScope.$apply(function() {
-            $scope.currentQuestion = data;
+            $scope.currentGame.currentQuestion = data;
+            $scope.currentGame.answerAble = true;
+            $scope.currentGame.placeHolder = "You can enter your answer now!";
         });
-        console.log($scope.currentQuestion);
+    });
 
-    })
+    socket.on('new_round', function(){
+        $rootScope.$apply(function() {
+            $scope.answer = "";
+            $scope.currentGame.currentQuestion = "Waiting for the Game Master to ask a new question...";
+            $scope.currentGame.answerAble = false;
+            $scope.currentGame.placeHolder = "You can't answer yet...";
+        });
+    });
 
 }); // End of TeamController
