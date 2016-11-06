@@ -182,6 +182,23 @@ module.exports.listen = function (server) {
 
         });
 
+        socket.on('sentQuestion', function(data) {
+            console.log(data);
+            console.log("game:");
+
+            Game.findOne({'master': data.masterId}).exec(function (error, room) {
+                if (!error) {
+                    room.teams.forEach(function (team, index) {
+
+                        io.to(team.socket_id).emit('new_question', data.question);
+
+                    });
+
+                }
+            });
+
+        });
+
         /*
          --------------------------------------------------------------------------
          Team sockets...

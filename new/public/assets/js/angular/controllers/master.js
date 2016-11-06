@@ -6,9 +6,12 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
     $scope.checked = 0;
     $scope.limit = 3;
 
-    $scope.currentQuestion = "You have not selected a question (yet)..";
-    $scope.givenAnswers = "There are no answers given (yet)..";
-    $scope.roundNumber = 0;
+    $scope.currentGame = {
+        currentQuestion: "You have not selected a question (yet)..",
+        roundNumber: 0,
+        roundStarted: false
+    };
+    $scope.givenAnswers = "There are no answers given (yet).."; //hier zouden we een array of object van moeten maken
 
     // Category validation vars
     $scope.checked = 0;
@@ -160,9 +163,27 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
 
             if($scope.questions[i].id == id) {
                 $scope.questions[i].class = 'selected';
-                console.log($scope.questions[i].question);
+                $scope.currentGame.currentQuestion = $scope.questions[i].question;
+                console.log($scope.currentGame);
             }
         }
+    };
+
+    $scope.start_Round = function() {
+        $scope.currentGame.roundStarted = true;
+        $scope.currentGame.roundNumber ++;
+        socket.emit('sentQuestion', {
+            question: $scope.currentGame.currentQuestion,
+            masterId: socket.id
+        });
+        console.log(socket.id);
+    };
+
+    $scope.end_Round = function (){
+        $scope.currentGame.roundStarted = false;
+        socket.emit('round_Ended', {
+            masterId: socket.id
+        })
     };
 
     /*

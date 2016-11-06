@@ -2,7 +2,7 @@
 
     <!-- Teams -->
     <div class="col-md-3">
-
+        <h3 ng-bind="currentGame.roundNumber">{{currentGame.roundNumber}}</h3>
         <div class="table-responsive">
 
             <table class="teams table table-striped">
@@ -39,31 +39,31 @@
         <div style="max-height: 200px; overflow: auto; background: #fff; padding: 15px;">
             <!-- Questions-->
             <div class="question" ng-repeat="question in questions">
-                <p ng-class="question.class" ng-click="select_question(question.id)" ng-bind="question.question">{{ question.question }}</p>
+                <button ng-disabled="currentGame.roundStarted" ng-class="question.class" ng-click="select_question(question.id)" ng-bind="question.question">{{ question.question }}</button>
             </div>
         </div>
 
         <div style="min-height: 200px; background: #fff; margin-top: 30px;">
             <!-- Answers -->
-            <h3 ng-bind="currentQuestion">{{currentQuestion}}</h3>
+            <h3 ng-bind="currentGame.currentQuestion">{{currentGame.currentQuestion}}</h3>
             <br/>
             <p ng-bind="givenAnswers">{{givenAnswers}}</p>
 
         </div>
     </div>
-    <div ng-if="roundNumber === 0" class="pull-right">
+    <div ng-if="currentGame.roundNumber === 0" class="pull-right">
 
-        <button class="btn btn-action"><i class="fa fa-arrow-circle-o-right"></i> Start the first round </button>
+        <button class="btn btn-action" ng-click="start_Round()" ng-disabled="currentGame.roundStarted"><i class="fa fa-arrow-circle-o-right"></i> Start the first round </button>
 
     </div>
-    <div ng-if="roundNumber > 0" class="pull-right">
+    <div ng-if="currentGame.roundNumber > 0" class="pull-right">
 
-        <button class="btn btn-action"><i class="fa fa-arrow-circle-o-right"></i> Next Round </button>
+        <button class="btn btn-action" ng-click="start_Round()" ng-disabled="currentGame.roundStarted"><i class="fa fa-arrow-circle-o-right"></i> Next Round </button>
 
     </div>
     <div class="pull-left">
 
-        <button class="btn btn-action"><i class="fa fa-ban"></i> End current round </button>
+        <button class="btn btn-action" ng-click="end_Round()"><i class="fa fa-ban"></i> End current round </button>
 
     </div>
 

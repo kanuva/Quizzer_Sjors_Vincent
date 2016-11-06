@@ -2,6 +2,7 @@ app.controller('TeamController', function($scope, $rootScope, $window, $location
 
 
     $scope.joinstatus = "Waiting for acceptance...";
+    $scope.currentQuestion = "The gamemaster hasn't asked a question yet...";
    /*
     ===================================================================================================================
        Server socket
@@ -114,5 +115,13 @@ app.controller('TeamController', function($scope, $rootScope, $window, $location
             console.log("ik ben tussendoor geaccepteerd");
         });
     });
+
+    socket.on('new_question', function(data) {
+        $rootScope.$apply(function() {
+            $scope.currentQuestion = data;
+        });
+        console.log($scope.currentQuestion);
+
+    })
 
 }); // End of TeamController
