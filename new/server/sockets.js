@@ -318,8 +318,6 @@ module.exports.listen = function (server) {
         socket.on('team_join', function (data) {
             Game.findOne({room: data.room}).exec(function (error, game) {
 
-                console.log(game);
-
                 if (game != null && game.master != null && game.started == false) {
 
                     Game.findOneAndUpdate({room: data.room}, {
