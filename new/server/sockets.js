@@ -187,8 +187,12 @@ module.exports.listen = function (server) {
             console.log("game:");
 
             // Set ask question to database record
-            Game.update({'master': data.masterId}, {
-                $push: {"questions": data.questions}
+            Game.findOneAndUpdate({ 'master': data.masterId }, {
+                $push: { questions: data.question },
+            }, { new: true }, function(error, game) {
+
+                // after update
+
             });
 
             // Send question to all clients
