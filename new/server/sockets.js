@@ -48,7 +48,7 @@ module.exports.listen = function (server) {
                     scoreboard: 'null',
                     teams:      [],
                     categories: [],
-                    round:      1,
+                    round:      0,
                     ended:      false,
                     started:    false
                   }
@@ -189,6 +189,7 @@ module.exports.listen = function (server) {
             // Set ask question to database record
             Game.findOneAndUpdate({ 'master': data.masterId }, {
                 $push: { questions: data.question },
+                $inc: { round: 1}
             }, { new: true }, function(error, game) {
 
                 // after update
@@ -208,6 +209,7 @@ module.exports.listen = function (server) {
         });
 
         socket.on('round_Ended', function(data){
+
             Game.findOne({'master': data.masterId}).exec(function (error, room) {
                 if (!error) {
                     room.teams.forEach(function (team, index) {

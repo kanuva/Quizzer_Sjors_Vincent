@@ -192,6 +192,16 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
         })
     };
 
+    $scope.correct_answer = function(answer_obj) {
+
+    };
+
+    $scope.wrong_answer = function(answer_obj) {
+
+    };
+
+
+
     /*
      ===================================================================================================================
      Socket Listeners
