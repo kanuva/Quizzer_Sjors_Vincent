@@ -7,6 +7,10 @@
 @import "scss/header";
 @import "scss/menu";
 
+.selected {
+  color: #4cae4c;
+}
+
 .alert {
   color: $accent_light;
   padding: 0 0 0 0;

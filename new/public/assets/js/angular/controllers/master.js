@@ -1,6 +1,11 @@
 app.controller('MasterController', function ($scope, $rootScope, $window, $location, $route, $http) {
 
     $scope.questions = [];
+
+    // Category validation vars
+    $scope.checked = 0;
+    $scope.limit = 3;
+
     $scope.currentQuestion = "You have not selected a question (yet)..";
     $scope.givenAnswers = "There are no answers given (yet)..";
     $scope.roundNumber = 0;
@@ -85,11 +90,9 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
     };
 
 
-    // Category validation vars
-    $scope.checked = 0;
-    $scope.limit = 3;
 
 
+    // Category checked
     $scope.checkChanged = function (category) {
         if (category.checked) $scope.checked++;
         else $scope.checked--;
@@ -110,6 +113,7 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
 
     $scope.dashboard_init = function () {
         $scope.dashboard = true;
+
         $http.get('/game/' + $route.current.params.password + '/teams')
             .success(function(data) {
 
@@ -121,8 +125,6 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
                     $scope.categories.push(category);
                 });
 
-                console.log('/questions/' + $scope.categories[0] + '/' + $scope.categories[1] + '/' + $scope.categories[2]);
-
                 $http.get('/questions/' + $scope.categories[0] + '/' + $scope.categories[1] + '/' + $scope.categories[2])
                     .success(function(data) {
                         console.info('questions:');
@@ -130,14 +132,32 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
 
                         data.forEach(function(question, key) {
 
-                                $scope.questions.push(question);
+                                $scope.questions.push({
+                                    question : question.question,
+                                    answer : question.answer,
+                                    category : question.category,
+                                    id: question._id,
+                                    class: ''
+                                });
 
                         });
 
-                        console.log($scope.questions);
-
-                    });
+                });
             });
+    };
+
+    $scope.select_question = function(id) {
+        for(var i=0; i < $scope.questions.length; i++) {
+            console.log(id + ' ' + $scope.questions[i].id);
+
+            if($scope.questions[i].class == 'selected') {
+                $scope.questions[i].class = '';
+            }
+
+            if($scope.questions[i].id == id) {
+                $scope.questions[i].class = 'selected';
+            }
+        }
     };
 
     /*
