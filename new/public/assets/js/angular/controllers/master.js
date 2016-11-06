@@ -167,49 +167,53 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
     };
 
     $scope.start_Round = function() {
-        $scope.currentGame.roundStarted = true;
-        $scope.currentGame.roundNumber ++;
 
-        for(var i=0; i < $scope.questions.length; i++) {
+        if($scope.currentGame.currentQuestion != '') {
+            $scope.currentGame.roundStarted = true;
+            $scope.currentGame.roundNumber++;
 
-            if($scope.questions[i].question == $scope.currentGame.currentQuestion) {
-                $scope.questions.splice(i, 1);
+            for (var i = 0; i < $scope.questions.length; i++) {
+
+                if ($scope.questions[i].question == $scope.currentGame.currentQuestion) {
+                    $scope.questions.splice(i, 1);
+                }
+
             }
 
-        }
+            // copy answers
+            var answers = [];
+            angular.copy($scope.answers, answers);
 
-        // copy answers
-        var answers = [];
-        angular.copy($scope.answers, answers);
+            angular.forEach($scope.teams, function (team, key) {
 
-        angular.forEach($scope.teams, function(team, key) {
+                answers.forEach(function (answer, keytwo) {
+                    if (answer.answered == 'correct' && team.name == answer.team) {
+                        $scope.teams[key].score += 1;
+                    }
+                });
 
-            answers.forEach(function(answer, keytwo) {
-                if(answer.answered == 'correct' && team.name == answer.team) {
-                    $scope.teams[key].score += 1;
-                }
             });
 
-        });
 
-
-
-        if($scope.answers) {
-            if ($scope.answers.length > 0) {
-                $scope.answers = [];
+            if ($scope.answers) {
+                if ($scope.answers.length > 0) {
+                    $scope.answers = [];
+                }
             }
-        }
 
-        socket.emit('sentQuestion', {
-            question: $scope.currentGame.currentQuestion,
-            masterId: socket.id,
-            answers: answers
-        });
+            socket.emit('sentQuestion', {
+                question: $scope.currentGame.currentQuestion,
+                masterId: socket.id,
+                answers: answers
+            });
+        }
 
     };
 
     $scope.end_Round = function () {
         $scope.currentGame.roundStarted = false;
+        $scope.currentGame.currentQuestion = '';
+
         socket.emit('round_Ended', {
             masterId: socket.id
         })
