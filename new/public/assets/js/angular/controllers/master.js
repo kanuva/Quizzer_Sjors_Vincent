@@ -1,6 +1,7 @@
 app.controller('MasterController', function ($scope, $rootScope, $window, $location, $route, $http) {
 
     $scope.questions = [];
+    $scope.answers = [];
 
     // Category validation vars
     $scope.checked = 0;
@@ -266,6 +267,9 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
 
     socket.on('question_Answer', function(data){
         console.log("ik heb een antwoord binnen gekregen");
-        console.log("team: " + data.team + " geeft antwoord: " + data.answer);
-    })
+
+        $scope.answers.push({ team: data.team, answer: data.answer });
+        $scope.$apply();
+
+    });
 }); // End of MasterController

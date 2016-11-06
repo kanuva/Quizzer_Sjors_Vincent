@@ -45,9 +45,16 @@
 
         <div style="min-height: 200px; background: #fff; margin-top: 30px;">
             <!-- Answers -->
-            <h3 ng-bind="currentGame.currentQuestion">{{currentGame.currentQuestion}}</h3>
-            <br/>
-            <p ng-bind="givenAnswers">{{givenAnswers}}</p>
+            <h3 ng-bind="currentGame.currentQuestion"></h3>
+            <div class="answers" ng-repeat="answer in answers">
+
+                <p><strong>Team: </strong> <span ng-bind="answer.team"></span></p>
+                <p><strong>Answer: </strong> <span ng-bind="answer.answer"></span></p>
+                <div class="controls">
+                    <button type="button" ng-click="correct_answer(answer)"> Correct </button>
+                    <button type="button" ng-click="wrong_answer(answer)"> Wrong </button>
+                </div>
+            </div>
 
         </div>
     </div>

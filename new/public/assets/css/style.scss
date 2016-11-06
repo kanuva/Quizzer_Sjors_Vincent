@@ -11,9 +11,16 @@
   color: #4cae4c;
 }
 
-.question button.ng-binding {
+.question button.ng-binding, .answers {
   background: none;
   border: none;
+  text-align: left;
+  font-family: Helvetica, Arial, sans-serif;
+  border-bottom: 1px solid $accent_light;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .alert {
