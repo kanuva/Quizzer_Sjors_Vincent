@@ -182,6 +182,16 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
         var answers = [];
         angular.copy($scope.answers, answers);
 
+        angular.forEach($scope.teams, function(team, key) {
+
+            answers.forEach(function(answer, keytwo) {
+                if(answer.answered == 'correct' && team.name == answer.team) {
+                    $scope.teams[key].score += 1;
+                }
+            });
+
+        });
+
 
 
         if($scope.answers) {

@@ -242,7 +242,6 @@ module.exports.listen = function (server) {
                     room.teams.forEach(function (team, index) {
                         io.to(team.socket_id).emit('new_question', data.question);
                     });
-
                 }
             });
 
