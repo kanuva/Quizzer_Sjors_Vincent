@@ -186,6 +186,12 @@ module.exports.listen = function (server) {
             console.log(data);
             console.log("game:");
 
+            // Set ask question to database record
+            Game.update({'master': data.masterId}, {
+                $push: {"questions": data.questions},
+            });
+
+            // Send question to all clients
             Game.findOne({'master': data.masterId}).exec(function (error, room) {
                 if (!error) {
                     room.teams.forEach(function (team, index) {
