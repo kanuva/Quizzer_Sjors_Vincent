@@ -145,7 +145,6 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
 
     $scope.select_question = function(id) {
         for(var i=0; i < $scope.questions.length; i++) {
-            console.log(id + ' ' + $scope.questions[i].id);
 
             if($scope.questions[i].class == 'selected') {
                 $scope.questions[i].class = '';
@@ -153,6 +152,7 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
 
             if($scope.questions[i].id == id) {
                 $scope.questions[i].class = 'selected';
+                console.log($scope.questions[i].question);
             }
         }
     };
