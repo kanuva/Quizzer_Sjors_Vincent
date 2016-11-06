@@ -9,6 +9,11 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
     $scope.currentQuestion = "You have not selected a question (yet)..";
     $scope.givenAnswers = "There are no answers given (yet)..";
     $scope.roundNumber = 0;
+
+    // Category validation vars
+    $scope.checked = 0;
+    $scope.limit = 3;
+
     /*
      ===================================================================================================================
      Server socket
