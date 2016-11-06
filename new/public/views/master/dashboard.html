@@ -63,7 +63,7 @@
     </div>
     <div class="pull-left">
 
-        <button class="btn btn-action" ng-click="end_Round()"><i class="fa fa-ban"></i> End current round </button>
+        <button class="btn btn-action" ng-click="end_Round()" ng-disabled="currentGame.roundStarted == false"><i class="fa fa-ban"></i> End current round </button>
 
     </div>
 
