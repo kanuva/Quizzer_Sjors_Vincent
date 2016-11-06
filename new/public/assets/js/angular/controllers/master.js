@@ -11,6 +11,7 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
         roundNumber: 0,
         roundStarted: false
     };
+
     $scope.givenAnswers = "There are no answers given (yet).."; //hier zouden we een array of object van moeten maken
 
     // Category validation vars
@@ -172,13 +173,24 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
     $scope.start_Round = function() {
         $scope.currentGame.roundStarted = true;
         $scope.currentGame.roundNumber ++;
+
+        for(var i=0; i < $scope.questions.length; i++) {
+
+            if($scope.questions[i].question == $scope.currentGame.currentQuestion) {
+                console.log('found the question... \r splicing now...')
+                $scope.questions.splice(i, 1);
+            }
+
+        }
+
         socket.emit('sentQuestion', {
             question: $scope.currentGame.currentQuestion,
             masterId: socket.id
         });
+
     };
 
-    $scope.end_Round = function (){
+    $scope.end_Round = function () {
         $scope.currentGame.roundStarted = false;
         socket.emit('round_Ended', {
             masterId: socket.id
