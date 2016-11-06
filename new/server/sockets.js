@@ -188,7 +188,7 @@ module.exports.listen = function (server) {
 
             // Set ask question to database record
             Game.update({'master': data.masterId}, {
-                $push: {"questions": data.questions},
+                $push: {"questions": data.questions}
             });
 
             // Send question to all clients
@@ -311,6 +311,17 @@ module.exports.listen = function (server) {
 
               });
           });
+
+        socket.on('sent_answer', function(data){
+            Game.findOne({'teams.socket_id': data.socket_id}).exec(function (error, foundData) {
+                if (!error) {
+                    io.to(foundData.master).emit('question_Answer', {answer: data.answer, team: data.team});
+                    console.log("Found data:");
+                    console.log(foundData);
+                }
+            });
+        });
+
      return io;
     });
 };

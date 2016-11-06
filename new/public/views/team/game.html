@@ -4,7 +4,7 @@
     {{ error }}
 
 </div>
-<form ng-submit="">
+<form ng-submit="send_answer()">
     <!-- input fields -->
     <div class="input-group">
 
@@ -14,7 +14,7 @@
 
         <div class="input-group-btn">
 
-            <button type="submit" class="btn btn-action pull-right"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+            <button ng-disabled="!currentGame.answerAble" type="submit" class="btn btn-action pull-right"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
 
         </div>
 
