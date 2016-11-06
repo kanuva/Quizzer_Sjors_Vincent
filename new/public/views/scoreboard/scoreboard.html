@@ -1,16 +1,33 @@
-<div ng-init="dashboard_init()" class="row">
+<div ng-init="dashboard_init()">
+        <!--team-->
+        <div class="col-sm-3">
+            <h3>hier komen de rondes!</h3>
+            <div class="table-responsive">
+                <table class="teams table table-striped">
+                    <thead>
+                    <tr>
+                        <th> Team </th>
+                        <th> Score</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="team" ng-repeat="team in teams">
+                        <td>{{ team.name }}</td>
+                        <td>{{ team.score }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+        </div>
+    </div>
+    <div style="min-height: 200px; background: #fff; margin-top: 30px; padding: 15px;">
+        <!-- Answers -->
+        <h3 ng-bind="currentQuestion!!!"></h3>
+        <div class="answers" ng-repeat="answer in answers">
 
-    <div class="col-md-3" style="border: 3px solid black">
-
-        <h1> Hier zou je in theorie het scoreboard te zien krijgen </h1>
-        <div class="table-responsive">
+            <p><strong>Team: </strong> <span ng-bind="answer.team"></span></p>
+            <p><strong>Answer: </strong> <span ng-bind="answer.answer"></span></p>
 
         </div>
 
     </div>
-
-    <div class="col-md-9" style="background: black">
-
-    </div>
-
 </div>
