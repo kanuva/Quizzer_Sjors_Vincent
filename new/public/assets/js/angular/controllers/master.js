@@ -178,6 +178,12 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
 
         }
 
+        // copy answers
+        var answers = [];
+        angular.copy($scope.answers, answers);
+
+
+
         if($scope.answers) {
             if ($scope.answers.length > 0) {
                 $scope.answers = [];
@@ -186,7 +192,8 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
 
         socket.emit('sentQuestion', {
             question: $scope.currentGame.currentQuestion,
-            masterId: socket.id
+            masterId: socket.id,
+            answers: answers
         });
 
     };
@@ -199,11 +206,23 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
     };
 
     $scope.correct_answer = function(answer_obj) {
+        console.log('answered the question of team: '+ answer_obj.team + ' as correct...');
 
+        for(var i=0; i < $scope.answers.length; i++) {
+            if($scope.answers[i].team == answer_obj.team) {
+                $scope.answers[i].answered = 'correct';
+            }
+        }
     };
 
     $scope.wrong_answer = function(answer_obj) {
+        console.log('answered the question of team: '+ answer_obj.team + ' as wrong...');
 
+        $scope.answers.forEach(function(answer, key) {
+            if(answer.team == answer_obj.team) {
+                $scope.answers[key].answered = 'wrong';
+            }
+        });
     };
 
 
@@ -284,7 +303,7 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
     socket.on('question_Answer', function(data){
         console.log("ik heb een antwoord binnen gekregen");
 
-        $scope.answers.push({ team: data.team, answer: data.answer });
+        $scope.answers.push({ team: data.team, answer: data.answer, answered: false });
         $scope.$apply();
 
     });

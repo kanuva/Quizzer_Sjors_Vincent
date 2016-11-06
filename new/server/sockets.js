@@ -186,6 +186,46 @@ module.exports.listen = function (server) {
             console.log(data);
             console.log("game:");
 
+            if(data.answers.length > 0) {
+
+                data.answers.forEach(function(answer, key) {
+                    var points = (answer.answered == 'correct') ? 1 : 0;
+                    var teams = [];
+
+                    Game.findOne({ 'master' : data.masterId }).exec(function(error, room) {
+                        teams = room.teams;
+
+                        console.log('updating scores...')
+
+
+                        teams.forEach(function(team, key) {
+                            if(answer.team == team.name) {
+                                console.log('team found updating score... by: ' + points);
+                                teams[key].score += points;
+                            }
+                        });
+
+                        console.log(teams);
+
+
+                        Game.findOneAndUpdate({ 'master':data.masterId }, {
+                            $set : {
+                                'teams' : teams
+                            }
+                        }, { new: true }, function(error, room) {
+
+                            // after update
+                            console.log(room);
+
+                        });
+
+
+                    });
+
+                });
+
+            }
+
             // Set ask question to database record
             Game.findOneAndUpdate({ 'master': data.masterId }, {
                 $push: { questions: data.question },

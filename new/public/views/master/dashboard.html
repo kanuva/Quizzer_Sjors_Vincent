@@ -52,8 +52,8 @@
                 <p><strong>Answer: </strong> <span ng-bind="answer.answer"></span></p>
 
                 <div class="controls">
-                    <button type="button" class="btn btn-success" ng-click="correct_answer(answer)"> Correct answer</button>
-                    <button type="button" class="btn btn-danger" ng-click="wrong_answer(answer)"> Wrong answer</button>
+                    <button type="button" class="btn btn-success" ng-click="correct_answer(answer)" ng-disabled="answer.answered == 'correct'"> Correct answer</button>
+                    <button type="button" class="btn btn-danger" ng-click="wrong_answer(answer)" ng-disabled="answer.answered == 'wrong'"> Wrong answer</button>
                 </div>
 
             </div>
