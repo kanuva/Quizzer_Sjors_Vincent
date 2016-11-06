@@ -178,10 +178,18 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
 
         }
 
+        if($scope.answers) {
+            if ($scope.answers.length > 0) {
+                $scope.answers = [];
+            }
+        }
+
         socket.emit('sentQuestion', {
             question: $scope.currentGame.currentQuestion,
             masterId: socket.id
         });
+
+        $scope.$apply();
 
     };
 
