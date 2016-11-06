@@ -189,8 +189,6 @@ app.controller('MasterController', function ($scope, $rootScope, $window, $locat
             masterId: socket.id
         });
 
-        $scope.$apply();
-
     };
 
     $scope.end_Round = function () {

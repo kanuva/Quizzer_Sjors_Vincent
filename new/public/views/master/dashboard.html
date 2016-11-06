@@ -52,8 +52,8 @@
                 <p><strong>Answer: </strong> <span ng-bind="answer.answer"></span></p>
 
                 <div class="controls">
-                    <button type="button" ng-click="correct_answer(answer)"> Correct </button>
-                    <button type="button" ng-click="wrong_answer(answer)"> Wrong </button>
+                    <button type="button" class="btn btn-success" ng-click="correct_answer(answer, 1)"> Correct answer</button>
+                    <button type="button" class="btn btn-danger" ng-click="wrong_answer(answer)"> Wrong answer</button>
                 </div>
 
             </div>
@@ -67,7 +67,7 @@
             <div class="col-sm-6">
                 <div class="pull-left" ng-if="currentGame.roundNumber > 0">
 
-                    <button class="btn btn-action" ng-click="end_Round()" ng-disabled="currentGame.roundStarted == false"><i class="fa fa-ban"></i> End current round </button>
+                    <button class="btn" ng-click="end_Round()" ng-disabled="currentGame.roundStarted == false"><i class="fa fa-ban"></i> End current round </button>
 
                 </div>
             </div>
@@ -75,13 +75,13 @@
             <div class="col-sm-6">
                 <div ng-if="currentGame.roundNumber === 0" class="pull-right">
 
-                    <button class="btn btn-action" ng-click="start_Round()" ng-disabled="currentGame.roundStarted"><i class="fa fa-arrow-circle-o-right"></i> Start the first round </button>
+                    <button class="btn" ng-click="start_Round()" ng-disabled="currentGame.roundStarted"><i class="fa fa-arrow-circle-o-right"></i> Start the first round </button>
 
                 </div>
 
                 <div ng-if="currentGame.roundNumber > 0" class="pull-right">
 
-                    <button class="btn btn-action" ng-click="start_Round()" ng-disabled="currentGame.roundStarted"><i class="fa fa-arrow-circle-o-right"></i> Next Round </button>
+                    <button class="btn" ng-click="start_Round()" ng-disabled="currentGame.roundStarted"><i class="fa fa-arrow-circle-o-right"></i> Next Round </button>
 
                 </div>
             </div>
